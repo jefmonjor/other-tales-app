@@ -1,0 +1,61 @@
+name: other_tales_app
+description: App móvil para escritores.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  # Internationalization
+  intl: ^0.20.2
+  # State Management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Networking
+  dio: ^5.4.3
+  
+  # Navigation
+  go_router: ^14.0.1
+  
+  # Data & Serialization
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.9.0
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  path_provider: ^2.1.2
+  flutter_secure_storage: ^9.0.0
+  fpdart: ^1.1.0
+  
+  # UI/Assets
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+  
+  # Desktop
+  window_manager: ^0.3.8
+  supabase_flutter: ^2.12.0
+  email_validator: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  
+  # Code Generation
+  build_runner: ^2.4.9
+  riverpod_generator: ^2.4.0
+  freezed: ^2.5.2
+  json_serializable: ^6.8.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/fonts/
+    - assets/translations/

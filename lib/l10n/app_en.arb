@@ -1,0 +1,251 @@
+{
+  "@@locale": "en",
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in button label"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+  "projects": "Projects",
+  "@projects": {
+    "description": "Projects section title"
+  },
+  "goals": "Goals",
+  "@goals": {
+    "description": "Goals section title"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings section title"
+  },
+  "createProject": "Create Project",
+  "@createProject": {
+    "description": "Create project button label"
+  },
+  "title": "Title",
+  "@title": {
+    "description": "Title field label"
+  },
+  "genre": "Genre",
+  "@genre": {
+    "description": "Genre field label"
+  },
+  "wordCount": "Word Count",
+  "@wordCount": {
+    "description": "Word count label"
+  },
+  "myProjectsTitle": "My Projects",
+  "@myProjectsTitle": {
+    "description": "Projects screen title"
+  },
+  "noProjectsYet": "No projects yet. Create your first story!",
+  "@noProjectsYet": {
+    "description": "Empty state message when no projects exist"
+  },
+  "searchProjects": "Search projects...",
+  "@searchProjects": {
+    "description": "Search field placeholder"
+  },
+  "newProjectTitle": "New Project",
+  "@newProjectTitle": {
+    "description": "Title of create project modal"
+  },
+  "enterTitle": "Enter project title",
+  "@enterTitle": {
+    "description": "Hint for title field"
+  },
+  "enterGenre": "Select genre",
+  "@enterGenre": {
+    "description": "Hint for genre dropdown"
+  },
+  "createButton": "Create",
+  "@createButton": {
+    "description": "Label for create button"
+  },
+  "cancelButton": "Cancel",
+  "@cancelButton": {
+    "description": "Label for cancel button"
+  },
+  "titleLabel": "Title",
+  "@titleLabel": {
+    "description": "Label for title field"
+  },
+  "genreLabel": "Genre",
+  "@genreLabel": {
+    "description": "Label for genre field"
+  },
+  "synopsisLabel": "Synopsis",
+  "@synopsisLabel": {
+    "description": "Label for synopsis field"
+  },
+  "enterSynopsis": "Enter a short synopsis...",
+  "@enterSynopsis": {
+    "description": "Hint for synopsis field"
+  },
+  "targetWordCountLabel": "Target Word Count",
+  "@targetWordCountLabel": {
+    "description": "Label for target word count field"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign Up button/title"
+  },
+  "fullName": "Full Name",
+  "@fullName": {
+    "description": "Full Name field label"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm Password field label"
+  },
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Create Account button label"
+  },
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {
+    "description": "Text for existing account prompt"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login link text"
+  },
+  "nameOfAuthor": "Name of the author",
+  "@nameOfAuthor": {
+    "description": "Label for author name input"
+  },
+  "repeatPassword": "Repeat password",
+  "@repeatPassword": {
+    "description": "Label for repeat password input"
+  },
+  "agreeToTerms": "I agree to the Terms and Conditions",
+  "@agreeToTerms": {
+    "description": "Checkbox text for terms"
+  },
+  "nameLabel": "Name of the author",
+  "@nameLabel": {
+    "description": "Label for name input"
+  },
+  "emailLabel": "Email",
+  "@emailLabel": {
+    "description": "Label for email input"
+  },
+  "passwordLabel": "Password",
+  "@passwordLabel": {
+    "description": "Label for password input"
+  },
+  "confirmPasswordLabel": "Repeat password",
+  "@confirmPasswordLabel": {
+    "description": "Label for confirm password input"
+  },
+  "termsCheckbox": "I agree to the Terms of Service",
+  "@termsCheckbox": {
+    "description": "Checkbox text for terms"
+  },
+  "registerButton": "Register",
+  "@registerButton": {
+    "description": "Register button label"
+  },
+  "alreadyAccount": "Already have an account? Login",
+  "@alreadyAccount": {
+    "description": "Footer text for existing account"
+  },
+  "forgotPasswordTitle": "Forgot Password",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordSubtitle": "Enter your email and we'll send you a link to reset your password",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot password screen subtitle"
+  },
+  "sendEmailButton": "Send Email",
+  "@sendEmailButton": {
+    "description": "Send email button label"
+  },
+  "emailSentTitle": "Email Sent!",
+  "@emailSentTitle": {
+    "description": "Email sent screen title"
+  },
+  "emailSentMessage": "We've sent you an email with instructions to reset your password. Please check your inbox.",
+  "@emailSentMessage": {
+    "description": "Email sent message"
+  },
+  "backToLogin": "Back to Login",
+  "@backToLogin": {
+    "description": "Back to login button"
+  },
+  "forgotPassword": "Forgot your password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {
+    "description": "Login screen title"
+  },
+  "signInSubtitle": "Sign in to continue your writing journey",
+  "@signInSubtitle": {
+    "description": "Login screen subtitle"
+  },
+  "noAccount": "Don't have an account?",
+  "@noAccount": {
+    "description": "No account text"
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Register link text"
+  },
+  "marketingAccept": "I want to receive news and updates",
+  "@marketingAccept": {
+    "description": "Marketing checkbox text"
+  },
+  "termsAccept": "I accept the Terms of Service and Privacy Policy",
+  "@termsAccept": {
+    "description": "Terms checkbox text"
+  },
+  "accountCreated": "Account created successfully!",
+  "@accountCreated": {
+    "description": "Success message after registration"
+  },
+  "mustAcceptTerms": "You must accept the Terms of Service",
+  "@mustAcceptTerms": {
+    "description": "Error when terms not accepted"
+  },
+  "signInEmail": "Sign in with Email",
+  "@signInEmail": {
+    "description": "Sign in with Email button label"
+  },
+  "signInApple": "Sign in with Apple",
+  "@signInApple": {
+    "description": "Sign in with Apple button label"
+  },
+  "signInFacebook": "Sign in with Facebook",
+  "@signInFacebook": {
+    "description": "Sign in with Facebook button label"
+  },
+  "recoverButton": "Recover",
+  "@recoverButton": {
+    "description": "Recover password button label"
+  },
+  "passwordRequirements": "Minimum 8 characters, with letters and numbers",
+  "@passwordRequirements": {
+    "description": "Password validation error"
+  },
+  "nameRequirements": "No special characters",
+  "@nameRequirements": {
+    "description": "Name validation error"
+  },
+  "invalidEmail": "Invalid email format",
+  "@invalidEmail": {
+    "description": "Email validation error"
+  },
+  "invalidCredentials": "Invalid login credentials",
+  "@invalidCredentials": {
+    "description": "Login error"
+  }
+}
