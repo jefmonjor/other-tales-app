@@ -56,7 +56,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       if (_passwordController.text != _confirmPasswordController.text) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Las contraseñas no coinciden"), // TODO: Localize
+            content: Text("Las contraseñas no coinciden"), // TODO: Localize or use key if exists
             backgroundColor: AppColors.error,
           ),
         );
@@ -91,6 +91,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       }
     });
 
+    final l10n = AppLocalizations.of(context)!;
     final signUpState = ref.watch(signUpControllerProvider);
     final bool isButtonEnabled = _acceptTerms && !signUpState.isLoading;
 

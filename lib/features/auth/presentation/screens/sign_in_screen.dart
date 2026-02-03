@@ -56,6 +56,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     });
 
     final l10n = AppLocalizations.of(context)!;
+    final loginState = ref.watch(loginControllerProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
