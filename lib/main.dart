@@ -12,8 +12,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: 'https://gsslwdruiqtlztupekcd.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzc2x3ZHJ1aXF0bHp0dXBla2NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDc2MDMsImV4cCI6MjA4NTcyMzYwM30.SDcpN02aXOrVRDua8Ybkt0-fsmkIXXBNuAPQ3kPLmn4',
+    url: const String.fromEnvironment(
+      'SUPABASE_URL',
+      defaultValue: 'https://gsslwdruiqtlztupekcd.supabase.co',
+    ),
+    anonKey: const String.fromEnvironment(
+      'SUPABASE_ANON_KEY',
+      defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzc2x3ZHJ1aXF0bHp0dXBla2NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDc2MDMsImV4cCI6MjA4NTcyMzYwM30.SDcpN02aXOrVRDua8Ybkt0-fsmkIXXBNuAPQ3kPLmn4',
+    ),
   );
 
   // Desktop Window Configuration
