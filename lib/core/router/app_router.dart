@@ -37,6 +37,11 @@ GoRouter appRouter(AppRouterRef ref) {
       
       final isLoggingIn = currentPath == '/login' || currentPath == '/register' || currentPath == '/landing';
       final isSplash = currentPath == '/splash';
+
+      print('--- ROUTER CHECK ---');
+      print('Path actual: $currentPath');
+      print('¿Tiene sesión?: $isLoggedIn');
+      if (isLoggedIn) print('User ID: ${session.user.id}');
       
       // 2. Redirection Logic (Guard)
 
@@ -47,12 +52,14 @@ GoRouter appRouter(AppRouterRef ref) {
            return null;
          }
          // Redirect strict protected routes to landing/login
+         print('>> REDIRECT: Forzando a Login');
          return '/landing';
       }
 
       // B. If LOGGED IN and trying to access Auth screens -> Projects (Home)
       if (isLoggedIn) {
         if (isLoggingIn || isSplash) {
+          print('>> REDIRECT: Usuario logueado intentando ver login. Enviando a /projects');
           return '/projects';
         }
       }

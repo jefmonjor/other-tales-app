@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,10 +40,28 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     if (ref.read(loginControllerProvider).isLoading) return;
 
     if (_formKey.currentState!.validate()) {
-      ref.read(loginControllerProvider.notifier).login(
+      await ref.read(loginControllerProvider.notifier).login(
         _emailController.text, 
         _passwordController.text,
       );
+
+      // --- MANUAL NAVIGATION SAFETY NET ---
+      print('Login request completed. Checking session for manual navigation...');
+      
+      // Wait a bit to ensure session is persisted and listeners fire (if any)
+      await Future.delayed(const Duration(milliseconds: 500));
+      
+      if (mounted) {
+        // Verify Supabase session directly
+        final session = Supabase.instance.client.auth.currentSession;
+        if (session != null) {
+           print('Session confirmed. Forcing manual navigation to /projects');
+           context.go('/projects'); 
+        } else {
+           print('No session found after login success. This is unexpected.');
+        }
+      }
+      // ------------------------------------
     }
   }
 
