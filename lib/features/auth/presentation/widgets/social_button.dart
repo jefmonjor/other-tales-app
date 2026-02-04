@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/presentation/widgets/other_tales_spinner.dart';
 
 class SocialButton extends StatelessWidget {
   final String label;
@@ -49,9 +50,9 @@ class SocialButton extends StatelessWidget {
           onTap: isLoading ? null : onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Opacity(
-              opacity: isLoading ? 0.5 : 1.0,
-              child: Row(
+            child: isLoading 
+              ? Center(child: OtherTalesSpinner(size: 24, color: textColor))
+              : Row(
               mainAxisAlignment: MainAxisAlignment.center, // Centered content
               children: [
                 if (svgPath != null)

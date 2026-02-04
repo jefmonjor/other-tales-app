@@ -12,29 +12,23 @@ enum AuthStatus {
 @Riverpod(keepAlive: true)
 class AuthState extends _$AuthState {
   @override
-  Stream<AuthStatus> build() async* {
-    yield AuthStatus.loading;
-    final tokenStorage = ref.watch(tokenStorageProvider);
-    final token = await tokenStorage.getToken();
-
-    if (token != null && token.isNotEmpty) {
-      yield AuthStatus.authenticated;
-    } else {
-      yield AuthStatus.unauthenticated;
-    }
+  Stream<AuthStatus> build() {
+    // Listen to Supabase Auth Changes directly
+    return Supabase.instance.client.auth.onAuthStateChange.map((data) {
+      final session = data.session;
+      if (session != null) {
+        return AuthStatus.authenticated;
+      }
+      return AuthStatus.unauthenticated;
+    });
   }
 
-  Future<void> logout() async {
-    final tokenStorage = ref.read(tokenStorageProvider);
-    await tokenStorage.clearTokens();
-    // Force refresh or state update
-    // Since this is a stream, we might need a way to invalidate or emitting new value 
-    // Usually with StreamNotifier we might re-run build or manage a controller
-    // For simplicity with Riverpod Generator StreamNotifier:
-    ref.invalidateSelf(); 
+  // Optional: manual check method if needed, usually stream handles it
+  Future<void> checkAuth() async {
+    // Stream updates automatically
   }
   
-  Future<void> checkAuth() async {
-      ref.invalidateSelf();
+  Future<void> logout() async {
+      await Supabase.instance.client.auth.signOut();
   }
 }

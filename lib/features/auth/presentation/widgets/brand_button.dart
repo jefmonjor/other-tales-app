@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/presentation/widgets/other_tales_spinner.dart';
 
 class BrandButton extends StatelessWidget {
   final String label;
@@ -42,13 +43,9 @@ class BrandButton extends StatelessWidget {
           onTap: isEnabled ? onPressed : null,
           child: Center(
             child: isLoading
-                ? const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
+                ? const OtherTalesSpinner(
+                    size: 24,
+                    color: Colors.white,
                   )
                 : Text(
                     label,

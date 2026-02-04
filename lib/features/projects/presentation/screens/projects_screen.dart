@@ -8,6 +8,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/components/navigation/gradient_bottom_nav.dart';
 import '../widgets/project_card.dart';
 import '../widgets/create_project_modal.dart';
+import '../widgets/project_list_skeleton.dart';
 import '../providers/projects_providers.dart';
 
 class ProjectsScreen extends ConsumerStatefulWidget {
@@ -88,7 +89,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
           // Main Content Grid
           Expanded(
             child: projectsAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => const ProjectListSkeleton(),
               error: (err, stack) => Center(
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpacing.l),

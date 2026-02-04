@@ -11,6 +11,8 @@ import '../../features/auth/presentation/screens/password_sent_screen.dart';
 import '../../features/projects/presentation/screens/projects_screen.dart';
 import '../../features/writing/presentation/screens/editor_screen.dart';
 import '../components/screens/splash_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'go_router_refresh_stream.dart';
 
 part 'app_router.g.dart';
 
@@ -19,42 +21,43 @@ const _publicRoutes = ['/landing', '/login', '/register', '/forgot-password', '/
 
 @Riverpod(keepAlive: true)
 GoRouter appRouter(AppRouterRef ref) {
-  final authState = ref.watch(authStateProvider);
-
+  // We do NOT watch authStateProvider here anymore to avoid rebuilding the Router
+  // Instead, we use refreshListenable with the Stream.
+  
   return GoRouter(
     initialLocation: '/landing',
-    debugLogDiagnostics: true, // Enable debug logging to see navigation
+    debugLogDiagnostics: true,
+    refreshListenable: GoRouterRefreshStream(Supabase.instance.client.auth.onAuthStateChange),
     redirect: (context, state) {
       final currentPath = state.uri.path;
       
-      // If still loading auth state, stay on splash
-      if (authState.isLoading) {
-        return currentPath == '/splash' ? null : '/splash';
+      // 1. Get current Supabase Session directly (Sync)
+      final session = Supabase.instance.client.auth.currentSession;
+      final isLoggedIn = session != null;
+      
+      final isLoggingIn = currentPath == '/login' || currentPath == '/register' || currentPath == '/landing';
+      final isSplash = currentPath == '/splash';
+      
+      // 2. Redirection Logic (Guard)
+
+      // A. If NOT logged in and trying to access protected route -> Landing/Login
+      if (!isLoggedIn) {
+         // Allow public routes
+         if (_publicRoutes.contains(currentPath)) {
+           return null;
+         }
+         // Redirect strict protected routes to landing/login
+         return '/landing';
       }
 
-      final status = authState.valueOrNull ?? AuthStatus.unauthenticated;
-      final isPublicRoute = _publicRoutes.contains(currentPath);
-
-      // If authenticated
-      if (status == AuthStatus.authenticated) {
-        // Redirect away from auth screens to projects
-        if (currentPath == '/splash' || currentPath == '/login') {
+      // B. If LOGGED IN and trying to access Auth screens -> Projects (Home)
+      if (isLoggedIn) {
+        if (isLoggingIn || isSplash) {
           return '/projects';
         }
-        // Allow other routes
-        return null;
       }
 
-      // If unauthenticated
-      if (status == AuthStatus.unauthenticated) {
-        // Allow public routes (including register, forgot-password)
-        if (isPublicRoute) {
-          return null; // <-- KEY FIX: Allow navigation to public routes!
-        }
-        // Redirect protected routes to login
-        return '/login';
-      }
-
+      // C. Allow navigation
       return null;
     },
     routes: [

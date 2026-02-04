@@ -176,7 +176,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 controller: _nameController,
                 validator: (v) {
                   if (v == null || v.isEmpty) return 'Required';
-                  final nameRegex = RegExp(r'^[a-zA-Z0-9 ]+$');
+                  // Regex allows: Letters (a-z, A-Z), Numbers (0-9), Spaces, and Accented letters (Latin-1 Supplement block \u00C0-\u00FF)
+                  final nameRegex = RegExp(r'^[a-zA-Z0-9\u00C0-\u00FF ]+$');
                   if (!nameRegex.hasMatch(v)) return l10n.nameRequirements;
                   return null;
                 },
