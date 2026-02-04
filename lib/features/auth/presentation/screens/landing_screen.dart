@@ -129,8 +129,8 @@ class LandingScreen extends StatelessWidget {
     // Right panel content needs to be centered and constrained.
     
     return WebSplitLayout(
-      leftFlex: 6, // 60%
-      rightFlex: 4, // 40%
+      leftFlex: 5, // 50%
+      rightFlex: 5, // 50%
       leftPanel: heroPanel,
       rightPanel: Scaffold(
         backgroundColor: Colors.white,

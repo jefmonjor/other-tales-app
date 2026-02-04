@@ -23,6 +23,16 @@ class AppTheme {
         bodyMedium: AppTypography.body,
         titleMedium: AppTypography.button,
       ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          // Web/Desktop handling: Avoid Zoom transition which can glitch on web
+          TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+        },
+      ),
       // Add more component themes here as needed
     );
   }

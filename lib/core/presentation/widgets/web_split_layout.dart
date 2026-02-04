@@ -38,6 +38,7 @@ class WebSplitLayout extends StatelessWidget {
     // Desktop logic: Full screen split
     return Scaffold(
       body: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // Ensure full height
         children: [
           Expanded(
             flex: leftFlex,
