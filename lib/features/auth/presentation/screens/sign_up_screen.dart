@@ -16,6 +16,7 @@ import '../widgets/auth_input.dart';
 import '../widgets/brand_button.dart';
 import '../widgets/gradient_app_bar.dart';
 import '../widgets/social_button.dart';
+import '../../../../core/presentation/widgets/web_split_layout.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -47,6 +48,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   Future<void> _submit() async {
+    // Anti-Spam Check
+    if (ref.read(signUpControllerProvider).isLoading) return;
+
     final l10n = AppLocalizations.of(context)!;
     
     if (!_acceptTerms) {
@@ -105,10 +109,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     ref.listen(signUpControllerProvider, (previous, next) {
       if (next is AsyncError) {
         // Use AuthErrorMapper
-        final originalError = next.error.toString().replaceAll('Exception: ', '');
-        final translatedError = AuthErrorMapper.map(
-          originalError: originalError, 
-          locale: Localizations.localeOf(context),
+        // Use AuthErrorMapper
+        final translatedError = AuthErrorMapper.getFriendlyMessage(
+          next.error!, 
+          Localizations.localeOf(context).languageCode,
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -140,6 +144,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 svgPath: 'assets/icons/google_logo.svg',
                 backgroundColor: Colors.white,
                 textColor: const Color(0xFF757575),
+                isLoading: signUpState.isLoading,
                 onPressed: () => ref.read(signUpControllerProvider.notifier).signUpWithGoogle(),
               ),
               const SizedBox(height: 12),
@@ -148,6 +153,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 icon: Icons.apple,
                 backgroundColor: Colors.black,
                 textColor: Colors.white,
+                isLoading: signUpState.isLoading,
                 onPressed: () => ref.read(signUpControllerProvider.notifier).signUpWithApple(),
               ),
               
@@ -295,79 +301,41 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
 
     // Layout Logic
-    final isDesktop = MediaQuery.of(context).size.width >= 900;
-
-    if (isDesktop) {
-      return Scaffold(
-        body: Row(
-          children: [
-            // LEFT: Branding
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)], 
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.auto_stories, size: 120, color: Colors.white),
-                      const SizedBox(height: 20),
-                      Text("Other Tales", 
-                           style: GoogleFonts.cinzel(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 12),
-                      Text("Únete a la aventura",
-                           style: GoogleFonts.nunitoSans(color: Colors.white70, fontSize: 20)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            // RIGHT: Form
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: Colors.white,
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 450),
-                    child: Scaffold(
-                       appBar: PreferredSize(
-                        preferredSize: const Size.fromHeight(kToolbarHeight),
-                        child: AppBar(
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                          leading: BackButton(color: Colors.black, onPressed: () => context.canPop() ? context.pop() : null),
-                        ),
-                      ),
-                      backgroundColor: Colors.white,
-                      body: Center(child: formContent),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return WebSplitLayout(
+      leftPanel: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)], 
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-      );
-    }
-
-    // MOBILE
-    return ResponsiveScaffold(
-      appBar: GradientAppBar(
-        title: l10n.register, 
-        onBack: () => context.pop(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.auto_stories, size: 120, color: Colors.white),
+              const SizedBox(height: 20),
+              Text("Other Tales", 
+                   style: GoogleFonts.cinzel(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              Text("Únete a la aventura",
+                   style: GoogleFonts.nunitoSans(color: Colors.white70, fontSize: 20)),
+            ],
+          ),
+        ),
       ),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: formContent,
+      rightPanel: Scaffold(
+        appBar: GradientAppBar(
+          title: l10n.register, 
+          onBack: () => context.pop(),
+        ),
+        backgroundColor: Colors.white,
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 450),
+            child: formContent,
+          ),
         ),
       ),
     );

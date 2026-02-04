@@ -10,6 +10,7 @@ class SocialButton extends StatelessWidget {
   final Color textColor;
   final VoidCallback onPressed;
   final Color? iconColor;
+  final bool isLoading;
 
   const SocialButton({
     super.key,
@@ -20,6 +21,7 @@ class SocialButton extends StatelessWidget {
     required this.textColor,
     required this.onPressed,
     this.iconColor,
+    this.isLoading = false,
   }) : assert(svgPath != null || icon != null, 'Must provide either svgPath or icon');
 
   @override
@@ -44,10 +46,12 @@ class SocialButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: onPressed,
+          onTap: isLoading ? null : onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
+            child: Opacity(
+              opacity: isLoading ? 0.5 : 1.0,
+              child: Row(
               mainAxisAlignment: MainAxisAlignment.center, // Centered content
               children: [
                 if (svgPath != null)
@@ -74,6 +78,7 @@ class SocialButton extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 }
