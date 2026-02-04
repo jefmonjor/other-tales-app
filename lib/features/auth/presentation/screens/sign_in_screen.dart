@@ -11,6 +11,7 @@ import '../providers/login_controller.dart';
 import '../widgets/auth_input.dart';
 import '../widgets/brand_button.dart';
 import '../widgets/gradient_app_bar.dart';
+import '../widgets/social_button.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -80,6 +81,36 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch, // Match SignUp
             children: [
+              // Social Login
+              SocialButton(
+                label: "Continuar con Google", // Localize later
+                svgPath: 'assets/icons/google_logo.svg',
+                backgroundColor: Colors.white,
+                textColor: const Color(0xFF757575),
+                onPressed: () => ref.read(loginControllerProvider.notifier).loginWithGoogle(),
+              ),
+              const SizedBox(height: 12),
+              SocialButton(
+                label: "Continuar con Apple", // Localize later
+                icon: Icons.apple,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                onPressed: () => ref.read(loginControllerProvider.notifier).loginWithApple(),
+              ),
+              
+              const SizedBox(height: 24),
+              const Row(
+                children: [
+                  Expanded(child: Divider()),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text("o", style: TextStyle(color: Colors.grey)),
+                  ),
+                  Expanded(child: Divider()),
+                ],
+              ),
+              const SizedBox(height: 24),
+
               // Email
               AuthInput(
                 label: l10n.emailLabel,

@@ -11,4 +11,6 @@ abstract class AuthRepository {
     required bool termsAccepted,
     required bool privacyAccepted,
   });
+  Future<Either<Failure, void>> signInWithGoogle();
+  Future<Either<Failure, void>> signInWithApple();
 }

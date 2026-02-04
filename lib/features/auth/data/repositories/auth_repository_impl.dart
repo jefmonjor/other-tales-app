@@ -61,4 +61,28 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> signInWithGoogle() async {
+    try {
+      await _supabase.auth.signInWithOAuth(OAuthProvider.google);
+      return const Right(null);
+    } on AuthException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> signInWithApple() async {
+    try {
+      await _supabase.auth.signInWithOAuth(OAuthProvider.apple);
+      return const Right(null);
+    } on AuthException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

@@ -21,4 +21,22 @@ class LoginController extends _$LoginController {
       (success) => state = const AsyncData(null),
     );
   }
+
+  Future<void> loginWithGoogle() async {
+    state = const AsyncLoading();
+    final result = await ref.read(authRepositoryProvider).signInWithGoogle();
+    state = result.fold(
+      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (_) => const AsyncData(null),
+    );
+  }
+
+  Future<void> loginWithApple() async {
+    state = const AsyncLoading();
+    final result = await ref.read(authRepositoryProvider).signInWithApple();
+    state = result.fold(
+      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (_) => const AsyncData(null),
+    );
+  }
 }

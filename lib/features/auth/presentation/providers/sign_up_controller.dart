@@ -47,4 +47,22 @@ class SignUpController extends _$SignUpController {
       },
     );
   }
+
+  Future<void> signUpWithGoogle() async {
+    state = const AsyncLoading();
+    final result = await ref.read(authRepositoryProvider).signInWithGoogle();
+    state = result.fold(
+      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (_) => const AsyncData(null),
+    );
+  }
+
+  Future<void> signUpWithApple() async {
+    state = const AsyncLoading();
+    final result = await ref.read(authRepositoryProvider).signInWithApple();
+    state = result.fold(
+      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (_) => const AsyncData(null),
+    );
+  }
 }

@@ -15,6 +15,7 @@ import '../providers/sign_up_controller.dart';
 import '../widgets/auth_input.dart';
 import '../widgets/brand_button.dart';
 import '../widgets/gradient_app_bar.dart';
+import '../widgets/social_button.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -138,6 +139,36 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch, // Stretch for button
             children: [
+              // Social Login
+              SocialButton(
+                label: "Regístrate con Google", // Localize later
+                svgPath: 'assets/icons/google_logo.svg',
+                backgroundColor: Colors.white,
+                textColor: const Color(0xFF757575),
+                onPressed: () => ref.read(signUpControllerProvider.notifier).signUpWithGoogle(),
+              ),
+              const SizedBox(height: 12),
+              SocialButton(
+                label: "Regístrate con Apple", // Localize later
+                icon: Icons.apple,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                onPressed: () => ref.read(signUpControllerProvider.notifier).signUpWithApple(),
+              ),
+              
+              const SizedBox(height: 24),
+              const Row(
+                children: [
+                  Expanded(child: Divider()),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text("o", style: TextStyle(color: Colors.grey)),
+                  ),
+                  Expanded(child: Divider()),
+                ],
+              ),
+              const SizedBox(height: 24),
+              
               // Name
               AuthInput(
                 label: l10n.nameLabel,
