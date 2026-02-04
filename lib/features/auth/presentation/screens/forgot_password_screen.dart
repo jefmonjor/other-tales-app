@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:other_tales_app/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../widgets/auth_input.dart';
@@ -43,56 +44,118 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          // Header
-          GradientAppBar(
-            title: l10n.forgotPasswordTitle,
-            onBack: () => context.pop(),
-          ),
+    // Form Content
+    final formContent = SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.forgotPasswordSubtitle,
+              style: GoogleFonts.nunitoSans(
+                fontSize: 16,
+                color: const Color(0xFF949494),
+              ),
+            ),
+            const SizedBox(height: 24),
 
-          // Content
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.forgotPasswordSubtitle,
-                      style: const TextStyle(
-                        fontFamily: 'Nunito Sans',
-                        fontSize: 16,
-                        color: Color(0xFF949494),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
+            // Email
+            AuthInput(
+              label: l10n.emailLabel,
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              validator: (v) => (v == null || !v.contains('@')) ? 'Invalid email' : null,
+            ),
 
-                    // Email
-                    AuthInput(
-                      label: l10n.emailLabel,
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (v) => (v == null || !v.contains('@')) ? 'Invalid email' : null,
-                    ),
+            const SizedBox(height: 32),
 
-                    const SizedBox(height: 32),
+            BrandButton(
+              label: l10n.recoverButton,
+              isLoading: _isLoading,
+              onPressed: _submit,
+            ),
+          ],
+        ),
+      ),
+    );
 
-                    BrandButton(
-                      label: l10n.recoverButton,
-                      isLoading: _isLoading,
-                      onPressed: _submit,
-                    ),
-                  ],
+    // Layout Logic
+    final isDesktop = MediaQuery.of(context).size.width >= 900;
+
+    if (isDesktop) {
+      return Scaffold(
+        body: Row(
+          children: [
+            // LEFT: Branding
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)], 
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.auto_stories, size: 120, color: Colors.white),
+                      const SizedBox(height: 20),
+                      Text("Other Tales", 
+                           style: GoogleFonts.cinzel(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 12),
+                      Text("Recupera tu acceso",
+                           style: GoogleFonts.nunitoSans(color: Colors.white70, fontSize: 20)),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            // RIGHT: Form
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.white,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 450),
+                    child: Scaffold(
+                       appBar: PreferredSize(
+                        preferredSize: const Size.fromHeight(kToolbarHeight),
+                        child: AppBar(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          leading: BackButton(color: Colors.black, onPressed: () => context.canPop() ? context.pop() : null),
+                        ),
+                      ),
+                      backgroundColor: Colors.white,
+                      body: Center(child: formContent),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // MOBILE / TABLET (< 900)
+    return Scaffold(
+      appBar: GradientAppBar(
+        title: l10n.forgotPasswordTitle,
+        onBack: () => context.pop(),
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: formContent,
+        ),
       ),
     );
   }

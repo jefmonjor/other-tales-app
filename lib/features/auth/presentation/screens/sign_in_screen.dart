@@ -57,7 +57,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           SnackBar(
             content: Text(translatedError),
             backgroundColor: AppColors.error,
-            behavior: SnackBarBehavior.floating, // Floating is better in ResponsiveScaffold
+            behavior: SnackBarBehavior.floating,
           ),
         );
       } else if (next is AsyncData && !next.isLoading) {
@@ -68,19 +68,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     final l10n = AppLocalizations.of(context)!;
     final loginState = ref.watch(loginControllerProvider);
 
-    return ResponsiveScaffold(
-      appBar: GradientAppBar(
-        title: l10n.signIn,
-        onBack: () => context.pop(),
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch, // Match SignUp
-            children: [
+    // Form Content
+    final formContent = SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
               // Social Login
               SocialButton(
                 label: "Continuar con Google", // Localize later
@@ -191,8 +186,87 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   ),
                 ],
               ),
-            ],
-          ),
+          ],
+        ),
+      ),
+    );
+
+    // Layout Logic
+    final isDesktop = MediaQuery.of(context).size.width >= 900;
+
+    if (isDesktop) {
+      return Scaffold(
+        body: Row(
+          children: [
+            // LEFT: Branding
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)], 
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.auto_stories, size: 120, color: Colors.white),
+                      const SizedBox(height: 20),
+                      Text("Other Tales", 
+                           style: GoogleFonts.cinzel(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 12),
+                      Text("Tu historia comienza aquí",
+                           style: GoogleFonts.nunitoSans(color: Colors.white70, fontSize: 20)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // RIGHT: Form
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.white,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 450),
+                    child: Scaffold(
+                      // Essential for back navigation if needed, or remove if Landing is root.
+                      // Usually "Sign In" has back to Landing.
+                      appBar: PreferredSize(
+                        preferredSize: const Size.fromHeight(kToolbarHeight),
+                        child: AppBar(
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                          leading: BackButton(color: Colors.black, onPressed: () => context.canPop() ? context.pop() : null),
+                        ),
+                      ),
+                      backgroundColor: Colors.white,
+                      body: Center(child: formContent), // Clean center
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // MOBILE / TABLET (< 900)
+    return Scaffold(
+      appBar: GradientAppBar(
+        title: l10n.signIn,
+        onBack: () => context.pop(),
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: formContent,
         ),
       ),
     );
