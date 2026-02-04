@@ -251,16 +251,22 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           color: const Color(0xFF060606),
                         ),
                         children: [
-                          const TextSpan(text: "Acepto los "), // Localize
+                          const TextSpan(text: "He leído y acepto los "), // Localize if needed
                           TextSpan(
                             text: "Términos y Condiciones",
-                            style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                            style: GoogleFonts.nunitoSans(
+                              fontWeight: FontWeight.bold, 
+                              color: Theme.of(context).primaryColor,
+                            ),
                             recognizer: TapGestureRecognizer()..onTap = () => _showTerms(context),
                           ),
                           const TextSpan(text: " y la "),
                           TextSpan(
                             text: "Política de Privacidad",
-                            style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                            style: GoogleFonts.nunitoSans(
+                              fontWeight: FontWeight.bold, 
+                              color: Theme.of(context).primaryColor,
+                            ),
                             recognizer: TapGestureRecognizer()..onTap = () => _showPrivacy(context),
                           ),
                           const TextSpan(text: "."),

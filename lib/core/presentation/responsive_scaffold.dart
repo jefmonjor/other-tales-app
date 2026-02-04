@@ -52,7 +52,7 @@ class ResponsiveScaffold extends StatelessWidget {
             // Centered Card
             Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 550, maxHeight: 900),
+                constraints: const BoxConstraints(maxWidth: 450, maxHeight: 900),
                 child: Card(
                   elevation: 10,
                   shadowColor: Colors.black26,
