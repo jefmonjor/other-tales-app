@@ -26,8 +26,8 @@ class AppTheme {
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-          // Use Fade for iOS too to avoid the "side panel" slide effect on Web
-          TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+          // Use Cupertino for iOS to allow native-like swipe back WITHIN Flutter
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           // Web/Desktop handling: Avoid Zoom transition which can glitch on web
           TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
           TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),

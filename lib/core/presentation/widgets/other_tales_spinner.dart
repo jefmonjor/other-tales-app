@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart'; // Assuming spinkit is used, or native
 import '../../theme/app_colors.dart';
 
 class OtherTalesSpinner extends StatelessWidget {

@@ -32,8 +32,8 @@ class SocialButton extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(16), // Matching AuthInput radius more closely or keeping 20
-        border: Border.all(color: Colors.grey.shade300, width: 1), // Border for white buttons
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade300, width: 1),
         boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -50,36 +50,33 @@ class SocialButton extends StatelessWidget {
           onTap: isLoading ? null : onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: isLoading 
-              ? Center(child: OtherTalesSpinner(size: 24, color: textColor))
-              : Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Centered content
-              children: [
-                if (svgPath != null)
-                  SvgPicture.asset(
-                    svgPath!,
-                    width: 24,
-                    height: 24,
-                  )
-                else
-                  Icon(icon, color: iconColor ?? textColor, size: 24),
-                  
-                const SizedBox(width: 12),
-                
-                Text(
-                  label,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: textColor,
+            child: isLoading
+                ? Center(child: OtherTalesSpinner(size: 24, color: textColor))
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (svgPath != null)
+                        SvgPicture.asset(
+                          svgPath!,
+                          width: 24,
+                          height: 24,
+                        )
+                      else
+                        Icon(icon, color: iconColor ?? textColor, size: 24),
+                      const SizedBox(width: 12),
+                      Text(
+                        label,
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: textColor,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
-    ),
-  );
+    );
   }
 }

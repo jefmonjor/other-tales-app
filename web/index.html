@@ -33,18 +33,46 @@
   <title>other_tales_app</title>
   <link rel="manifest" href="manifest.json">
   <style>
-    body,
+    /* 1. CLAVAR LA APP A LA PANTALLA */
     html {
-      margin: 0;
-      padding: 0;
       height: 100%;
       width: 100%;
-      width: 100%;
       overflow: hidden;
+      /* Evita que el html tenga barras de scroll */
       overscroll-behavior: none;
-      /* Disable Swipe-Nav and Pull-to-Refresh */
+      /* Bloquea el rebote nativo */
+    }
+
+    body {
+      position: fixed;
+      /* <--- ESTA ES LA CLAVE. "Pega" el body a la viewport */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      /* El scroll lo maneja Flutter internamente */
+      overscroll-behavior: none;
+      margin: 0;
+      padding: 0;
+
+      /* Prevenir gestos táctiles del navegador */
       touch-action: none;
-      /* Disable browser handling of gestures (optional, check pinch-zoom compatibility) */
+
+      /* Color de fondo para ocultar cualquier micro-glitch */
+      background-color: #0F172A;
+    }
+
+    /* 2. ASEGURAR QUE FLUTTER OCUPA TODO */
+    /* A veces Flutter inyecta tags propios, aseguramos que hereden el tamaño */
+    flt-glass-pane {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
     }
   </style>
 </head>
