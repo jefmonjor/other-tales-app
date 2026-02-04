@@ -65,15 +65,33 @@ GoRouter appRouter(AppRouterRef ref) {
       ),
       GoRoute(
         path: '/landing',
-        builder: (context, state) => const LandingScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const LandingScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        ),
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => const SignInScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const SignInScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        ),
       ),
       GoRoute(
         path: '/register',
-        builder: (context, state) => const SignUpScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const SignUpScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+        ),
       ),
       GoRoute(
         path: '/forgot-password',
