@@ -11,12 +11,26 @@ class SignUpController extends _$SignUpController {
     // idle state
   }
 
-  Future<void> register(String name, String email, String password) async {
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+    required bool marketingAccepted,
+    required bool termsAccepted,
+    required bool privacyAccepted,
+  }) async {
     state = const AsyncLoading();
     
     final repository = ref.read(authRepositoryProvider);
     // 1. Register
-    final registerResult = await repository.register(name, email, password);
+    final registerResult = await repository.register(
+      name, 
+      email, 
+      password,
+      marketingAccepted: marketingAccepted,
+      termsAccepted: termsAccepted,
+      privacyAccepted: privacyAccepted,
+    );
     
     // 2. Handle Result
     await registerResult.fold(

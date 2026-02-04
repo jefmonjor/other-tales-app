@@ -32,16 +32,27 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> register(String name, String email, String password) async {
+  Future<Either<Failure, void>> register(
+    String name, 
+    String email, 
+    String password, {
+    required bool marketingAccepted,
+    required bool termsAccepted,
+    required bool privacyAccepted,
+  }) async {
     try {
       await _supabase.auth.signUp(
         email: email, 
         password: password,
-        data: {'full_name': name},
+        data: {
+          'full_name': name,
+          'marketing_accepted': marketingAccepted,
+          'terms_accepted': termsAccepted,
+          'privacy_accepted': privacyAccepted,
+          'accepted_at': DateTime.now().toIso8601String(),
+        },
       );
       // Supabase automatically signs in after signup if email confirmation is disabled or if using defaults.
-      // If email confirmation is enabled, user can't login yet. 
-      // But typically for development/demo, it signs up successfully.
       
       return const Right(null);
     } on AuthException catch (e) {

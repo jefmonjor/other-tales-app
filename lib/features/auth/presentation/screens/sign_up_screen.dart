@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:other_tales_app/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/constants/legal_constants.dart';
+import '../../../../core/presentation/responsive_scaffold.dart';
+import '../../../../core/presentation/universal_modal.dart';
+import '../../../../core/error/auth_error_mapper.dart';
 import '../providers/sign_up_controller.dart';
 import '../widgets/auth_input.dart';
 import '../widgets/brand_button.dart';
@@ -29,6 +34,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   bool _isConfirmPasswordVisible = false;
   bool _acceptMarketing = false;
   bool _acceptTerms = false;
+  bool _acceptPrivacy = false; // Separate privacy check logic if needed, but UI usually groups them.
 
   @override
   void dispose() {
@@ -45,7 +51,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     if (!_acceptTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(l10n.mustAcceptTerms),
+          content: Text("Debes aceptar los términos y privacidad"), // Localize
           backgroundColor: AppColors.error,
         ),
       );
@@ -56,7 +62,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       if (_passwordController.text != _confirmPasswordController.text) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Las contraseñas no coinciden"), // TODO: Localize or use key if exists
+            content: Text("Las contraseñas no coinciden"), // Localize
             backgroundColor: AppColors.error,
           ),
         );
@@ -64,156 +70,207 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       }
 
       await ref.read(signUpControllerProvider.notifier).register(
-        _nameController.text, 
-        _emailController.text, 
-        _passwordController.text,
+        name: _nameController.text, 
+        email: _emailController.text, 
+        password: _passwordController.text,
+        marketingAccepted: _acceptMarketing,
+        termsAccepted: _acceptTerms,
+        privacyAccepted: _acceptTerms, // Grouped in UI
       );
     }
   }
 
+  void _showTerms(BuildContext context) {
+    UniversalModal.showPlatformModal(
+      context, 
+      title: "Términos y Condiciones", 
+      content: const Text(LegalConstants.termsAndConditions),
+    );
+  }
+
+  void _showPrivacy(BuildContext context) {
+    UniversalModal.showPlatformModal(
+      context, 
+      title: "Política de Privacidad", 
+      content: const Text(LegalConstants.privacyPolicy),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     // Listen for side effects
     ref.listen(signUpControllerProvider, (previous, next) {
       if (next is AsyncError) {
+        // Use AuthErrorMapper
+        final originalError = next.error.toString().replaceAll('Exception: ', '');
+        final translatedError = AuthErrorMapper.map(
+          originalError: originalError, 
+          locale: Localizations.localeOf(context),
+        );
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.error.toString().replaceAll('Exception: ', '')),
+            content: Text(translatedError),
             backgroundColor: AppColors.error,
+            behavior: SnackBarBehavior.floating,
           ),
         );
       } else if (next is AsyncData && !next.isLoading) {
-         // Assuming auto-login is handled or navigating to projects
-         // Wait, register logic in repo might have auto-login?
-         // In AuthRepositoryImpl we implemented: `await _supabase.auth.signUp(...)`
-         // If signUp succeeds (email confirm off), it signs in.
          context.go('/projects'); 
       }
     });
 
-    final l10n = AppLocalizations.of(context)!;
     final signUpState = ref.watch(signUpControllerProvider);
     final bool isButtonEnabled = _acceptTerms && !signUpState.isLoading;
 
-    return Scaffold(
+    return ResponsiveScaffold(
+      appBar: GradientAppBar(
+        title: l10n.register, 
+        onBack: () => context.pop(),
+      ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          // Header
-          GradientAppBar(
-            title: l10n.register, 
-            onBack: () => context.pop(),
-          ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch, // Stretch for button
+            children: [
+              // Name
+              AuthInput(
+                label: l10n.nameLabel,
+                controller: _nameController,
+                validator: (v) {
+                  if (v == null || v.isEmpty) return 'Required';
+                  final nameRegex = RegExp(r'^[a-zA-Z0-9 ]+$');
+                  if (!nameRegex.hasMatch(v)) return l10n.nameRequirements;
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
 
-          // Scrollable Content
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Name
-                    AuthInput(
-                      label: l10n.nameLabel,
-                      controller: _nameController,
-                      validator: (v) {
-                        if (v == null || v.isEmpty) return 'Required';
-                        final nameRegex = RegExp(r'^[a-zA-Z0-9 ]+$');
-                        if (!nameRegex.hasMatch(v)) return l10n.nameRequirements;
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
+              // Email
+              AuthInput(
+                label: l10n.emailLabel,
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (v) => (v != null && EmailValidator.validate(v)) ? null : l10n.invalidEmail,
+              ),
+              const SizedBox(height: 16),
 
-                    // Email
-                    AuthInput(
-                      label: l10n.emailLabel,
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (v) => (v != null && EmailValidator.validate(v)) ? null : l10n.invalidEmail,
-                    ),
-                    const SizedBox(height: 16),
+              // Password
+              AuthInput(
+                label: l10n.passwordLabel,
+                controller: _passwordController,
+                obscureText: !_isPasswordVisible,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: AppColors.textSecondary,
+                  ),
+                  onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
+                ),
+                validator: (v) {
+                   if (v == null || v.isEmpty) return 'Required';
+                   final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$');
+                   if (!passwordRegex.hasMatch(v)) return l10n.passwordRequirements;
+                   return null;
+                },
+              ),
+              const SizedBox(height: 16),
 
-                    // Password
-                    AuthInput(
-                      label: l10n.passwordLabel,
-                      controller: _passwordController,
-                      obscureText: !_isPasswordVisible,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                          color: AppColors.textSecondary,
-                        ),
-                        onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
-                      ),
-                      validator: (v) {
-                         if (v == null || v.isEmpty) return 'Required';
-                         final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$');
-                         if (!passwordRegex.hasMatch(v)) return l10n.passwordRequirements;
-                         return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
+              // Repeat Password
+              AuthInput(
+                label: l10n.confirmPasswordLabel,
+                controller: _confirmPasswordController,
+                obscureText: !_isConfirmPasswordVisible,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: AppColors.textSecondary,
+                  ),
+                  onPressed: () => setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
+                ),
+                validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+              ),
+              const SizedBox(height: 24),
 
-                    // Repeat Password
-                    AuthInput(
-                      label: l10n.confirmPasswordLabel,
-                      controller: _confirmPasswordController,
-                      obscureText: !_isConfirmPasswordVisible,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                          color: AppColors.textSecondary,
-                        ),
-                        onPressed: () => setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
-                      ),
-                      validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Checkboxes
-                    _buildCheckbox(
-                      value: _acceptMarketing,
-                      onChanged: (v) => setState(() => _acceptMarketing = v ?? false),
-                      text: l10n.marketingAccept,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildCheckbox(
+              // Legal Checkbox with Links
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: Checkbox(
                       value: _acceptTerms,
                       onChanged: (v) => setState(() => _acceptTerms = v ?? false),
-                      text: l10n.termsAccept,
-                      isRequired: true,
+                      activeColor: const Color(0xFF232323),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                     ),
-                    const SizedBox(height: 32),
-
-                    // Action Button
-                    BrandButton(
-                      label: l10n.createAccount,
-                      isLoading: signUpState.isLoading,
-                      onPressed: isButtonEnabled ? _submit : null,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        style: GoogleFonts.nunitoSans(
+                          fontSize: 14,
+                          color: const Color(0xFF060606),
+                        ),
+                        children: [
+                          const TextSpan(text: "Acepto los "), // Localize
+                          TextSpan(
+                            text: "Términos y Condiciones",
+                            style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                            recognizer: TapGestureRecognizer()..onTap = () => _showTerms(context),
+                          ),
+                          const TextSpan(text: " y la "),
+                          TextSpan(
+                            text: "Política de Privacidad",
+                            style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                            recognizer: TapGestureRecognizer()..onTap = () => _showPrivacy(context),
+                          ),
+                          const TextSpan(text: "."),
+                        ],
+                      ),
                     ),
-                    
-                    const SizedBox(height: 24),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
+              const SizedBox(height: 12),
+              
+              // Marketing Checkbox
+              _buildSimpleCheckbox(
+                value: _acceptMarketing,
+                onChanged: (v) => setState(() => _acceptMarketing = v ?? false),
+                text: l10n.marketingAccept, // "Acepto recibir novedades"
+              ),
+              const SizedBox(height: 32),
+
+              // Action Button
+              BrandButton(
+                label: l10n.createAccount,
+                isLoading: signUpState.isLoading,
+                onPressed: isButtonEnabled ? _submit : null,
+              ),
+              
+              const SizedBox(height: 24),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildCheckbox({
+  Widget _buildSimpleCheckbox({
     required bool value,
     required ValueChanged<bool?> onChanged,
     required String text,
-    bool isRequired = false,
   }) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           width: 24,
@@ -222,8 +279,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             value: value,
             onChanged: onChanged,
             activeColor: const Color(0xFF232323),
-            checkColor: Colors.white,
-            side: const BorderSide(color: Color(0xFF232323), width: 2),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
@@ -235,7 +290,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             child: Text(
               text,
               style: GoogleFonts.nunitoSans(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFF060606),
               ),
