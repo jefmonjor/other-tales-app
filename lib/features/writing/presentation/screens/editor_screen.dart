@@ -4,7 +4,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../controllers/chapter_controller.dart';
-import '../../domain/models/chapter.dart';
+import '../../domain/entities/chapter.dart';
 import '../../../../core/error/failure.dart';
 // import '../../../../core/components/feedback/app_snackbar.dart'; 
 

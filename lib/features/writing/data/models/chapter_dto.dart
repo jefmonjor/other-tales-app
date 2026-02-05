@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../domain/models/chapter.dart';
+import '../../domain/entities/chapter.dart';
 
 part 'chapter_dto.freezed.dart';
 part 'chapter_dto.g.dart';

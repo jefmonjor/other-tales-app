@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failure.dart';
-import 'chapter.dart';
+import '../entities/chapter.dart';
 
 abstract class ChapterRepository {
   Future<Either<Failure, List<Chapter>>> getChapters(String projectId);

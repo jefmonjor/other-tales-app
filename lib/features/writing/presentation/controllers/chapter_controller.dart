@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../domain/models/chapter.dart';
+import '../../domain/entities/chapter.dart';
 import '../../data/repositories/chapter_repository_impl.dart';
 
 part 'chapter_controller.g.dart';
@@ -39,7 +39,9 @@ class ChapterController extends _$ChapterController {
     );
 
     result.fold(
-      (failure) => state = AsyncValue.error(failure, StackTrace.current),
+      (failure) {
+        state = AsyncValue.error(failure, StackTrace.current);
+      },
       (success) {
         state = const AsyncValue.data(null);
         // Refresh the list of chapters for this project

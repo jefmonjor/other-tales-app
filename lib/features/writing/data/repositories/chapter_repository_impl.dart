@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/dio_provider.dart';
-import '../../domain/models/chapter.dart';
+import '../../domain/entities/chapter.dart';
 import '../../domain/repositories/chapter_repository.dart';
 import '../models/chapter_dto.dart';
 
