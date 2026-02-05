@@ -184,13 +184,16 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         actions: [
           // Done Button
           if (isLoading)
-            const Padding(
-              padding: EdgeInsets.only(right: AppSpacing.m),
+             Padding(
+              padding: const EdgeInsets.only(right: AppSpacing.m),
               child: Center(
                 child: SizedBox(
-                  width: 20, 
-                  height: 20, 
-                  child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+                  width: 24, 
+                  height: 24, 
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5, 
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                  ),
                 ),
               ),
             )
