@@ -85,11 +85,13 @@ class ChapterRepositoryImpl implements ChapterRepository {
         // Priority: detail -> title -> "Server Error"
         final String message = data['detail'] ?? data['title'] ?? 'Server Error: ${e.response!.statusCode}';
         final String? code = data['code'];
+        final List<dynamic>? errors = data['errors']; // Capture RFC 7807 errors list
         
         return ServerFailure(
           message, 
           statusCode: e.response!.statusCode,
-          errorType: code, // Mapping 'code' to 'errorType'
+          errorType: code, 
+          fieldErrors: errors,
         );
       }
       return ServerFailure('Server Error: ${e.response!.statusCode}', statusCode: e.response!.statusCode);

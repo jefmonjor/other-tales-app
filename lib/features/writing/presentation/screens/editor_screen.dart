@@ -6,6 +6,8 @@ import '../../../../core/theme/app_spacing.dart';
 import '../controllers/chapter_controller.dart';
 import '../../domain/entities/chapter.dart';
 import '../../../../core/error/failure.dart';
+import 'package:other_tales_app/l10n/app_localizations.dart';
+import '../../../../core/error/error_message_helper.dart';
 // import '../../../../core/components/feedback/app_snackbar.dart'; 
 
 class EditorScreen extends ConsumerStatefulWidget {
@@ -23,17 +25,21 @@ class EditorScreen extends ConsumerStatefulWidget {
 class _EditorScreenState extends ConsumerState<EditorScreen> {
   late TextEditingController _contentController;
   late TextEditingController _titleController;
+  late FocusNode _focusNode;
   String? _currentChapterId;
+  String? _titleError;
 
   @override
   void initState() {
     super.initState();
     _contentController = TextEditingController();
     _titleController = TextEditingController();
+    _focusNode = FocusNode();
     
     // Initial Load
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialData();
+      _focusNode.requestFocus();
     });
   }
 
@@ -51,7 +57,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         _contentController.text = chapter.content;
         _titleController.text = chapter.title;
       } else {
-         _titleController.text = "Chapter 1";
+         _titleController.text = AppLocalizations.of(context)!.defaultChapterTitle;
       }
     } catch (e) {
       // Handle load error silently or show snackbar
@@ -63,12 +69,14 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
   void dispose() {
     _contentController.dispose();
     _titleController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
   Future<void> _handleSave() async {
     // Dismiss keyboard
     FocusScope.of(context).unfocus();
+    setState(() => _titleError = null); // Clear previous errors
 
     await ref.read(chapterControllerProvider.notifier).saveChapter(
       projectId: widget.projectId,
@@ -87,7 +95,36 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         final error = state.error;
         String errorMessage = error.toString();
         if (error is Failure) {
-          errorMessage = error.message;
+        if (error is Failure) {
+          if (error is ServerFailure) {
+             // 1. Check for Field Errors (RFC 7807)
+             if (error.fieldErrors != null && error.fieldErrors!.isNotEmpty) {
+                // Manually map known fields
+                for (final err in error.fieldErrors!) {
+                  if (err is Map) {
+                    final field = err['field'];
+                    final code = err['code'];
+                    
+                    if (field == 'title') {
+                       setState(() => _titleError = ErrorMessageHelper.getFieldErrorMessage(code, context));
+                    }
+                    // Add other fields if needed (e.g. content)
+                  }
+                }
+                
+                // If we handled fields, maybe we don't show general snackbar? 
+                // Or we show generic "Please check errors".
+                errorMessage = AppLocalizations.of(context)!.errorValidationFailed;
+             }
+             // 2. Check for General Error Code (e.g. PROJECT_NOT_FOUND)
+             else if (error.errorType != null) {
+                errorMessage = ErrorMessageHelper.getErrorMessage(error.errorType, context);
+             } else {
+                errorMessage = error.message;
+             }
+          } else {
+             errorMessage = error.message;
+          }
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -99,10 +136,10 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
       }
     } else if (!state.isLoading) {
       // Success
-       if (mounted) {
+        if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Guardado correctamente'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.saveSuccess),
             backgroundColor: AppColors.success, // Assuming AppColors.success exists or green
           ),
         );
@@ -139,9 +176,13 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
             style: AppTypography.h3.copyWith(fontWeight: FontWeight.bold),
             decoration: const InputDecoration(
               border: InputBorder.none,
-              hintText: 'Chapter Title',
+              hintText: AppLocalizations.of(context)!.chapterTitleHint,
+              errorText: _titleError, 
               isDense: true,
             ),
+            onChanged: (_) {
+              if (_titleError != null) setState(() => _titleError = null);
+            },
           ),
         ),
         actions: [
@@ -161,7 +202,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
             TextButton(
               onPressed: _handleSave,
               child: Text(
-                'Done',
+                AppLocalizations.of(context)!.done,
                 style: AppTypography.button.copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
@@ -179,12 +220,14 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l),
                 child: TextField(
                   controller: _contentController,
+                  focusNode: _focusNode,
+                  autofocus: true,
                   maxLines: null, // Grows vertically
                   // expands: true, // Cannot use expands: true in SingleChildScrollView
                   style: AppTypography.editorBody, 
                   cursorColor: AppColors.primary,
                   decoration: InputDecoration(
-                    hintText: 'Start writing your story...',
+                    hintText: AppLocalizations.of(context)!.editorPlaceholder,
                     hintStyle: AppTypography.editorBody.copyWith(
                       color: AppColors.textSecondary.withOpacity(0.4)
                     ),

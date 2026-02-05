@@ -104,7 +104,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           children: [
               // Social Login
               SocialButton(
-                label: "Continuar con Google", // Localize later
+                label: l10n.googleLogin, 
                 svgPath: 'assets/icons/google_logo.svg',
                 backgroundColor: Colors.white,
                 textColor: const Color(0xFF757575),
@@ -113,7 +113,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               ),
               const SizedBox(height: 12),
               SocialButton(
-                label: "Continuar con Apple", // Localize later
+                label: l10n.appleLogin, 
                 icon: Icons.apple,
                 backgroundColor: Colors.black,
                 textColor: Colors.white,
@@ -124,12 +124,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               const SizedBox(height: 24),
               const Row(
                 children: [
-                  Expanded(child: Divider()),
-                  Padding(
+                   Expanded(child: Divider()),
+                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text("o", style: TextStyle(color: Colors.grey)),
-                  ),
-                  Expanded(child: Divider()),
+                    child: Text("o", style: TextStyle(color: Colors.grey)), 
+                   ),
+                   Expanded(child: Divider()),
                 ],
               ),
               const SizedBox(height: 24),
@@ -155,7 +155,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   ),
                   onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
                 ),
-                validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+                validator: (v) => (v == null || v.isEmpty) ? l10n.requiredField : null,
               ),
               const SizedBox(height: 16),
 
@@ -238,7 +238,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               Text("Other Tales", 
                    style: GoogleFonts.cinzel(color: Colors.white, fontSize: 48, fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
-              Text("Tu historia comienza aquí",
+              Text(l10n.heroSubtitle,
                    style: GoogleFonts.nunitoSans(color: Colors.white70, fontSize: 20)),
             ],
           ),

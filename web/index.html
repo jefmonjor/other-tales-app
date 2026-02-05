@@ -33,46 +33,36 @@
   <title>other_tales_app</title>
   <link rel="manifest" href="manifest.json">
   <style>
-    /* 1. CLAVAR LA APP A LA PANTALLA */
-    html {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      /* Evita que el html tenga barras de scroll */
-      overscroll-behavior: none;
-      /* Bloquea el rebote nativo */
-    }
-
+    /* 1. CONFIGURACIÓN BASE (PARA TODOS) */
+    html,
     body {
-      position: fixed;
-      /* <--- ESTA ES LA CLAVE. "Pega" el body a la viewport */
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
       height: 100%;
-      overflow: hidden;
-      /* El scroll lo maneja Flutter internamente */
-      overscroll-behavior: none;
+      width: 100%;
       margin: 0;
       padding: 0;
-
-      /* Prevenir gestos táctiles del navegador */
-      touch-action: none;
-
-      /* Color de fondo para ocultar cualquier micro-glitch */
       background-color: #0F172A;
+      /* Tu color de fondo */
+      overflow: hidden;
+      /* Flutter maneja el scroll interno */
     }
 
-    /* 2. ASEGURAR QUE FLUTTER OCUPA TODO */
-    /* A veces Flutter inyecta tags propios, aseguramos que hereden el tamaño */
-    flt-glass-pane {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100% !important;
-      height: 100% !important;
+    /* 2. FIX SOLO PARA MÓVILES (iOS/Android) 
+       La propiedad (pointer: coarse) detecta pantallas táctiles */
+    @media (pointer: coarse) {
+      html {
+        overscroll-behavior: none;
+      }
+
+      body {
+        position: fixed;
+        /* El "Super Glue" solo para el móvil */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        touch-action: none;
+        overscroll-behavior: none;
+      }
     }
   </style>
 </head>
