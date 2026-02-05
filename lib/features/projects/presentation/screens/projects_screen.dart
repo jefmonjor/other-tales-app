@@ -170,7 +170,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                       genre: project.genre,
                       currentWordCount: project.currentWordCount,
                       onTap: () {
-                        context.push('/editor'); // Navigate to editor on tap for now
+                        context.push('/editor/${project.id}');
                       },
                     );
                   },

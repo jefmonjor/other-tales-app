@@ -118,8 +118,10 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) => const ProjectsScreen(),
       ),
       GoRoute(
-        path: '/editor',
-        builder: (context, state) => const EditorScreen(),
+        path: '/editor/:projectId',
+        builder: (context, state) => EditorScreen(
+          projectId: state.pathParameters['projectId']!,
+        ),
       ),
     ],
   );

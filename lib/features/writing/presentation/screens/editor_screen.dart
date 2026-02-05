@@ -1,32 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../controllers/chapter_controller.dart';
+import '../../domain/models/chapter.dart';
+import '../../../../core/error/failure.dart';
+// import '../../../../core/components/feedback/app_snackbar.dart'; 
 
-class EditorScreen extends StatefulWidget {
-  final String? initialContent;
-  final String? chapterTitle;
-
+class EditorScreen extends ConsumerStatefulWidget {
+  final String projectId;
+  
   const EditorScreen({
     super.key,
-    this.initialContent,
-    this.chapterTitle,
+    required this.projectId,
   });
 
   @override
-  State<EditorScreen> createState() => _EditorScreenState();
+  ConsumerState<EditorScreen> createState() => _EditorScreenState();
 }
 
-class _EditorScreenState extends State<EditorScreen> {
+class _EditorScreenState extends ConsumerState<EditorScreen> {
   late TextEditingController _contentController;
   late TextEditingController _titleController;
+  String? _currentChapterId;
 
   @override
   void initState() {
     super.initState();
-    _contentController = TextEditingController(text: widget.initialContent);
-    _titleController = TextEditingController(text: widget.chapterTitle ?? 'Untitled Chapter');
+    _contentController = TextEditingController();
+    _titleController = TextEditingController();
+    
+    // Initial Load
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialData();
+    });
+  }
+
+  Future<void> _loadInitialData() async {
+    // We assume we want to edit the FIRST chapter if it exists, or create a new one.
+    // In a real app we might pass chapterId as well, but instructions say:
+    // "busca si el proyecto ya tiene capítulos... si tiene carga el primero"
+    
+    // We cannot easily await the provider value here without listening or reading future.
+    try {
+      final chapters = await ref.read(chaptersProvider(widget.projectId).future);
+      if (chapters.isNotEmpty) {
+        final chapter = chapters.first;
+        _currentChapterId = chapter.id;
+        _contentController.text = chapter.content;
+        _titleController.text = chapter.title;
+      } else {
+         _titleController.text = "Chapter 1";
+      }
+    } catch (e) {
+      // Handle load error silently or show snackbar
+      print("Error loading chapters: $e");
+    }
   }
 
   @override
@@ -36,10 +66,61 @@ class _EditorScreenState extends State<EditorScreen> {
     super.dispose();
   }
 
+  Future<void> _handleSave() async {
+    // Dismiss keyboard
+    FocusScope.of(context).unfocus();
+
+    await ref.read(chapterControllerProvider.notifier).saveChapter(
+      projectId: widget.projectId,
+      chapterId: _currentChapterId,
+      title: _titleController.text,
+      content: _contentController.text,
+    );
+    
+    // Listen for state changes handled in build(), or check state here ??
+    // Riverpod usually recommends checking state or listening.
+    // Since saveChapter updates state, let's look at the result.
+    final state = ref.read(chapterControllerProvider);
+    
+    if (state.hasError) {
+      if (mounted) {
+        final error = state.error;
+        String errorMessage = error.toString();
+        if (error is Failure) {
+          errorMessage = error.message;
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } else if (!state.isLoading) {
+      // Success
+       if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Guardado correctamente'),
+            backgroundColor: AppColors.success, // Assuming AppColors.success exists or green
+          ),
+        );
+        // Do NOT pop, maybe just stay to continue editing?
+        // Instructions: "Mostrar SnackBar ... y cerrar teclado." (Done unFocus)
+        // Didn't explicitly say "Close screen". usually "Done" implies close.
+        // "Al pulsar... Si éxito... cerrar teclado". Doesn't say close screen.
+        // But "Done" usually means finish.
+        // Let's assume just close keyboard based on text.
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Hide status bar for immersive writing if desired, but usually just coloring it is enough.
-    // Let's stick to standard system overlay for now but with matching color.
+    final saveState = ref.watch(chapterControllerProvider);
+    final isLoading = saveState.isLoading;
+
     return Scaffold(
       backgroundColor: AppColors.editorBackground, // Cream/Paper
       appBar: AppBar(
@@ -47,7 +128,7 @@ class _EditorScreenState extends State<EditorScreen> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: AppColors.textPrimary), // "X" or Back
+          icon: const Icon(Icons.close, color: AppColors.textPrimary), 
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: SizedBox(
@@ -64,41 +145,58 @@ class _EditorScreenState extends State<EditorScreen> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              // TODO: Save action
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Done',
-              style: AppTypography.button.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
+          // Done Button
+          if (isLoading)
+            const Padding(
+              padding: EdgeInsets.only(right: AppSpacing.m),
+              child: Center(
+                child: SizedBox(
+                  width: 20, 
+                  height: 20, 
+                  child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+                ),
+              ),
+            )
+          else
+            TextButton(
+              onPressed: _handleSave,
+              child: Text(
+                'Done',
+                style: AppTypography.button.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
           const SizedBox(width: AppSpacing.s),
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0), // Generous padding
-          child: TextField(
-            controller: _contentController,
-            maxLines: null,
-            expands: true,
-            style: AppTypography.editorBody, // Merriweather Serif 18px
-            cursorColor: AppColors.primary,
-            textAlignVertical: TextAlignVertical.top,
-            decoration: InputDecoration(
-              hintText: 'Start writing your story...',
-              hintStyle: AppTypography.editorBody.copyWith(
-                color: AppColors.textSecondary.withOpacity(0.4)
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l),
+                child: TextField(
+                  controller: _contentController,
+                  maxLines: null, // Grows vertically
+                  // expands: true, // Cannot use expands: true in SingleChildScrollView
+                  style: AppTypography.editorBody, 
+                  cursorColor: AppColors.primary,
+                  decoration: InputDecoration(
+                    hintText: 'Start writing your story...',
+                    hintStyle: AppTypography.editorBody.copyWith(
+                      color: AppColors.textSecondary.withOpacity(0.4)
+                    ),
+                    border: InputBorder.none,
+                    // Extra padding at bottom to avoid keyboard overlap visually if needed
+                    contentPadding: const EdgeInsets.only(bottom: AppSpacing.xl),
+                  ),
+                  scrollPadding: const EdgeInsets.only(bottom: 100), // Avoid keyboard
+                ),
               ),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.only(bottom: AppSpacing.xl),
             ),
-          ),
+          ],
         ),
       ),
     );
