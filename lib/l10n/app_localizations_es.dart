@@ -9,53 +9,211 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get signIn => 'Iniciar Sesión';
+  String get createProject => 'Crear proyecto';
 
   @override
-  String get email => 'Correo Electrónico';
+  String get untitledChapter => 'Capítulo sin título';
 
   @override
-  String get password => 'Contraseña';
+  String get chapterTitle => 'Título del capítulo';
 
   @override
-  String get projects => 'Proyectos';
+  String get startWriting => 'Comienza a escribir tu historia...';
 
   @override
-  String get goals => 'Metas';
+  String get done => 'Listo';
 
   @override
-  String get settings => 'Configuración';
+  String get saveSuccess => 'Guardado correctamente';
 
   @override
-  String get createProject => 'Crear Proyecto';
+  String get validationRequired => 'Este campo es obligatorio.';
 
   @override
-  String get title => 'Título';
+  String get validationError => 'Por favor, revisa los datos.';
 
   @override
-  String get genre => 'Género';
+  String get serverError => 'Ha ocurrido un problema en el servidor';
 
   @override
-  String get wordCount => 'Conteo de Palabras';
+  String get networkError => 'Comprueba tu conexión a internet';
 
   @override
-  String get myProjectsTitle => 'Mis Proyectos';
+  String get loginTitle => 'Te damos la bienvenida';
 
   @override
-  String get noProjectsYet =>
-      'Aún no hay proyectos. ¡Crea tu primera historia!';
+  String get emailLabel => 'Correo electrónico';
+
+  @override
+  String get passwordLabel => 'Contraseña';
+
+  @override
+  String get loginButton => 'Entrar';
+
+  @override
+  String get googleLogin => 'Continuar con Google';
+
+  @override
+  String get appleLogin => 'Continuar con Apple';
+
+  @override
+  String get projectsTitle => 'Mis proyectos';
+
+  @override
+  String get newProject => 'Nuevo proyecto';
+
+  @override
+  String lastEdited(String date) {
+    return 'Editado: $date';
+  }
+
+  @override
+  String get orSplitter => 'o';
+
+  @override
+  String get requiredField => 'Obligatorio';
+
+  @override
+  String get forgotPassword => '¿Has olvidado tu contraseña?';
+
+  @override
+  String get signIn => 'Entrar';
+
+  @override
+  String get noAccount => '¿No tienes cuenta?';
+
+  @override
+  String get register => 'Regístrate';
+
+  @override
+  String get invalidEmail => 'El correo no es válido';
+
+  @override
+  String get heroSubtitle => 'Tu historia comienza aquí';
 
   @override
   String get searchProjects => 'Buscar proyectos...';
 
   @override
+  String get noProjectsYet => 'Todavía no tienes proyectos. ¡Crea el primero!';
+
+  @override
+  String get defaultChapterTitle => 'Capítulo 1';
+
+  @override
+  String get chapterTitleHint => 'Título del capítulo...';
+
+  @override
+  String get editorPlaceholder => 'Comienza a escribir tu historia...';
+
+  @override
+  String get genericError => 'Ha ocurrido un error inesperado';
+
+  @override
+  String get errorAuthInvalidToken =>
+      'Tu sesión no es válida. Por favor, vuelve a entrar.';
+
+  @override
+  String get errorAuthTokenExpired =>
+      'Tu sesión ha caducado. Por favor, vuelve a entrar.';
+
+  @override
+  String get errorAuthUnauthorized =>
+      'No tienes permisos para realizar esta acción.';
+
+  @override
+  String get errorProfileNotFound =>
+      'No hemos encontrado tu perfil. Contacta con soporte.';
+
+  @override
+  String get errorProfileEmailExists =>
+      'Este correo electrónico ya está en uso.';
+
+  @override
+  String get errorProfileInvalidEmail =>
+      'El correo no tiene un formato válido.';
+
+  @override
+  String get errorProfileInvalidName => 'El nombre no puede estar vacío.';
+
+  @override
+  String get errorProjectNotFound => 'No hemos encontrado este proyecto.';
+
+  @override
+  String get errorProjectInvalidTitle => 'El título del proyecto no es válido.';
+
+  @override
+  String get errorProjectInvalidGenre => 'El género seleccionado no es válido.';
+
+  @override
+  String get errorProjectInvalidWordCount =>
+      'El objetivo de palabras debe ser mayor que cero.';
+
+  @override
+  String get errorChapterNotFound => 'No hemos encontrado este capítulo.';
+
+  @override
+  String get errorValidationFailed =>
+      'Por favor, revisa los datos marcados en rojo.';
+
+  @override
+  String get errorValidationFieldRequired => 'Este campo es obligatorio.';
+
+  @override
+  String get errorInternalError =>
+      'Ha ocurrido un error inesperado. Inténtalo de nuevo más tarde.';
+
+  @override
+  String get errorDataConflict => 'Ya existe un registro con estos datos.';
+
+  @override
+  String get login => 'Entrar';
+
+  @override
+  String get nameLabel => 'Nombre';
+
+  @override
+  String get nameRequirements => 'El nombre no es válido';
+
+  @override
+  String get passwordRequirements => 'La contraseña es muy débil';
+
+  @override
+  String get confirmPasswordLabel => 'Confirmar contraseña';
+
+  @override
+  String get marketingAccept => 'Acepto recibir novedades';
+
+  @override
+  String get createAccount => 'Crear Cuenta';
+
+  @override
+  String get signInEmail => 'O entra con tu email';
+
+  @override
+  String get forgotPasswordTitle => '¿Has olvidado tu contraseña?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Introduce tu email y te enviaremos instrucciones.';
+
+  @override
+  String get recoverButton => 'Recuperar contraseña';
+
+  @override
+  String get emailSentTitle => '¡Correo enviado!';
+
+  @override
+  String get emailSentMessage => 'Revisa tu bandeja de entrada.';
+
+  @override
+  String get backToLogin => 'Volver a entrar';
+
+  @override
+  String get myProjectsTitle => 'Mis Proyectos';
+
+  @override
   String get newProjectTitle => 'Nuevo Proyecto';
-
-  @override
-  String get enterTitle => 'Ingresa el título del proyecto';
-
-  @override
-  String get enterGenre => 'Selecciona un género';
 
   @override
   String get createButton => 'Crear';
@@ -67,136 +225,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get titleLabel => 'Título';
 
   @override
+  String get enterTitle => 'Escribe un título...';
+
+  @override
   String get genreLabel => 'Género';
+
+  @override
+  String get enterGenre => 'Selecciona un género';
 
   @override
   String get synopsisLabel => 'Sinopsis';
 
   @override
-  String get enterSynopsis => 'Escribe una breve sinopsis...';
+  String get enterSynopsis => 'De qué trata...';
 
   @override
-  String get targetWordCountLabel => 'Meta de Palabras';
-
-  @override
-  String get signUp => 'Registrarse';
-
-  @override
-  String get fullName => 'Nombre Completo';
-
-  @override
-  String get confirmPassword => 'Confirmar Contraseña';
-
-  @override
-  String get createAccount => 'Crear Cuenta';
-
-  @override
-  String get alreadyHaveAccount => '¿Ya tienes cuenta?';
-
-  @override
-  String get login => 'Inicia Sesión';
-
-  @override
-  String get nameOfAuthor => 'Nombre del autor';
-
-  @override
-  String get repeatPassword => 'Repetir contraseña';
-
-  @override
-  String get agreeToTerms => 'Acepto los Términos y Condiciones';
-
-  @override
-  String get nameLabel => 'Nombre del autor';
-
-  @override
-  String get emailLabel => 'Correo electrónico';
-
-  @override
-  String get passwordLabel => 'Contraseña';
-
-  @override
-  String get confirmPasswordLabel => 'Repetir contraseña';
-
-  @override
-  String get termsCheckbox => 'Acepto los Términos del Servicio';
-
-  @override
-  String get registerButton => 'Registrarse';
-
-  @override
-  String get alreadyAccount => 'Ya tienes cuenta? Inicia sesión';
-
-  @override
-  String get forgotPasswordTitle => 'Olvidé mi Contraseña';
-
-  @override
-  String get forgotPasswordSubtitle =>
-      'Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña';
-
-  @override
-  String get sendEmailButton => 'Enviar Email';
-
-  @override
-  String get emailSentTitle => '¡Email Enviado!';
-
-  @override
-  String get emailSentMessage =>
-      'Te hemos enviado un email con instrucciones para restablecer tu contraseña. Revisa tu bandeja de entrada.';
-
-  @override
-  String get backToLogin => 'Volver al Login';
-
-  @override
-  String get forgotPassword => '¿Olvidaste tu contraseña?';
-
-  @override
-  String get welcomeBack => 'Bienvenido de Nuevo';
-
-  @override
-  String get signInSubtitle =>
-      'Inicia sesión para continuar tu viaje de escritura';
-
-  @override
-  String get noAccount => '¿No tienes cuenta?';
-
-  @override
-  String get register => 'Regístrate';
-
-  @override
-  String get marketingAccept => 'Quiero recibir novedades y actualizaciones';
-
-  @override
-  String get termsAccept =>
-      'Acepto los Términos del Servicio y la Política de Privacidad';
-
-  @override
-  String get accountCreated => '¡Cuenta creada exitosamente!';
-
-  @override
-  String get mustAcceptTerms => 'Debes aceptar los Términos del Servicio';
-
-  @override
-  String get signInEmail => 'Iniciar sesión con Email';
-
-  @override
-  String get signInApple => 'Iniciar sesión con Apple';
-
-  @override
-  String get signInFacebook => 'Iniciar sesión con Facebook';
-
-  @override
-  String get recoverButton => 'Recuperar';
-
-  @override
-  String get passwordRequirements =>
-      'Mínimo 8 caracteres, con letras y números';
-
-  @override
-  String get nameRequirements => 'Sin caracteres especiales';
-
-  @override
-  String get invalidEmail => 'Formato de email inválido';
-
-  @override
-  String get invalidCredentials => 'Credenciales inválidas';
+  String get targetWordCountLabel => 'Objetivo de palabras';
 }

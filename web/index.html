@@ -68,7 +68,43 @@
 </head>
 
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    // Generamos una versión basada en la fecha actual para romper la caché
+    var serviceWorkerVersion = null;
+    var scriptLoaded = false;
+
+    // Función para cargar el script principal con "cache busting"
+    function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
+      }
+      scriptLoaded = true;
+      var script = document.createElement('script');
+      script.src = 'main.dart.js?v=' + new Date().getTime(); // <--- AQUÍ ESTÁ LA MAGIA
+      script.type = 'application/javascript';
+      document.body.appendChild(script);
+    }
+
+    // Carga inicial
+    window.addEventListener('load', function (ev) {
+      // Descargar el loader de flutter
+      var loader = document.createElement('script');
+      loader.src = "flutter.js?v=" + new Date().getTime(); // <--- TAMBIÉN AQUÍ
+      loader.onload = function () {
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: function (engineInitializer) {
+            engineInitializer.initializeEngine().then(function (appRunner) {
+              appRunner.runApp();
+            });
+          }
+        });
+      };
+      document.body.appendChild(loader);
+    });
+  </script>
 </body>
 
 </html>

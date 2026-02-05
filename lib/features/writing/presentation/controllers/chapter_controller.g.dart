@@ -156,7 +156,7 @@ class _ChaptersProviderElement
   String get projectId => (origin as ChaptersProvider).projectId;
 }
 
-String _$chapterControllerHash() => r'e2d145a45ad7481e0c69b4b3a7c49103b9c737e4';
+String _$chapterControllerHash() => r'212a5ec144228bd06cd32a0e6da5dc929a8ed438';
 
 /// See also [ChapterController].
 @ProviderFor(ChapterController)

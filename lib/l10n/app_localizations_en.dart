@@ -9,52 +9,206 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get signIn => 'Sign In';
-
-  @override
-  String get email => 'Email';
-
-  @override
-  String get password => 'Password';
-
-  @override
-  String get projects => 'Projects';
-
-  @override
-  String get goals => 'Goals';
-
-  @override
-  String get settings => 'Settings';
-
-  @override
   String get createProject => 'Create Project';
 
   @override
-  String get title => 'Title';
+  String get untitledChapter => 'Untitled Chapter';
 
   @override
-  String get genre => 'Genre';
+  String get chapterTitle => 'Chapter Title';
 
   @override
-  String get wordCount => 'Word Count';
+  String get startWriting => 'Start writing your story...';
 
   @override
-  String get myProjectsTitle => 'My Projects';
+  String get done => 'Done';
 
   @override
-  String get noProjectsYet => 'No projects yet. Create your first story!';
+  String get saveSuccess => 'Saved successfully';
+
+  @override
+  String get validationRequired => 'This field is required.';
+
+  @override
+  String get validationError => 'Validation Error';
+
+  @override
+  String get serverError => 'Server Error';
+
+  @override
+  String get networkError => 'No internet connection';
+
+  @override
+  String get loginTitle => 'Welcome Back';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get loginButton => 'Login';
+
+  @override
+  String get googleLogin => 'Continue with Google';
+
+  @override
+  String get appleLogin => 'Continue with Apple';
+
+  @override
+  String get projectsTitle => 'My Projects';
+
+  @override
+  String get newProject => 'New Project';
+
+  @override
+  String lastEdited(String date) {
+    return 'Last edited: $date';
+  }
+
+  @override
+  String get orSplitter => 'or';
+
+  @override
+  String get requiredField => 'Required';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get noAccount => 'Don\'t have an account?';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get invalidEmail => 'Invalid email';
+
+  @override
+  String get heroSubtitle => 'Your story begins here';
 
   @override
   String get searchProjects => 'Search projects...';
 
   @override
+  String get noProjectsYet => 'No projects yet. Start creating one!';
+
+  @override
+  String get defaultChapterTitle => 'Chapter 1';
+
+  @override
+  String get chapterTitleHint => 'Chapter Title...';
+
+  @override
+  String get editorPlaceholder => 'Start writing your story...';
+
+  @override
+  String get genericError => 'Something went wrong';
+
+  @override
+  String get errorAuthInvalidToken => 'Invalid session. Please login again.';
+
+  @override
+  String get errorAuthTokenExpired => 'Session expired. Please login again.';
+
+  @override
+  String get errorAuthUnauthorized =>
+      'You don\'t have permission to perform this action.';
+
+  @override
+  String get errorProfileNotFound =>
+      'Profile not found. Please contact support.';
+
+  @override
+  String get errorProfileEmailExists => 'This email is already in use.';
+
+  @override
+  String get errorProfileInvalidEmail => 'Invalid email format.';
+
+  @override
+  String get errorProfileInvalidName => 'Name cannot be empty.';
+
+  @override
+  String get errorProjectNotFound => 'Project not found.';
+
+  @override
+  String get errorProjectInvalidTitle => 'Invalid project title.';
+
+  @override
+  String get errorProjectInvalidGenre => 'Invalid genre selected.';
+
+  @override
+  String get errorProjectInvalidWordCount =>
+      'Word count target must be greater than zero.';
+
+  @override
+  String get errorChapterNotFound => 'Chapter not found.';
+
+  @override
+  String get errorValidationFailed => 'Please check the data marked in red.';
+
+  @override
+  String get errorValidationFieldRequired => 'This field is required.';
+
+  @override
+  String get errorInternalError =>
+      'An unexpected error occurred. Please try again later.';
+
+  @override
+  String get errorDataConflict => 'A record with this data already exists.';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get nameRequirements => 'Name is invalid';
+
+  @override
+  String get passwordRequirements => 'Password is too weak';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm Password';
+
+  @override
+  String get marketingAccept => 'I accept to receive news';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get signInEmail => 'Or sign in with email';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot Password?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Enter your email and we\'ll send instructions.';
+
+  @override
+  String get recoverButton => 'Recover Password';
+
+  @override
+  String get emailSentTitle => 'Email Sent!';
+
+  @override
+  String get emailSentMessage => 'Check your inbox.';
+
+  @override
+  String get backToLogin => 'Back to Login';
+
+  @override
+  String get myProjectsTitle => 'My Projects';
+
+  @override
   String get newProjectTitle => 'New Project';
-
-  @override
-  String get enterTitle => 'Enter project title';
-
-  @override
-  String get enterGenre => 'Select genre';
 
   @override
   String get createButton => 'Create';
@@ -66,134 +220,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titleLabel => 'Title';
 
   @override
+  String get enterTitle => 'Enter title...';
+
+  @override
   String get genreLabel => 'Genre';
+
+  @override
+  String get enterGenre => 'Select a genre';
 
   @override
   String get synopsisLabel => 'Synopsis';
 
   @override
-  String get enterSynopsis => 'Enter a short synopsis...';
+  String get enterSynopsis => 'What is it about...';
 
   @override
-  String get targetWordCountLabel => 'Target Word Count';
-
-  @override
-  String get signUp => 'Sign Up';
-
-  @override
-  String get fullName => 'Full Name';
-
-  @override
-  String get confirmPassword => 'Confirm Password';
-
-  @override
-  String get createAccount => 'Create Account';
-
-  @override
-  String get alreadyHaveAccount => 'Already have an account?';
-
-  @override
-  String get login => 'Login';
-
-  @override
-  String get nameOfAuthor => 'Name of the author';
-
-  @override
-  String get repeatPassword => 'Repeat password';
-
-  @override
-  String get agreeToTerms => 'I agree to the Terms and Conditions';
-
-  @override
-  String get nameLabel => 'Name of the author';
-
-  @override
-  String get emailLabel => 'Email';
-
-  @override
-  String get passwordLabel => 'Password';
-
-  @override
-  String get confirmPasswordLabel => 'Repeat password';
-
-  @override
-  String get termsCheckbox => 'I agree to the Terms of Service';
-
-  @override
-  String get registerButton => 'Register';
-
-  @override
-  String get alreadyAccount => 'Already have an account? Login';
-
-  @override
-  String get forgotPasswordTitle => 'Forgot Password';
-
-  @override
-  String get forgotPasswordSubtitle =>
-      'Enter your email and we\'ll send you a link to reset your password';
-
-  @override
-  String get sendEmailButton => 'Send Email';
-
-  @override
-  String get emailSentTitle => 'Email Sent!';
-
-  @override
-  String get emailSentMessage =>
-      'We\'ve sent you an email with instructions to reset your password. Please check your inbox.';
-
-  @override
-  String get backToLogin => 'Back to Login';
-
-  @override
-  String get forgotPassword => 'Forgot your password?';
-
-  @override
-  String get welcomeBack => 'Welcome Back';
-
-  @override
-  String get signInSubtitle => 'Sign in to continue your writing journey';
-
-  @override
-  String get noAccount => 'Don\'t have an account?';
-
-  @override
-  String get register => 'Register';
-
-  @override
-  String get marketingAccept => 'I want to receive news and updates';
-
-  @override
-  String get termsAccept => 'I accept the Terms of Service and Privacy Policy';
-
-  @override
-  String get accountCreated => 'Account created successfully!';
-
-  @override
-  String get mustAcceptTerms => 'You must accept the Terms of Service';
-
-  @override
-  String get signInEmail => 'Sign in with Email';
-
-  @override
-  String get signInApple => 'Sign in with Apple';
-
-  @override
-  String get signInFacebook => 'Sign in with Facebook';
-
-  @override
-  String get recoverButton => 'Recover';
-
-  @override
-  String get passwordRequirements =>
-      'Minimum 8 characters, with letters and numbers';
-
-  @override
-  String get nameRequirements => 'No special characters';
-
-  @override
-  String get invalidEmail => 'Invalid email format';
-
-  @override
-  String get invalidCredentials => 'Invalid login credentials';
+  String get targetWordCountLabel => 'Word Count Target';
 }

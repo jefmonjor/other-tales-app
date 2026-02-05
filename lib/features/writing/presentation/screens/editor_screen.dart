@@ -94,7 +94,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
       if (mounted) {
         final error = state.error;
         String errorMessage = error.toString();
-        if (error is Failure) {
+        
         if (error is Failure) {
           if (error is ServerFailure) {
              // 1. Check for Field Errors (RFC 7807)
@@ -108,15 +108,11 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                     if (field == 'title') {
                        setState(() => _titleError = ErrorMessageHelper.getFieldErrorMessage(code, context));
                     }
-                    // Add other fields if needed (e.g. content)
                   }
                 }
-                
-                // If we handled fields, maybe we don't show general snackbar? 
-                // Or we show generic "Please check errors".
                 errorMessage = AppLocalizations.of(context)!.errorValidationFailed;
              }
-             // 2. Check for General Error Code (e.g. PROJECT_NOT_FOUND)
+             // 2. Check for General Error Code
              else if (error.errorType != null) {
                 errorMessage = ErrorMessageHelper.getErrorMessage(error.errorType, context);
              } else {
@@ -174,7 +170,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
             controller: _titleController,
             textAlign: TextAlign.center,
             style: AppTypography.h3.copyWith(fontWeight: FontWeight.bold),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
               hintText: AppLocalizations.of(context)!.chapterTitleHint,
               errorText: _titleError, 

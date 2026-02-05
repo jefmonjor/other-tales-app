@@ -98,377 +98,449 @@ abstract class AppLocalizations {
     Locale('es')
   ];
 
-  /// Sign in button label
-  ///
-  /// In en, this message translates to:
-  /// **'Sign In'**
-  String get signIn;
-
-  /// Email field label
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// Password field label
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get password;
-
-  /// Projects section title
-  ///
-  /// In en, this message translates to:
-  /// **'Projects'**
-  String get projects;
-
-  /// Goals section title
-  ///
-  /// In en, this message translates to:
-  /// **'Goals'**
-  String get goals;
-
-  /// Settings section title
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// Create project button label
+  /// No description provided for @createProject.
   ///
   /// In en, this message translates to:
   /// **'Create Project'**
   String get createProject;
 
-  /// Title field label
+  /// No description provided for @untitledChapter.
   ///
   /// In en, this message translates to:
-  /// **'Title'**
-  String get title;
+  /// **'Untitled Chapter'**
+  String get untitledChapter;
 
-  /// Genre field label
+  /// No description provided for @chapterTitle.
   ///
   /// In en, this message translates to:
-  /// **'Genre'**
-  String get genre;
+  /// **'Chapter Title'**
+  String get chapterTitle;
 
-  /// Word count label
+  /// No description provided for @startWriting.
   ///
   /// In en, this message translates to:
-  /// **'Word Count'**
-  String get wordCount;
+  /// **'Start writing your story...'**
+  String get startWriting;
 
-  /// Projects screen title
+  /// No description provided for @done.
   ///
   /// In en, this message translates to:
-  /// **'My Projects'**
-  String get myProjectsTitle;
+  /// **'Done'**
+  String get done;
 
-  /// Empty state message when no projects exist
+  /// No description provided for @saveSuccess.
   ///
   /// In en, this message translates to:
-  /// **'No projects yet. Create your first story!'**
-  String get noProjectsYet;
+  /// **'Saved successfully'**
+  String get saveSuccess;
 
-  /// Search field placeholder
+  /// No description provided for @validationRequired.
   ///
   /// In en, this message translates to:
-  /// **'Search projects...'**
-  String get searchProjects;
+  /// **'This field is required.'**
+  String get validationRequired;
 
-  /// Title of create project modal
+  /// No description provided for @validationError.
   ///
   /// In en, this message translates to:
-  /// **'New Project'**
-  String get newProjectTitle;
+  /// **'Validation Error'**
+  String get validationError;
 
-  /// Hint for title field
+  /// No description provided for @serverError.
   ///
   /// In en, this message translates to:
-  /// **'Enter project title'**
-  String get enterTitle;
+  /// **'Server Error'**
+  String get serverError;
 
-  /// Hint for genre dropdown
+  /// No description provided for @networkError.
   ///
   /// In en, this message translates to:
-  /// **'Select genre'**
-  String get enterGenre;
+  /// **'No internet connection'**
+  String get networkError;
 
-  /// Label for create button
+  /// No description provided for @loginTitle.
   ///
   /// In en, this message translates to:
-  /// **'Create'**
-  String get createButton;
+  /// **'Welcome Back'**
+  String get loginTitle;
 
-  /// Label for cancel button
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancelButton;
-
-  /// Label for title field
-  ///
-  /// In en, this message translates to:
-  /// **'Title'**
-  String get titleLabel;
-
-  /// Label for genre field
-  ///
-  /// In en, this message translates to:
-  /// **'Genre'**
-  String get genreLabel;
-
-  /// Label for synopsis field
-  ///
-  /// In en, this message translates to:
-  /// **'Synopsis'**
-  String get synopsisLabel;
-
-  /// Hint for synopsis field
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a short synopsis...'**
-  String get enterSynopsis;
-
-  /// Label for target word count field
-  ///
-  /// In en, this message translates to:
-  /// **'Target Word Count'**
-  String get targetWordCountLabel;
-
-  /// Sign Up button/title
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get signUp;
-
-  /// Full Name field label
-  ///
-  /// In en, this message translates to:
-  /// **'Full Name'**
-  String get fullName;
-
-  /// Confirm Password field label
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm Password'**
-  String get confirmPassword;
-
-  /// Create Account button label
-  ///
-  /// In en, this message translates to:
-  /// **'Create Account'**
-  String get createAccount;
-
-  /// Text for existing account prompt
-  ///
-  /// In en, this message translates to:
-  /// **'Already have an account?'**
-  String get alreadyHaveAccount;
-
-  /// Login link text
-  ///
-  /// In en, this message translates to:
-  /// **'Login'**
-  String get login;
-
-  /// Label for author name input
-  ///
-  /// In en, this message translates to:
-  /// **'Name of the author'**
-  String get nameOfAuthor;
-
-  /// Label for repeat password input
-  ///
-  /// In en, this message translates to:
-  /// **'Repeat password'**
-  String get repeatPassword;
-
-  /// Checkbox text for terms
-  ///
-  /// In en, this message translates to:
-  /// **'I agree to the Terms and Conditions'**
-  String get agreeToTerms;
-
-  /// Label for name input
-  ///
-  /// In en, this message translates to:
-  /// **'Name of the author'**
-  String get nameLabel;
-
-  /// Label for email input
+  /// No description provided for @emailLabel.
   ///
   /// In en, this message translates to:
   /// **'Email'**
   String get emailLabel;
 
-  /// Label for password input
+  /// No description provided for @passwordLabel.
   ///
   /// In en, this message translates to:
   /// **'Password'**
   String get passwordLabel;
 
-  /// Label for confirm password input
+  /// No description provided for @loginButton.
   ///
   /// In en, this message translates to:
-  /// **'Repeat password'**
-  String get confirmPasswordLabel;
+  /// **'Login'**
+  String get loginButton;
 
-  /// Checkbox text for terms
+  /// No description provided for @googleLogin.
   ///
   /// In en, this message translates to:
-  /// **'I agree to the Terms of Service'**
-  String get termsCheckbox;
+  /// **'Continue with Google'**
+  String get googleLogin;
 
-  /// Register button label
+  /// No description provided for @appleLogin.
   ///
   /// In en, this message translates to:
-  /// **'Register'**
-  String get registerButton;
+  /// **'Continue with Apple'**
+  String get appleLogin;
 
-  /// Footer text for existing account
+  /// No description provided for @projectsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Already have an account? Login'**
-  String get alreadyAccount;
+  /// **'My Projects'**
+  String get projectsTitle;
 
-  /// Forgot password screen title
+  /// No description provided for @newProject.
   ///
   /// In en, this message translates to:
-  /// **'Forgot Password'**
-  String get forgotPasswordTitle;
+  /// **'New Project'**
+  String get newProject;
 
-  /// Forgot password screen subtitle
+  /// No description provided for @lastEdited.
   ///
   /// In en, this message translates to:
-  /// **'Enter your email and we\'ll send you a link to reset your password'**
-  String get forgotPasswordSubtitle;
+  /// **'Last edited: {date}'**
+  String lastEdited(String date);
 
-  /// Send email button label
+  /// No description provided for @orSplitter.
   ///
   /// In en, this message translates to:
-  /// **'Send Email'**
-  String get sendEmailButton;
+  /// **'or'**
+  String get orSplitter;
 
-  /// Email sent screen title
+  /// No description provided for @requiredField.
   ///
   /// In en, this message translates to:
-  /// **'Email Sent!'**
-  String get emailSentTitle;
+  /// **'Required'**
+  String get requiredField;
 
-  /// Email sent message
+  /// No description provided for @forgotPassword.
   ///
   /// In en, this message translates to:
-  /// **'We\'ve sent you an email with instructions to reset your password. Please check your inbox.'**
-  String get emailSentMessage;
-
-  /// Back to login button
-  ///
-  /// In en, this message translates to:
-  /// **'Back to Login'**
-  String get backToLogin;
-
-  /// Forgot password link text
-  ///
-  /// In en, this message translates to:
-  /// **'Forgot your password?'**
+  /// **'Forgot Password?'**
   String get forgotPassword;
 
-  /// Login screen title
+  /// No description provided for @signIn.
   ///
   /// In en, this message translates to:
-  /// **'Welcome Back'**
-  String get welcomeBack;
+  /// **'Sign In'**
+  String get signIn;
 
-  /// Login screen subtitle
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in to continue your writing journey'**
-  String get signInSubtitle;
-
-  /// No account text
+  /// No description provided for @noAccount.
   ///
   /// In en, this message translates to:
   /// **'Don\'t have an account?'**
   String get noAccount;
 
-  /// Register link text
+  /// No description provided for @register.
   ///
   /// In en, this message translates to:
   /// **'Register'**
   String get register;
 
-  /// Marketing checkbox text
+  /// No description provided for @invalidEmail.
   ///
   /// In en, this message translates to:
-  /// **'I want to receive news and updates'**
-  String get marketingAccept;
-
-  /// Terms checkbox text
-  ///
-  /// In en, this message translates to:
-  /// **'I accept the Terms of Service and Privacy Policy'**
-  String get termsAccept;
-
-  /// Success message after registration
-  ///
-  /// In en, this message translates to:
-  /// **'Account created successfully!'**
-  String get accountCreated;
-
-  /// Error when terms not accepted
-  ///
-  /// In en, this message translates to:
-  /// **'You must accept the Terms of Service'**
-  String get mustAcceptTerms;
-
-  /// Sign in with Email button label
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with Email'**
-  String get signInEmail;
-
-  /// Sign in with Apple button label
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with Apple'**
-  String get signInApple;
-
-  /// Sign in with Facebook button label
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with Facebook'**
-  String get signInFacebook;
-
-  /// Recover password button label
-  ///
-  /// In en, this message translates to:
-  /// **'Recover'**
-  String get recoverButton;
-
-  /// Password validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Minimum 8 characters, with letters and numbers'**
-  String get passwordRequirements;
-
-  /// Name validation error
-  ///
-  /// In en, this message translates to:
-  /// **'No special characters'**
-  String get nameRequirements;
-
-  /// Email validation error
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid email format'**
+  /// **'Invalid email'**
   String get invalidEmail;
 
-  /// Login error
+  /// No description provided for @heroSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Invalid login credentials'**
-  String get invalidCredentials;
+  /// **'Your story begins here'**
+  String get heroSubtitle;
+
+  /// No description provided for @searchProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Search projects...'**
+  String get searchProjects;
+
+  /// No description provided for @noProjectsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No projects yet. Start creating one!'**
+  String get noProjectsYet;
+
+  /// No description provided for @defaultChapterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter 1'**
+  String get defaultChapterTitle;
+
+  /// No description provided for @chapterTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter Title...'**
+  String get chapterTitleHint;
+
+  /// No description provided for @editorPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Start writing your story...'**
+  String get editorPlaceholder;
+
+  /// No description provided for @genericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get genericError;
+
+  /// No description provided for @errorAuthInvalidToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid session. Please login again.'**
+  String get errorAuthInvalidToken;
+
+  /// No description provided for @errorAuthTokenExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired. Please login again.'**
+  String get errorAuthTokenExpired;
+
+  /// No description provided for @errorAuthUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to perform this action.'**
+  String get errorAuthUnauthorized;
+
+  /// No description provided for @errorProfileNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile not found. Please contact support.'**
+  String get errorProfileNotFound;
+
+  /// No description provided for @errorProfileEmailExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already in use.'**
+  String get errorProfileEmailExists;
+
+  /// No description provided for @errorProfileInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email format.'**
+  String get errorProfileInvalidEmail;
+
+  /// No description provided for @errorProfileInvalidName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name cannot be empty.'**
+  String get errorProfileInvalidName;
+
+  /// No description provided for @errorProjectNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Project not found.'**
+  String get errorProjectNotFound;
+
+  /// No description provided for @errorProjectInvalidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid project title.'**
+  String get errorProjectInvalidTitle;
+
+  /// No description provided for @errorProjectInvalidGenre.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid genre selected.'**
+  String get errorProjectInvalidGenre;
+
+  /// No description provided for @errorProjectInvalidWordCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Word count target must be greater than zero.'**
+  String get errorProjectInvalidWordCount;
+
+  /// No description provided for @errorChapterNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter not found.'**
+  String get errorChapterNotFound;
+
+  /// No description provided for @errorValidationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check the data marked in red.'**
+  String get errorValidationFailed;
+
+  /// No description provided for @errorValidationFieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required.'**
+  String get errorValidationFieldRequired;
+
+  /// No description provided for @errorInternalError.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Please try again later.'**
+  String get errorInternalError;
+
+  /// No description provided for @errorDataConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'A record with this data already exists.'**
+  String get errorDataConflict;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// No description provided for @nameRequirements.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is invalid'**
+  String get nameRequirements;
+
+  /// No description provided for @passwordRequirements.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak'**
+  String get passwordRequirements;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @marketingAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'I accept to receive news'**
+  String get marketingAccept;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// No description provided for @signInEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Or sign in with email'**
+  String get signInEmail;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we\'ll send instructions.'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @recoverButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Recover Password'**
+  String get recoverButton;
+
+  /// No description provided for @emailSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Sent!'**
+  String get emailSentTitle;
+
+  /// No description provided for @emailSentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox.'**
+  String get emailSentMessage;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
+
+  /// No description provided for @myProjectsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Projects'**
+  String get myProjectsTitle;
+
+  /// No description provided for @newProjectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Project'**
+  String get newProjectTitle;
+
+  /// No description provided for @createButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get createButton;
+
+  /// No description provided for @cancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelButton;
+
+  /// No description provided for @titleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get titleLabel;
+
+  /// No description provided for @enterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter title...'**
+  String get enterTitle;
+
+  /// No description provided for @genreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Genre'**
+  String get genreLabel;
+
+  /// No description provided for @enterGenre.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a genre'**
+  String get enterGenre;
+
+  /// No description provided for @synopsisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Synopsis'**
+  String get synopsisLabel;
+
+  /// No description provided for @enterSynopsis.
+  ///
+  /// In en, this message translates to:
+  /// **'What is it about...'**
+  String get enterSynopsis;
+
+  /// No description provided for @targetWordCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Word Count Target'**
+  String get targetWordCountLabel;
 }
 
 class _AppLocalizationsDelegate
