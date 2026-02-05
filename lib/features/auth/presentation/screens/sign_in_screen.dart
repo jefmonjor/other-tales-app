@@ -121,18 +121,18 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 onPressed: () => ref.read(loginControllerProvider.notifier).loginWithApple(),
               ),
               
-              const SizedBox(height: 24),
-              const Row(
+              const SizedBox(height: AppSpacing.l),
+              Row(
                 children: [
-                   Expanded(child: Divider()),
+                   const Expanded(child: Divider()),
                    Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text("o", style: TextStyle(color: Colors.grey)), 
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.m),
+                    child: Text(l10n.signInEmail, style: const TextStyle(color: Colors.grey)), 
                    ),
-                   Expanded(child: Divider()),
+                   const Expanded(child: Divider()),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.l),
 
               // Email
               AuthInput(

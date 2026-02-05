@@ -9,8 +9,10 @@ Dio dio(DioRef ref) {
   final dio = Dio(
     BaseOptions(
       baseUrl: 'http://localhost:8080/api/v1', // Adjust based on environment if needed
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      // Increased to 60s to support Cloud Run Cold Starts
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
+      sendTimeout: const Duration(seconds: 60),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
