@@ -156,12 +156,12 @@ class _ChaptersProviderElement
   String get projectId => (origin as ChaptersProvider).projectId;
 }
 
-String _$chapterControllerHash() => r'212a5ec144228bd06cd32a0e6da5dc929a8ed438';
+String _$chapterControllerHash() => r'e77640caa689e1226955f58f2adaa053279b9853';
 
 /// See also [ChapterController].
 @ProviderFor(ChapterController)
-final chapterControllerProvider =
-    AutoDisposeNotifierProvider<ChapterController, AsyncValue<Chapter?>>.internal(
+final chapterControllerProvider = AutoDisposeNotifierProvider<ChapterController,
+    AsyncValue<Chapter?>>.internal(
   ChapterController.new,
   name: r'chapterControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')

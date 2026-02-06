@@ -151,14 +151,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorProjectAccessDenied =>
-      'No tienes acceso a este proyecto.';
+      'No tienes permiso para acceder a este proyecto.';
 
   @override
   String get errorChapterNotFound => 'No hemos encontrado este capítulo.';
 
   @override
   String get errorChapterAccessDenied =>
-      'No tienes acceso a este capítulo.';
+      'No tienes permiso para ver este capítulo.';
 
   @override
   String get errorValidationFailed =>
@@ -169,7 +169,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorValidationFieldInvalid =>
-      'Este campo tiene un formato no válido.';
+      'El valor de este campo no es válido.';
 
   @override
   String get errorInternalError =>
@@ -254,7 +254,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get targetWordCountLabel => 'Objetivo de palabras';
 
-  // New keys
   @override
   String get appName => 'OTHER TALES';
 

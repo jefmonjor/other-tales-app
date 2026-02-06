@@ -147,14 +147,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorProjectAccessDenied =>
-      'You don\'t have access to this project.';
+      'You do not have permission to access this project.';
 
   @override
   String get errorChapterNotFound => 'Chapter not found.';
 
   @override
   String get errorChapterAccessDenied =>
-      'You don\'t have access to this chapter.';
+      'You do not have permission to view this chapter.';
 
   @override
   String get errorValidationFailed => 'Please check the data marked in red.';
@@ -164,7 +164,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorValidationFieldInvalid =>
-      'This field has an invalid format.';
+      'The value of this field is invalid.';
 
   @override
   String get errorInternalError =>
@@ -249,7 +249,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get targetWordCountLabel => 'Word Count Target';
 
-  // New keys
   @override
   String get appName => 'OTHER TALES';
 
@@ -272,8 +271,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordsDoNotMatch => 'Passwords do not match';
 
   @override
-  String get mustAcceptTerms =>
-      'You must accept the terms and privacy policy';
+  String get mustAcceptTerms => 'You must accept the terms and privacy policy';
 
   @override
   String get termsTitle => 'Terms and Conditions';
