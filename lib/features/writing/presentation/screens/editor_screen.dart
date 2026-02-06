@@ -8,11 +8,10 @@ import '../../domain/entities/chapter.dart';
 import '../../../../core/error/failure.dart';
 import 'package:other_tales_app/l10n/app_localizations.dart';
 import '../../../../core/error/error_message_helper.dart';
-// import '../../../../core/components/feedback/app_snackbar.dart'; 
 
 class EditorScreen extends ConsumerStatefulWidget {
   final String projectId;
-  
+
   const EditorScreen({
     super.key,
     required this.projectId,
@@ -35,7 +34,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
     _contentController = TextEditingController();
     _titleController = TextEditingController();
     _focusNode = FocusNode();
-    
+
     // Initial Load
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialData();
@@ -47,7 +46,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
     // We assume we want to edit the FIRST chapter if it exists, or create a new one.
     // In a real app we might pass chapterId as well, but instructions say:
     // "busca si el proyecto ya tiene capítulos... si tiene carga el primero"
-    
+
     // We cannot easily await the provider value here without listening or reading future.
     try {
       final chapters = await ref.read(chaptersProvider(widget.projectId).future);
@@ -57,11 +56,11 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         _contentController.text = chapter.content;
         _titleController.text = chapter.title;
       } else {
-         _titleController.text = AppLocalizations.of(context)!.defaultChapterTitle;
+        _titleController.text = AppLocalizations.of(context)!.defaultChapterTitle;
       }
     } catch (e) {
       // Handle load error silently or show snackbar
-      print("Error loading chapters: $e");
+      debugPrint("Error loading chapters: $e");
     }
   }
 
@@ -84,42 +83,42 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
       title: _titleController.text,
       content: _contentController.text,
     );
-    
+
     // Listen for state changes handled in build(), or check state here ??
     // Riverpod usually recommends checking state or listening.
     // Since saveChapter updates state, let's look at the result.
     final state = ref.read(chapterControllerProvider);
-    
+
     if (state.hasError) {
       if (mounted) {
         final error = state.error;
         String errorMessage = error.toString();
-        
+
         if (error is Failure) {
           if (error is ServerFailure) {
-             // 1. Check for Field Errors (RFC 7807)
-             if (error.fieldErrors != null && error.fieldErrors!.isNotEmpty) {
-                // Manually map known fields
-                for (final err in error.fieldErrors!) {
-                  if (err is Map) {
-                    final field = err['field'];
-                    final code = err['code'];
-                    
-                    if (field == 'title') {
-                       setState(() => _titleError = ErrorMessageHelper.getFieldErrorMessage(code, context));
-                    }
+            // 1. Check for Field Errors (RFC 7807)
+            if (error.fieldErrors != null && error.fieldErrors!.isNotEmpty) {
+              // Manually map known fields
+              for (final err in error.fieldErrors!) {
+                if (err is Map) {
+                  final field = err['field'];
+                  final code = err['code'];
+
+                  if (field == 'title') {
+                    setState(() => _titleError = ErrorMessageHelper.getFieldErrorMessage(code, context));
                   }
                 }
-                errorMessage = AppLocalizations.of(context)!.errorValidationFailed;
-             }
-             // 2. Check for General Error Code
-             else if (error.errorType != null) {
-                errorMessage = ErrorMessageHelper.getErrorMessage(error.errorType, context);
-             } else {
-                errorMessage = error.message;
-             }
+              }
+              errorMessage = AppLocalizations.of(context)!.errorValidationFailed;
+            }
+            // 2. Check for General Error Code
+            else if (error.errorType != null) {
+              errorMessage = ErrorMessageHelper.getErrorMessage(error.errorType, context);
+            } else {
+              errorMessage = error.message;
+            }
           } else {
-             errorMessage = error.message;
+            errorMessage = error.message;
           }
         }
 
@@ -132,11 +131,11 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
       }
     } else if (!state.isLoading) {
       // Success
-        if (mounted) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context)!.saveSuccess),
-            backgroundColor: AppColors.success, // Assuming AppColors.success exists or green
+            backgroundColor: AppColors.success,
           ),
         );
         // Do NOT pop, maybe just stay to continue editing?
@@ -161,7 +160,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: AppColors.textPrimary), 
+          icon: const Icon(Icons.close, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: SizedBox(
@@ -173,7 +172,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: AppLocalizations.of(context)!.chapterTitleHint,
-              errorText: _titleError, 
+              errorText: _titleError,
               isDense: true,
             ),
             onChanged: (_) {
@@ -184,14 +183,14 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         actions: [
           // Done Button
           if (isLoading)
-             Padding(
+            Padding(
               padding: const EdgeInsets.only(right: AppSpacing.m),
               child: Center(
                 child: SizedBox(
-                  width: 24, 
-                  height: 24, 
+                  width: 24,
+                  height: 24,
                   child: CircularProgressIndicator(
-                    strokeWidth: 2.5, 
+                    strokeWidth: 2.5,
                     valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                   ),
                 ),
@@ -222,13 +221,12 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                   focusNode: _focusNode,
                   autofocus: true,
                   maxLines: null, // Grows vertically
-                  // expands: true, // Cannot use expands: true in SingleChildScrollView
-                  style: AppTypography.editorBody, 
+                  style: AppTypography.editorBody,
                   cursorColor: AppColors.primary,
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.editorPlaceholder,
                     hintStyle: AppTypography.editorBody.copyWith(
-                      color: AppColors.textSecondary.withOpacity(0.4)
+                      color: AppColors.textSecondary.withValues(alpha: 0.4),
                     ),
                     border: InputBorder.none,
                     // Extra padding at bottom to avoid keyboard overlap visually if needed

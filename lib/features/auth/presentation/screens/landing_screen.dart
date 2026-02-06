@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:other_tales_app/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../widgets/brand_button.dart';
+import '../../../../core/theme/app_typography.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/components/buttons/primary_button.dart';
 import '../widgets/social_button.dart';
 import '../../../../core/presentation/widgets/web_split_layout.dart';
 
@@ -12,130 +14,111 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. Content Panel (Right Side)
-    // Using ConstrainedBox to limit max width as requested, but WebSplitLayout handles the main split.
-    // The user's code for Mobile used: SafeArea > Center > SingleChildScrollView > ConstrainedBox(maxWidth: 450)
-    // The user's code for Desktop used: Center > ConstrainedBox(maxWidth, 400) > Padding
-    
-    // We'll build the content widget first.
+    final l10n = AppLocalizations.of(context)!;
+
     final content = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Logo & Title
-          const Icon(Icons.auto_stories_rounded, size: 80, color: Color(0xFF1A3A4A)), 
-          const SizedBox(height: 24),
-          const Text(
-            "OTHER TALES",
+          const Icon(Icons.auto_stories_rounded, size: 80, color: AppColors.primary),
+          const SizedBox(height: AppSpacing.l),
+          Text(
+            l10n.appName,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Cinzel',
-              fontSize: 32, 
-              fontWeight: FontWeight.bold, 
-              color: Color(0xFF1A3A4A)
+            style: GoogleFonts.cinzel(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primary,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.s),
           Text(
-            "Tu historia comienza aquí",
+            l10n.heroSubtitle,
             textAlign: TextAlign.center,
-            style: GoogleFonts.nunitoSans(fontSize: 16, color: Colors.grey),
+            style: AppTypography.body.copyWith(
+              color: AppColors.textSecondary,
+            ),
           ),
           const SizedBox(height: 48),
-          
-          // Action Buttons
-          BrandButton(
-            label: AppLocalizations.of(context)!.signInEmail,
+
+          PrimaryButton(
+            label: l10n.signInEmail,
             onPressed: () => context.push('/login'),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.m),
           SocialButton(
-             label: "Continuar con Google",
-             svgPath: 'assets/icons/google_logo.svg',
-             backgroundColor: Colors.white,
-             textColor: const Color(0xFF757575),
-             onPressed: () => context.go('/login'),
+            label: l10n.googleLogin,
+            svgPath: 'assets/icons/google_logo.svg',
+            backgroundColor: AppColors.background,
+            textColor: AppColors.textSecondary,
+            onPressed: () => context.go('/login'),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.s + AppSpacing.xs),
           SocialButton(
-             label: "Continuar con Apple",
-             icon: Icons.apple,
-             backgroundColor: Colors.black,
-             textColor: Colors.white,
-             onPressed: () => context.push('/login'),
+            label: l10n.appleLogin,
+            icon: Icons.apple,
+            backgroundColor: AppColors.textPrimary,
+            textColor: AppColors.background,
+            onPressed: () => context.push('/login'),
           ),
-          
-          const SizedBox(height: 32),
-          
-           // Footer: Register
-           Row(
-             mainAxisAlignment: MainAxisAlignment.center,
-             children: [
-               Text(
-                 "${AppLocalizations.of(context)!.noAccount} ",
-                 style: GoogleFonts.nunitoSans(
-                   color: AppColors.textSecondary,
-                   fontSize: 16,
-                 ),
-               ),
-               GestureDetector(
-                 onTap: () => context.push('/register'),
-                 child: Text(
-                   AppLocalizations.of(context)!.register,
-                   style: GoogleFonts.nunitoSans(
-                     color: const Color(0xFF0B4A78),
-                     fontSize: 16,
-                     fontWeight: FontWeight.bold,
-                   ),
-                 ),
-               ),
-             ],
+
+          const SizedBox(height: AppSpacing.xl),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${l10n.noAccount} ',
+                style: AppTypography.body.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => context.push('/register'),
+                child: Text(
+                  l10n.register,
+                  style: AppTypography.body.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
 
-    // 2. Hero Panel (Left Side) - Only for Desktop
     final heroPanel = Container(
       decoration: const BoxDecoration(
-        color: Color(0xFF1A3A4A),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF0F2027), 
-            Color(0xFF203A43), 
-            Color(0xFF2C5364)
-          ],
-        ),
+        gradient: AppGradients.brand,
       ),
       child: Container(
-        color: Colors.black.withOpacity(0.3), // Overlay
-        child: const Center(
-           child: Text(
-             "Bienvenido a\nOther Tales", 
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold, fontFamily: 'Cinzel'),
-           ),
+        color: Colors.black.withValues(alpha: 0.3),
+        child: Center(
+          child: Text(
+            l10n.welcomeHero,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cinzel(
+              color: AppColors.background,
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );
 
-    // 3. Return Layout
-    // We use WebSplitLayout but we need to ensure the Content is wrapped correctly for Mobile vs Desktop inside the panels.
-    // WebSplitLayout handles the structural split. 
-    // Right panel content needs to be centered and constrained.
-    
     return WebSplitLayout(
-      leftFlex: 5, // 50%
-      rightFlex: 5, // 50%
+      leftFlex: 5,
+      rightFlex: 5,
       leftPanel: heroPanel,
       rightPanel: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         body: Center(
-          child: SingleChildScrollView( 
+          child: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 450),
               child: content,
@@ -146,5 +129,3 @@ class LandingScreen extends StatelessWidget {
     );
   }
 }
-
-
