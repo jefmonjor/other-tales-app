@@ -14,13 +14,11 @@ AuthRepository authRepository(AuthRepositoryRef ref) {
 class AuthRepositoryImpl implements AuthRepository {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  AuthRepositoryImpl();
-
   @override
   Future<Either<Failure, void>> login(String email, String password) async {
     try {
       await _supabase.auth.signInWithPassword(
-        email: email, 
+        email: email,
         password: password,
       );
       return const Right(null);
@@ -33,8 +31,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> register(
-    String name, 
-    String email, 
+    String name,
+    String email,
     String password, {
     required bool marketingAccepted,
     required bool termsAccepted,
@@ -42,7 +40,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       await _supabase.auth.signUp(
-        email: email, 
+        email: email,
         password: password,
         data: {
           'full_name': name,
@@ -52,8 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
           'accepted_at': DateTime.now().toIso8601String(),
         },
       );
-      // Supabase automatically signs in after signup if email confirmation is disabled or if using defaults.
-      
+      // Supabase auto-signs in after signup
       return const Right(null);
     } on AuthException catch (e) {
       return Left(ServerFailure(e.message));
@@ -78,6 +75,18 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> signInWithApple() async {
     try {
       await _supabase.auth.signInWithOAuth(OAuthProvider.apple);
+      return const Right(null);
+    } on AuthException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> resetPassword(String email) async {
+    try {
+      await _supabase.auth.resetPasswordForEmail(email);
       return const Right(null);
     } on AuthException catch (e) {
       return Left(ServerFailure(e.message));

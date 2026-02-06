@@ -4,8 +4,8 @@ import '../../../../core/error/failure.dart';
 abstract class AuthRepository {
   Future<Either<Failure, void>> login(String email, String password);
   Future<Either<Failure, void>> register(
-    String name, 
-    String email, 
+    String name,
+    String email,
     String password, {
     required bool marketingAccepted,
     required bool termsAccepted,
@@ -13,4 +13,5 @@ abstract class AuthRepository {
   });
   Future<Either<Failure, void>> signInWithGoogle();
   Future<Either<Failure, void>> signInWithApple();
+  Future<Either<Failure, void>> resetPassword(String email);
 }

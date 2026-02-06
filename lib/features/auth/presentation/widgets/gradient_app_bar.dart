@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_typography.dart';
 import 'package:go_router/go_router.dart';
 
 class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -25,33 +27,29 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.m),
           child: Row(
             children: [
               if (showBackButton)
                 Padding(
-                  padding: const EdgeInsets.only(right: 16),
+                  padding: const EdgeInsets.only(right: AppSpacing.m),
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     icon: const Icon(
-                      Icons.arrow_back_ios, 
+                      Icons.arrow_back_ios,
                       color: Colors.white,
                       size: 20,
                     ),
-                    onPressed: onBack ?? () {
-                      if (context.canPop()) context.pop();
-                    },
+                    onPressed: onBack ??
+                        () {
+                          if (context.canPop()) context.pop();
+                        },
                   ),
                 ),
               Text(
                 title,
-                style: const TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 24, // H2 equivalent roughly
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
+                style: AppTypography.h2.copyWith(color: Colors.white),
               ),
             ],
           ),

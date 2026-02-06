@@ -23,7 +23,8 @@ class SocialButton extends StatelessWidget {
     required this.onPressed,
     this.iconColor,
     this.isLoading = false,
-  }) : assert(svgPath != null || icon != null, 'Must provide either svgPath or icon');
+  }) : assert(svgPath != null || icon != null,
+            'Must provide either svgPath or icon');
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,10 @@ class SocialButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade300, width: 1),
+        border: Border.all(
+          color: Colors.grey.withValues(alpha: 0.3),
+          width: 1,
+        ),
         boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -51,7 +55,8 @@ class SocialButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: isLoading
-                ? Center(child: OtherTalesSpinner(size: 24, color: textColor))
+                ? Center(
+                    child: OtherTalesSpinner(size: 24, color: textColor))
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

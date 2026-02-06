@@ -7,8 +7,8 @@ class ProjectCard extends StatelessWidget {
   final String title;
   final String? synopsis;
   final String? coverUrl;
-  final String? genre; // New field
-  final int currentWordCount; // New field
+  final String? genre;
+  final int currentWordCount;
   final VoidCallback? onTap;
 
   const ProjectCard({
@@ -40,7 +40,7 @@ class ProjectCard extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.25),
+                    color: Colors.black.withValues(alpha: 0.25),
                     offset: const Offset(2, 6),
                     blurRadius: 7,
                   ),
@@ -49,76 +49,83 @@ class ProjectCard extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               child: Stack(
                 children: [
-                   // Image Placeholder or Actual Image
-                   Positioned.fill(
+                  // Image Placeholder or Actual Image
+                  Positioned.fill(
                     child: _buildCoverImage(),
-                   ),
-                   
-                   // Gradient Overlay for text readability if needed, or style
-                   Positioned.fill(
-                     child: Container(
-                       decoration: const BoxDecoration(
-                         gradient: LinearGradient(
-                           begin: Alignment.topCenter,
-                           end: Alignment.bottomCenter,
-                           colors: [Colors.transparent, Colors.black26],
-                         )
-                       ),
-                     ),
-                   ),
+                  ),
 
-                   // Spine Effect (Left Edge Gradient)
-                   Positioned(
-                     left: 0,
-                     top: 0,
-                     bottom: 0,
-                     width: 12,
-                     child: Container(
-                       decoration: BoxDecoration(
-                         gradient: LinearGradient(
-                           colors: [
-                             Colors.black.withOpacity(0.3),
-                             Colors.transparent,
-                             Colors.black.withOpacity(0.1),
-                           ],
-                           begin: Alignment.centerLeft,
-                           end: Alignment.centerRight,
-                         )
-                       ),
-                     ),
-                   ),
+                  // Gradient Overlay for text readability if needed, or style
+                  Positioned.fill(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black26],
+                        ),
+                      ),
+                    ),
+                  ),
 
-                   // Genre Badge
-                   if (genre != null)
-                     Positioned(
-                       top: 8,
-                       right: 8,
-                       child: Container(
-                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                         decoration: BoxDecoration(
-                           color: Colors.white.withOpacity(0.9),
-                           borderRadius: BorderRadius.circular(12),
-                           boxShadow: const [
-                             BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
-                           ]
-                         ),
-                         child: Text(
-                           genre!.toUpperCase(),
-                           style: AppTypography.caption.copyWith(
-                             fontSize: 10,
-                             fontWeight: FontWeight.bold,
-                             color: AppColors.textPrimary,
-                           ),
-                         ),
-                       ),
-                     ),
+                  // Spine Effect (Left Edge Gradient)
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: 12,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withValues(alpha: 0.3),
+                            Colors.transparent,
+                            Colors.black.withValues(alpha: 0.1),
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Genre Badge
+                  if (genre != null)
+                    Positioned(
+                      top: AppSpacing.s,
+                      right: AppSpacing.s,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.s,
+                          vertical: AppSpacing.xs,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          genre!.toUpperCase(),
+                          style: AppTypography.caption.copyWith(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
           ),
-          
+
           const SizedBox(height: AppSpacing.s),
-          
+
           // Title
           Text(
             title,
@@ -126,9 +133,9 @@ class ProjectCard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          
+
           // Synopsis or Word Count
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           if (synopsis != null && synopsis!.isNotEmpty)
             Text(
               synopsis!,
@@ -139,7 +146,8 @@ class ProjectCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             )
           else
-             Text(
+            // TODO: Use l10n.wordsCount('$currentWordCount') when parameterized key is available
+            Text(
               '$currentWordCount words',
               style: AppTypography.caption.copyWith(
                 color: AppColors.textSecondary,

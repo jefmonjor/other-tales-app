@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../domain/repositories/auth_repository.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 
 part 'login_controller.g.dart';
@@ -7,18 +6,16 @@ part 'login_controller.g.dart';
 @riverpod
 class LoginController extends _$LoginController {
   @override
-  FutureOr<void> build() {
-    // Initial state is null/void, representing idle
-  }
+  FutureOr<void> build() {}
 
   Future<void> login(String email, String password) async {
     state = const AsyncLoading();
     final repository = ref.read(authRepositoryProvider);
     final result = await repository.login(email, password);
 
-    result.fold(
-      (failure) => state = AsyncError(failure.message, StackTrace.current),
-      (success) => state = const AsyncData(null),
+    state = result.fold(
+      (failure) => AsyncError(failure.message, StackTrace.current),
+      (_) => const AsyncData(null),
     );
   }
 
@@ -26,7 +23,7 @@ class LoginController extends _$LoginController {
     state = const AsyncLoading();
     final result = await ref.read(authRepositoryProvider).signInWithGoogle();
     state = result.fold(
-      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (failure) => AsyncError(failure.message, StackTrace.current),
       (_) => const AsyncData(null),
     );
   }
@@ -35,7 +32,7 @@ class LoginController extends _$LoginController {
     state = const AsyncLoading();
     final result = await ref.read(authRepositoryProvider).signInWithApple();
     state = result.fold(
-      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (failure) => AsyncError(failure.message, StackTrace.current),
       (_) => const AsyncData(null),
     );
   }

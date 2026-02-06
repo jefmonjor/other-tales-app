@@ -20,6 +20,14 @@ class ProjectsScreen extends ConsumerStatefulWidget {
 
 class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
   int _currentIndex = 2; // Home Default
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +42,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
           Container(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top + AppSpacing.m,
-              bottom: AppSpacing.l
+              bottom: AppSpacing.l,
             ),
             decoration: const BoxDecoration(
               gradient: AppGradients.brand,
@@ -54,13 +62,13 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                       const CircleAvatar(
                         backgroundColor: Colors.white24,
                         child: Icon(Icons.person, color: Colors.white),
-                      )
+                      ),
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: AppSpacing.l),
-                
+
                 // Search Pill
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppSpacing.m),
@@ -71,13 +79,25 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                       borderRadius: BorderRadius.circular(42), // Pill shape
                     ),
                     child: TextField(
+                      controller: _searchController,
                       style: AppTypography.input,
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value.trim().toLowerCase();
+                        });
+                      },
                       decoration: InputDecoration(
                         hintText: l10n.searchProjects,
-                        hintStyle: AppTypography.input.copyWith(color: AppColors.textSecondary),
-                        prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                        hintStyle: AppTypography.input.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: AppColors.textSecondary,
+                        ),
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 14),
                       ),
                     ),
                   ),
@@ -104,7 +124,9 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                       const SizedBox(height: AppSpacing.m),
                       Text(
                         err.toString(),
-                        style: AppTypography.body.copyWith(color: AppColors.textSecondary),
+                        style: AppTypography.body.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -112,7 +134,16 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                 ),
               ),
               data: (projects) {
-                // Empty state
+                // Filter projects by search query
+                final filteredProjects = _searchQuery.isEmpty
+                    ? projects
+                    : projects
+                        .where((p) => p.title
+                            .toLowerCase()
+                            .contains(_searchQuery))
+                        .toList();
+
+                // Empty state (no projects at all)
                 if (projects.isEmpty) {
                   return Center(
                     child: Padding(
@@ -123,7 +154,8 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                           Icon(
                             Icons.book_outlined,
                             size: 64,
-                            color: AppColors.textSecondary.withOpacity(0.5),
+                            color: AppColors.textSecondary
+                                .withValues(alpha: 0.5),
                           ),
                           const SizedBox(height: AppSpacing.m),
                           Text(
@@ -150,19 +182,48 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                     ),
                   );
                 }
-                
+
+                // No results for search query
+                if (filteredProjects.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(AppSpacing.xl),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.search_off,
+                            size: 64,
+                            color: AppColors.textSecondary
+                                .withValues(alpha: 0.5),
+                          ),
+                          const SizedBox(height: AppSpacing.m),
+                          Text(
+                            l10n.searchProjects,
+                            style: AppTypography.body.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+
                 // Projects grid
                 return GridView.builder(
                   padding: const EdgeInsets.all(AppSpacing.m),
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  gridDelegate:
+                      const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 220, // Adaptive card width
                     childAspectRatio: 0.65, // Adjust for book cover ratio
                     crossAxisSpacing: AppSpacing.m,
                     mainAxisSpacing: AppSpacing.m,
                   ),
-                  itemCount: projects.length,
+                  itemCount: filteredProjects.length,
                   itemBuilder: (context, index) {
-                    final project = projects[index];
+                    final project = filteredProjects[index];
                     return ProjectCard(
                       title: project.title,
                       synopsis: project.synopsis,
@@ -188,13 +249,14 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
           });
         },
       ),
-      floatingActionButton: projectsAsync.valueOrNull?.isNotEmpty == true 
-          ? FloatingActionButton(
-              onPressed: () => CreateProjectModal.show(context),
-              backgroundColor: AppColors.primary,
-              child: const Icon(Icons.add, color: Colors.white),
-            )
-          : null,
+      floatingActionButton:
+          projectsAsync.valueOrNull?.isNotEmpty == true
+              ? FloatingActionButton(
+                  onPressed: () => CreateProjectModal.show(context),
+                  backgroundColor: AppColors.primary,
+                  child: const Icon(Icons.add, color: Colors.white),
+                )
+              : null,
     );
   }
 }

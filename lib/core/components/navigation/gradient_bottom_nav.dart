@@ -12,21 +12,24 @@ class GradientBottomNav extends StatelessWidget {
     required this.onTap,
   });
 
+  /// Only the Home tab (index 2) is currently functional.
+  static const int _activeTabIndex = 2;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       // Floating margins
       margin: const EdgeInsets.symmetric(
         horizontal: AppSpacing.m,
-        vertical: AppSpacing.m, 
-      ), 
+        vertical: AppSpacing.m,
+      ),
       height: 70, // Slightly compact for floating look
       decoration: BoxDecoration(
         gradient: AppGradients.brand,
         borderRadius: BorderRadius.circular(35), // Fully rounded ends
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 5),
             spreadRadius: 2,
@@ -45,14 +48,32 @@ class GradientBottomNav extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(int index, IconData icon, IconData activeIcon, {bool isLarge = false}) {
+  Widget _buildNavItem(
+    int index,
+    IconData icon,
+    IconData activeIcon, {
+    bool isLarge = false,
+  }) {
     final isSelected = currentIndex == index;
-    return IconButton(
-      onPressed: () => onTap(index),
-      icon: Icon(
-        isSelected ? activeIcon : icon,
-        color: Colors.white.withOpacity(isSelected ? 1.0 : 0.7),
-        size: isLarge ? 32 : 24,
+    final isEnabled = index == _activeTabIndex;
+
+    // Non-functional tabs get reduced opacity to indicate they are disabled.
+    final double alpha;
+    if (isEnabled) {
+      alpha = isSelected ? 1.0 : 0.7;
+    } else {
+      alpha = 0.35;
+    }
+
+    return Tooltip(
+      message: isEnabled ? '' : 'Coming soon',
+      child: IconButton(
+        onPressed: isEnabled ? () => onTap(index) : null,
+        icon: Icon(
+          isSelected ? activeIcon : icon,
+          color: Colors.white.withValues(alpha: alpha),
+          size: isLarge ? 32 : 24,
+        ),
       ),
     );
   }

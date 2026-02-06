@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:other_tales_app/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -80,16 +79,16 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
         );
 
         final state = ref.read(createProjectProvider);
-        
+
         if (state.hasError) {
-           throw state.error!;
+          throw state.error!;
         }
 
         // Success
         navigator.pop();
         scaffoldMessenger.showSnackBar(
           SnackBar(
-            content: Text('${l10n.newProjectTitle} ${l10n.createButton}d!'), // Simple success message
+            content: Text('${l10n.newProjectTitle} ${l10n.createButton}d!'),
             backgroundColor: AppColors.success,
           ),
         );
@@ -112,9 +111,12 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.l),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(20)), // Rounded all for desktop, ignore bottom for mobile usually but safe
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+          bottom: Radius.circular(20),
+        ),
       ),
       child: SingleChildScrollView(
         child: Form(
@@ -133,7 +135,7 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
-                    onPressed: () => context.pop(),
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
               ),
@@ -157,7 +159,7 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(
+                  Text(
                     l10n.genreLabel,
                     style: AppTypography.input.copyWith(
                       fontWeight: FontWeight.w600,
@@ -169,12 +171,14 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
                     value: _selectedGenre,
                     decoration: InputDecoration(
                       hintText: l10n.enterGenre,
-                      hintStyle: AppTypography.input.copyWith(color: AppColors.textSecondary),
+                      hintStyle: AppTypography.input.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
                       filled: true,
                       fillColor: AppColors.surfaceInput,
                       contentPadding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.m, 
-                        vertical: AppSpacing.m + 2
+                        horizontal: AppSpacing.m,
+                        vertical: AppSpacing.m + 2,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -203,23 +207,19 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
                 label: l10n.synopsisLabel,
                 hint: l10n.enterSynopsis,
                 controller: _synopsisController,
-                // Multiline would be nice but CustomTextField might not support maxLines param yet. 
-                // Checking CustomTextField source... it delegates to TextFormField so uses default (1).
-                // MVP: Single line is fine or we update CustomTextField. 
-                // Let's stick to single line for now to follow "Strict" rules of using existing components.
               ),
               const SizedBox(height: AppSpacing.m),
-              
-              // Helper method to build simple column for Word Count manually to reuse styles
+
+              // Word Count Field
               CustomTextField(
                 label: l10n.targetWordCountLabel,
                 controller: _wordCountController,
                 keyboardType: TextInputType.number,
                 validator: (value) {
-                   if (value == null || int.tryParse(value) == null) {
-                     return 'Invalid number';
-                   }
-                   return null;
+                  if (value == null || int.tryParse(value) == null) {
+                    return 'Invalid number';
+                  }
+                  return null;
                 },
               ),
               const SizedBox(height: AppSpacing.xl),
@@ -232,10 +232,12 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
               ),
               const SizedBox(height: AppSpacing.s),
               TextButton(
-                onPressed: () => context.pop(),
+                onPressed: () => Navigator.of(context).pop(),
                 child: Text(
                   l10n.cancelButton,
-                  style: AppTypography.button.copyWith(color: AppColors.textSecondary),
+                  style: AppTypography.button.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
             ],

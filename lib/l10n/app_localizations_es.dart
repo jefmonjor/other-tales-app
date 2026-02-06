@@ -241,4 +241,57 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get targetWordCountLabel => 'Objetivo de palabras';
+
+  // New keys
+  @override
+  String get appName => 'OTHER TALES';
+
+  @override
+  String get welcomeHero => 'Bienvenido a\nOther Tales';
+
+  @override
+  String get continueWithGoogle => 'Continuar con Google';
+
+  @override
+  String get continueWithApple => 'Continuar con Apple';
+
+  @override
+  String get registerWithGoogle => 'Regístrate con Google';
+
+  @override
+  String get registerWithApple => 'Regístrate con Apple';
+
+  @override
+  String get passwordsDoNotMatch => 'Las contraseñas no coinciden';
+
+  @override
+  String get mustAcceptTerms =>
+      'Debes aceptar los términos y la política de privacidad';
+
+  @override
+  String get termsTitle => 'Términos y Condiciones';
+
+  @override
+  String get privacyTitle => 'Política de Privacidad';
+
+  @override
+  String get termsAcceptPrefix => 'He leído y acepto los ';
+
+  @override
+  String get termsAcceptAnd => ' y la ';
+
+  @override
+  String get joinAdventure => 'Únete a la aventura';
+
+  @override
+  String get recoverAccess => 'Recupera tu acceso';
+
+  @override
+  String get invalidNumber => 'Número no válido';
+
+  @override
+  String get projectCreatedSuccess => '¡Proyecto creado!';
+
+  @override
+  String get wordsLabel => 'palabras';
 }
