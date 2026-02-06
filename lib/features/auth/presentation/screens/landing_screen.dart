@@ -43,11 +43,14 @@ class LandingScreen extends StatelessWidget {
           ),
           const SizedBox(height: 48),
 
-          PrimaryButton(
-            label: l10n.signInEmail,
+          SocialButton(
+            label: l10n.appleLogin,
+            icon: Icons.apple,
+            backgroundColor: AppColors.textPrimary,
+            textColor: AppColors.background,
             onPressed: () => context.push('/login'),
           ),
-          const SizedBox(height: AppSpacing.m),
+          const SizedBox(height: AppSpacing.s + AppSpacing.xs),
           SocialButton(
             label: l10n.googleLogin,
             svgPath: 'assets/icons/google_logo.svg',
@@ -55,12 +58,27 @@ class LandingScreen extends StatelessWidget {
             textColor: AppColors.textSecondary,
             onPressed: () => context.go('/login'),
           ),
-          const SizedBox(height: AppSpacing.s + AppSpacing.xs),
-          SocialButton(
-            label: l10n.appleLogin,
-            icon: Icons.apple,
-            backgroundColor: AppColors.textPrimary,
-            textColor: AppColors.background,
+
+          const SizedBox(height: AppSpacing.l),
+          Row(
+            children: [
+              const Expanded(child: Divider()),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.m),
+                child: Text(
+                  l10n.orSplitter.toUpperCase(),
+                  style: AppTypography.body.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
+              const Expanded(child: Divider()),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.l),
+
+          PrimaryButton(
+            label: l10n.signInEmail,
             onPressed: () => context.push('/login'),
           ),
 
