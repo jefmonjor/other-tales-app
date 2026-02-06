@@ -6,6 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/components/navigation/gradient_bottom_nav.dart';
+import '../../../auth/presentation/providers/profile_provider.dart';
 import '../widgets/project_card.dart';
 import '../widgets/create_project_modal.dart';
 import '../widgets/project_list_skeleton.dart';
@@ -27,6 +28,37 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Widget _buildProfileAvatar() {
+    final profileAsync = ref.watch(currentProfileProvider);
+    return profileAsync.when(
+      data: (profile) {
+        if (profile.avatarUrl != null && profile.avatarUrl!.startsWith('http')) {
+          return CircleAvatar(
+            backgroundColor: Colors.white24,
+            backgroundImage: NetworkImage(profile.avatarUrl!),
+            onBackgroundImageError: (_, __) {},
+            child: null,
+          );
+        }
+        return CircleAvatar(
+          backgroundColor: Colors.white24,
+          child: Text(
+            profile.initials,
+            style: AppTypography.button.copyWith(color: Colors.white),
+          ),
+        );
+      },
+      loading: () => const CircleAvatar(
+        backgroundColor: Colors.white24,
+        child: Icon(Icons.person, color: Colors.white),
+      ),
+      error: (_, __) => const CircleAvatar(
+        backgroundColor: Colors.white24,
+        child: Icon(Icons.person, color: Colors.white),
+      ),
+    );
   }
 
   @override
@@ -59,10 +91,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                         l10n.myProjectsTitle,
                         style: AppTypography.h1.copyWith(color: Colors.white),
                       ),
-                      const CircleAvatar(
-                        backgroundColor: Colors.white24,
-                        child: Icon(Icons.person, color: Colors.white),
-                      ),
+                      _buildProfileAvatar(),
                     ],
                   ),
                 ),

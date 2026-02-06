@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/network/dio_provider.dart';
 import '../../domain/models/project.dart';
 import '../../domain/repositories/projects_repository.dart';
 import '../models/project_dto.dart';
@@ -10,46 +11,33 @@ part 'projects_repository_impl.g.dart';
 
 @Riverpod(keepAlive: true)
 ProjectsRepository projectsRepository(ProjectsRepositoryRef ref) {
-  return ProjectsRepositoryImpl();
+  return ProjectsRepositoryImpl(ref.watch(dioProvider));
 }
 
 class ProjectsRepositoryImpl implements ProjectsRepository {
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final Dio _dio;
 
-  ProjectsRepositoryImpl();
+  ProjectsRepositoryImpl(this._dio);
 
   @override
   Future<Either<Failure, List<Project>>> getProjects() async {
     try {
-      final response = await _supabase
-          .from('projects')
-          .select()
-          .order('created_at'); // Assumes 'created_at' exists
-      
-      final projects = response.map((json) {
-        // Map Supabase snake_case to DTO/Domain camelCase if needed
-        // Or assume Supabase returns what DTO expects (if DTO was updated)
-        // Since I haven't updated DTO, I'll map manually here to be safe and robust
-        
-        // This is a "best effort" mapping assuming standard Supabase columns vs DTO fields
-        final mappedJson = {
-          'id': json['id'],
-          'title': json['title'],
-          'synopsis': json['synopsis'],
-          'coverUrl': json['cover_url'] ?? json['coverUrl'], 
-          'genre': json['genre'],
-          'currentWordCount': json['current_word_count'] ?? json['currentWordCount'] ?? 0,
-          'targetWordCount': json['target_word_count'] ?? json['targetWordCount'] ?? 50000,
-          'lastModified': json['updated_at'] ?? json['created_at'] ?? DateTime.now().toIso8601String(),
-          'status': json['status'] ?? 'draft',
-        };
+      // Contract: GET /api/v1/projects — paginated response
+      final response = await _dio.get('/projects');
 
-        return ProjectDto.fromJson(mappedJson).toDomain();
-      }).toList();
-      
+      // Backend returns paginated: { content: [...], page, size, totalElements, totalPages }
+      final data = response.data;
+      final List<dynamic> content = data is Map<String, dynamic>
+          ? (data['content'] as List<dynamic>? ?? [])
+          : (data as List<dynamic>);
+
+      final projects = content
+          .map((json) => ProjectDto.fromJson(json).toDomain())
+          .toList();
+
       return Right(projects);
-    } on PostgrestException catch (e) {
-      return Left(ServerFailure(e.message));
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -63,43 +51,23 @@ class ProjectsRepositoryImpl implements ProjectsRepository {
     int? targetWordCount,
   }) async {
     try {
-      // Build the map to insert
-      final projectMap = {
+      // Contract: POST /api/v1/projects
+      // Backend extracts userId from JWT — no need to send it
+      final requestData = <String, dynamic>{
         'title': title,
-        'synopsis': synopsis,
-        'genre': genre,
-        // Supabase usually uses snake_case for columns
-        'target_word_count': targetWordCount ?? 50000,
-        // 'user_id': _supabase.auth.currentUser!.id, // Supabase triggers usually handle this or we send it
-        'user_id': _supabase.auth.currentUser?.id, 
-        'status': 'draft',
       };
+      if (synopsis != null) requestData['synopsis'] = synopsis;
+      if (genre != null) requestData['genre'] = genre;
+      if (targetWordCount != null) requestData['targetWordCount'] = targetWordCount;
 
-      // Remove nulls if wanted, but Supabase handles nulls
-      projectMap.removeWhere((key, value) => value == null);
+      final response = await _dio.post(
+        '/projects',
+        data: requestData,
+      );
 
-      final response = await _supabase
-          .from('projects')
-          .insert(projectMap)
-          .select() // Select to get back the created record (including generated ID)
-          .single();
-      
-      // Map response to domain
-       final mappedJson = {
-          'id': response['id'],
-          'title': response['title'],
-          'synopsis': response['synopsis'],
-          'coverUrl': response['cover_url'],
-          'genre': response['genre'],
-          'currentWordCount': response['current_word_count'] ?? 0,
-          'targetWordCount': response['target_word_count'] ?? 50000,
-          'lastModified': response['updated_at'] ?? response['created_at'],
-          'status': response['status'] ?? 'draft',
-        };
-
-      return Right(ProjectDto.fromJson(mappedJson).toDomain());
-    } on PostgrestException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Right(ProjectDto.fromJson(response.data).toDomain());
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -108,12 +76,34 @@ class ProjectsRepositoryImpl implements ProjectsRepository {
   @override
   Future<Either<Failure, void>> deleteProject(String id) async {
     try {
-      await _supabase.from('projects').delete().eq('id', id);
+      // Contract: DELETE /api/v1/projects/{id} — soft delete, returns 204
+      await _dio.delete('/projects/$id');
       return const Right(null);
-    } on PostgrestException catch (e) {
-      return Left(ServerFailure(e.message));
+    } on DioException catch (e) {
+      return Left(_handleDioError(e));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
+  }
+
+  Failure _handleDioError(DioException e) {
+    if (e.response != null) {
+      final data = e.response!.data;
+      if (data is Map<String, dynamic>) {
+        // RFC 7807 Parsing
+        final String message = data['detail'] ?? data['title'] ?? 'Server Error: ${e.response!.statusCode}';
+        final String? code = data['code'];
+        final List<dynamic>? errors = data['errors'];
+
+        return ServerFailure(
+          message,
+          statusCode: e.response!.statusCode,
+          errorType: code,
+          fieldErrors: errors,
+        );
+      }
+      return ServerFailure('Server Error: ${e.response!.statusCode}', statusCode: e.response!.statusCode);
+    }
+    return const NetworkFailure();
   }
 }

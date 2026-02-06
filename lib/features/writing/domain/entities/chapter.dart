@@ -3,7 +3,8 @@ class Chapter {
   final String projectId;
   final String title;
   final String content;
-  final int orderIndex;
+  final int sortOrder;
+  final int wordCount;
   final DateTime lastModified;
 
   const Chapter({
@@ -11,7 +12,8 @@ class Chapter {
     required this.projectId,
     required this.title,
     required this.content,
-    required this.orderIndex,
+    required this.sortOrder,
+    this.wordCount = 0,
     required this.lastModified,
   });
 }

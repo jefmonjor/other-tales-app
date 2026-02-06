@@ -80,9 +80,12 @@ abstract class AppLocalizations {
   String get errorProjectInvalidTitle;
   String get errorProjectInvalidGenre;
   String get errorProjectInvalidWordCount;
+  String get errorProjectAccessDenied;
   String get errorChapterNotFound;
+  String get errorChapterAccessDenied;
   String get errorValidationFailed;
   String get errorValidationFieldRequired;
+  String get errorValidationFieldInvalid;
   String get errorInternalError;
   String get errorDataConflict;
   String get login;

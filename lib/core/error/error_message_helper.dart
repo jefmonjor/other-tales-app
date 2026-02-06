@@ -19,9 +19,12 @@ class ErrorMessageHelper {
       case 'PROJECT_INVALID_TITLE': return l10n.errorProjectInvalidTitle;
       case 'PROJECT_INVALID_GENRE': return l10n.errorProjectInvalidGenre;
       case 'PROJECT_INVALID_WORD_COUNT': return l10n.errorProjectInvalidWordCount;
+      case 'PROJECT_ACCESS_DENIED': return l10n.errorProjectAccessDenied;
       case 'CHAPTER_NOT_FOUND': return l10n.errorChapterNotFound;
+      case 'CHAPTER_ACCESS_DENIED': return l10n.errorChapterAccessDenied;
       case 'VALIDATION_FAILED': return l10n.errorValidationFailed;
       case 'VALIDATION_FIELD_REQUIRED': return l10n.errorValidationFieldRequired;
+      case 'VALIDATION_FIELD_INVALID': return l10n.errorValidationFieldInvalid;
       case 'DATA_CONFLICT': return l10n.errorDataConflict;
       case 'INTERNAL_ERROR': return l10n.errorInternalError;
       default:

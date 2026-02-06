@@ -18,7 +18,7 @@ Future<List<Chapter>> chapters(ChaptersRef ref, String projectId) async {
 @riverpod
 class ChapterController extends _$ChapterController {
   @override
-  AsyncValue<void> build() {
+  AsyncValue<Chapter?> build() {
     return const AsyncValue.data(null);
   }
 
@@ -42,8 +42,8 @@ class ChapterController extends _$ChapterController {
       (failure) {
         state = AsyncValue.error(failure, StackTrace.current);
       },
-      (success) {
-        state = const AsyncValue.data(null);
+      (savedChapter) {
+        state = AsyncValue.data(savedChapter);
         // Refresh the list of chapters for this project
         ref.invalidate(chaptersProvider(projectId));
       },

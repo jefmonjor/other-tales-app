@@ -1,24 +1,53 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/chapter.dart';
 
-part 'chapter_dto.freezed.dart';
-part 'chapter_dto.g.dart';
+/// DTO for Chapter data from the Backend API.
+/// Backend sends camelCase JSON (Spring Boot default).
+class ChapterDto {
+  final String id;
+  final String projectId;
+  final String title;
+  final String content;
+  final int sortOrder;
+  final int wordCount;
+  final String createdAt;
+  final String updatedAt;
 
-@freezed
-class ChapterDto with _$ChapterDto {
-  const ChapterDto._();
+  const ChapterDto({
+    required this.id,
+    required this.projectId,
+    required this.title,
+    required this.content,
+    this.sortOrder = 0,
+    this.wordCount = 0,
+    this.createdAt = '',
+    this.updatedAt = '',
+  });
 
-  @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory ChapterDto({
-    required String id,
-    required String projectId,
-    required String title,
-    required String content,
-    @Default(0) int orderIndex,
-    @Default('') String updatedAt,
-  }) = _ChapterDto;
+  factory ChapterDto.fromJson(Map<String, dynamic> json) {
+    return ChapterDto(
+      id: json['id'] as String,
+      projectId: json['projectId'] as String,
+      title: json['title'] as String,
+      content: json['content'] as String? ?? '',
+      sortOrder: json['sortOrder'] as int? ?? 0,
+      wordCount: json['wordCount'] as int? ?? 0,
+      createdAt: json['createdAt'] as String? ?? '',
+      updatedAt: json['updatedAt'] as String? ?? '',
+    );
+  }
 
-  factory ChapterDto.fromJson(Map<String, dynamic> json) => _$ChapterDtoFromJson(json);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'projectId': projectId,
+      'title': title,
+      'content': content,
+      'sortOrder': sortOrder,
+      'wordCount': wordCount,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+    };
+  }
 
   Chapter toDomain() {
     return Chapter(
@@ -26,7 +55,8 @@ class ChapterDto with _$ChapterDto {
       projectId: projectId,
       title: title,
       content: content,
-      orderIndex: orderIndex,
+      sortOrder: sortOrder,
+      wordCount: wordCount,
       lastModified: DateTime.tryParse(updatedAt) ?? DateTime.now(),
     );
   }

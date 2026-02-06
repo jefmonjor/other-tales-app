@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -130,7 +131,12 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         );
       }
     } else if (!state.isLoading) {
-      // Success
+      // Success — capture the returned chapter ID for subsequent saves
+      final savedChapter = state.value;
+      if (savedChapter != null && _currentChapterId == null) {
+        _currentChapterId = savedChapter.id;
+      }
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -138,12 +144,6 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
             backgroundColor: AppColors.success,
           ),
         );
-        // Do NOT pop, maybe just stay to continue editing?
-        // Instructions: "Mostrar SnackBar ... y cerrar teclado." (Done unFocus)
-        // Didn't explicitly say "Close screen". usually "Done" implies close.
-        // "Al pulsar... Si éxito... cerrar teclado". Doesn't say close screen.
-        // But "Done" usually means finish.
-        // Let's assume just close keyboard based on text.
       }
     }
   }
@@ -168,13 +168,18 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
           child: TextField(
             controller: _titleController,
             textAlign: TextAlign.center,
+            maxLength: 255,
             style: AppTypography.h3.copyWith(fontWeight: FontWeight.bold),
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: AppLocalizations.of(context)!.chapterTitleHint,
               errorText: _titleError,
               isDense: true,
+              counterText: '',
             ),
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(255),
+            ],
             onChanged: (_) {
               if (_titleError != null) setState(() => _titleError = null);
             },

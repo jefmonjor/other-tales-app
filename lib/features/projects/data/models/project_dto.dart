@@ -1,7 +1,9 @@
 import '../../domain/models/project.dart';
 
 /// DTO for Project data from the Backend API.
-/// Maps JSON to domain Project model.
+/// Backend sends camelCase JSON (Spring Boot default).
+/// Response fields: id, title, synopsis?, genre?, currentWordCount,
+/// targetWordCount, coverUrl?, status, createdAt, updatedAt.
 class ProjectDto {
   final String id;
   final String title;
@@ -10,7 +12,8 @@ class ProjectDto {
   final String? genre;
   final int currentWordCount;
   final int targetWordCount;
-  final DateTime lastModified;
+  final String? createdAt;
+  final String updatedAt;
   final String status;
 
   const ProjectDto({
@@ -21,8 +24,9 @@ class ProjectDto {
     this.genre,
     this.currentWordCount = 0,
     this.targetWordCount = 50000,
-    required this.lastModified,
-    this.status = 'draft',
+    this.createdAt,
+    required this.updatedAt,
+    this.status = 'DRAFT',
   });
 
   factory ProjectDto.fromJson(Map<String, dynamic> json) {
@@ -34,22 +38,19 @@ class ProjectDto {
       genre: json['genre'] as String?,
       currentWordCount: json['currentWordCount'] as int? ?? 0,
       targetWordCount: json['targetWordCount'] as int? ?? 50000,
-      lastModified: DateTime.parse(json['lastModified'] as String),
-      status: json['status'] as String? ?? 'draft',
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String? ?? DateTime.now().toIso8601String(),
+      status: json['status'] as String? ?? 'DRAFT',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'title': title,
-      'synopsis': synopsis,
-      'coverUrl': coverUrl,
-      'genre': genre,
-      'currentWordCount': currentWordCount,
+      if (synopsis != null) 'synopsis': synopsis,
+      if (coverUrl != null) 'coverUrl': coverUrl,
+      if (genre != null) 'genre': genre,
       'targetWordCount': targetWordCount,
-      'lastModified': lastModified.toIso8601String(),
-      'status': status,
     };
   }
 
@@ -63,16 +64,16 @@ class ProjectDto {
       genre: genre,
       currentWordCount: currentWordCount,
       targetWordCount: targetWordCount,
-      lastModified: lastModified,
+      lastModified: DateTime.tryParse(updatedAt) ?? DateTime.now(),
       status: _parseStatus(status),
     );
   }
 
   static ProjectStatus _parseStatus(String status) {
-    switch (status.toLowerCase()) {
-      case 'published':
+    switch (status.toUpperCase()) {
+      case 'PUBLISHED':
         return ProjectStatus.published;
-      case 'archived':
+      case 'ARCHIVED':
         return ProjectStatus.archived;
       default:
         return ProjectStatus.draft;
