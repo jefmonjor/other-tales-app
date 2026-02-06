@@ -82,21 +82,21 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           children: [
             // Social Login
             SocialButton(
-              label: l10n.googleLogin,
-              svgPath: 'assets/icons/google_logo.svg',
-              backgroundColor: AppColors.background,
-              textColor: AppColors.textSecondary,
-              isLoading: loginState.isLoading,
-              onPressed: () => ref.read(loginControllerProvider.notifier).loginWithGoogle(),
-            ),
-            const SizedBox(height: AppSpacing.s + AppSpacing.xs),
-            SocialButton(
               label: l10n.appleLogin,
               icon: Icons.apple,
               backgroundColor: AppColors.textPrimary,
               textColor: AppColors.background,
               isLoading: loginState.isLoading,
               onPressed: () => ref.read(loginControllerProvider.notifier).loginWithApple(),
+            ),
+            const SizedBox(height: AppSpacing.s + AppSpacing.xs),
+            SocialButton(
+              label: l10n.googleLogin,
+              svgPath: 'assets/icons/google_logo.svg',
+              backgroundColor: AppColors.background,
+              textColor: AppColors.textSecondary,
+              isLoading: loginState.isLoading,
+              onPressed: () => ref.read(loginControllerProvider.notifier).loginWithGoogle(),
             ),
 
             SizedBox(height: AppSpacing.l),
@@ -106,7 +106,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSpacing.m),
                   child: Text(
-                    l10n.signInEmail,
+                    l10n.orSplitter.toUpperCase(),
                     style: AppTypography.body.copyWith(
                       color: AppColors.textSecondary,
                     ),
