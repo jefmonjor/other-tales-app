@@ -161,7 +161,7 @@ String _$chapterControllerHash() => r'212a5ec144228bd06cd32a0e6da5dc929a8ed438';
 /// See also [ChapterController].
 @ProviderFor(ChapterController)
 final chapterControllerProvider =
-    AutoDisposeNotifierProvider<ChapterController, AsyncValue<void>>.internal(
+    AutoDisposeNotifierProvider<ChapterController, AsyncValue<Chapter?>>.internal(
   ChapterController.new,
   name: r'chapterControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -171,6 +171,6 @@ final chapterControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ChapterController = AutoDisposeNotifier<AsyncValue<void>>;
+typedef _$ChapterController = AutoDisposeNotifier<AsyncValue<Chapter?>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

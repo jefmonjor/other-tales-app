@@ -55,13 +55,13 @@ class ChapterRepositoryImpl implements ChapterRepository {
 
       Response response;
       if (chapterId != null) {
-        // Update
+        // Update — contract: PUT /api/v1/chapters/{chapterId}
         response = await _dio.put(
-          '/projects/$projectId/chapters/$chapterId',
+          '/chapters/$chapterId',
           data: data,
         );
       } else {
-        // Create
+        // Create — contract: POST /api/v1/projects/{projectId}/chapters
         response = await _dio.post(
           '/projects/$projectId/chapters',
           data: data,

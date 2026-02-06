@@ -146,13 +146,25 @@ class AppLocalizationsEn extends AppLocalizations {
       'Word count target must be greater than zero.';
 
   @override
+  String get errorProjectAccessDenied =>
+      'You don\'t have access to this project.';
+
+  @override
   String get errorChapterNotFound => 'Chapter not found.';
+
+  @override
+  String get errorChapterAccessDenied =>
+      'You don\'t have access to this chapter.';
 
   @override
   String get errorValidationFailed => 'Please check the data marked in red.';
 
   @override
   String get errorValidationFieldRequired => 'This field is required.';
+
+  @override
+  String get errorValidationFieldInvalid =>
+      'This field has an invalid format.';
 
   @override
   String get errorInternalError =>

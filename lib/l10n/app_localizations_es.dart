@@ -150,7 +150,15 @@ class AppLocalizationsEs extends AppLocalizations {
       'El objetivo de palabras debe ser mayor que cero.';
 
   @override
+  String get errorProjectAccessDenied =>
+      'No tienes acceso a este proyecto.';
+
+  @override
   String get errorChapterNotFound => 'No hemos encontrado este capítulo.';
+
+  @override
+  String get errorChapterAccessDenied =>
+      'No tienes acceso a este capítulo.';
 
   @override
   String get errorValidationFailed =>
@@ -158,6 +166,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorValidationFieldRequired => 'Este campo es obligatorio.';
+
+  @override
+  String get errorValidationFieldInvalid =>
+      'Este campo tiene un formato no válido.';
 
   @override
   String get errorInternalError =>

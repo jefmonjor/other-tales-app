@@ -141,11 +141,12 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
               ),
               const SizedBox(height: AppSpacing.m),
 
-              // Title Field
+              // Title Field — backend limit: 255 chars
               CustomTextField(
                 label: l10n.titleLabel,
                 hint: l10n.enterTitle,
                 controller: _titleController,
+                maxLength: 255,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return l10n.enterTitle;
@@ -202,22 +203,27 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
               ),
               const SizedBox(height: AppSpacing.m),
 
-              // Synopsis Field
+              // Synopsis Field — backend limit: 2000 chars
               CustomTextField(
                 label: l10n.synopsisLabel,
                 hint: l10n.enterSynopsis,
                 controller: _synopsisController,
+                maxLength: 2000,
               ),
               const SizedBox(height: AppSpacing.m),
 
-              // Word Count Field
+              // Word Count Field — backend requires min 1
               CustomTextField(
                 label: l10n.targetWordCountLabel,
                 controller: _wordCountController,
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || int.tryParse(value) == null) {
-                    return 'Invalid number';
+                    return l10n.invalidNumber;
+                  }
+                  final parsed = int.parse(value);
+                  if (parsed < 1) {
+                    return l10n.errorProjectInvalidWordCount;
                   }
                   return null;
                 },
