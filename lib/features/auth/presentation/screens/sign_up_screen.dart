@@ -38,12 +38,26 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   bool _acceptTerms = false;
   bool _acceptPrivacy = false;
 
+  late final TapGestureRecognizer _termsRecognizer;
+  late final TapGestureRecognizer _privacyRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+    _termsRecognizer = TapGestureRecognizer()
+      ..onTap = () => _showTerms(context);
+    _privacyRecognizer = TapGestureRecognizer()
+      ..onTap = () => _showPrivacy(context);
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _termsRecognizer.dispose();
+    _privacyRecognizer.dispose();
     super.dispose();
   }
 
@@ -268,7 +282,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             fontWeight: FontWeight.bold,
                             color: AppColors.primary,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = () => _showTerms(context),
+                          recognizer: _termsRecognizer,
                         ),
                         TextSpan(text: l10n.termsAcceptAnd),
                         TextSpan(
@@ -277,7 +291,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             fontWeight: FontWeight.bold,
                             color: AppColors.primary,
                           ),
-                          recognizer: TapGestureRecognizer()..onTap = () => _showPrivacy(context),
+                          recognizer: _privacyRecognizer,
                         ),
                         const TextSpan(text: '.'),
                       ],

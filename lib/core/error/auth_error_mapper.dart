@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class AuthErrorMapper {
   static String getFriendlyMessage(Object error, String localeCode) {
     final String rawMessage = error.toString().toLowerCase();

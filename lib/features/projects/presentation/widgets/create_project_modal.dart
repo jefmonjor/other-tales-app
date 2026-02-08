@@ -88,7 +88,7 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
         navigator.pop();
         scaffoldMessenger.showSnackBar(
           SnackBar(
-            content: Text('${l10n.newProjectTitle} ${l10n.createButton}d!'),
+            content: Text(l10n.projectCreatedSuccess),
             backgroundColor: AppColors.success,
           ),
         );
