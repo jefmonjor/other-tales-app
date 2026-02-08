@@ -196,7 +196,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                   height: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
                   ),
                 ),
               ),

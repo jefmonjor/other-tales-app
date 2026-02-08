@@ -99,12 +99,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               onPressed: () => ref.read(loginControllerProvider.notifier).loginWithGoogle(),
             ),
 
-            SizedBox(height: AppSpacing.l),
+            const SizedBox(height: AppSpacing.l),
             Row(
               children: [
                 const Expanded(child: Divider()),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSpacing.m),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.m),
                   child: Text(
                     l10n.orSplitter.toUpperCase(),
                     style: AppTypography.body.copyWith(
@@ -115,7 +115,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 const Expanded(child: Divider()),
               ],
             ),
-            SizedBox(height: AppSpacing.l),
+            const SizedBox(height: AppSpacing.l),
 
             // Email
             CustomTextField(
