@@ -1,13 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../core/network/dio_provider.dart';
+import '../../data/repositories/profile_repository_impl.dart';
 import '../../data/models/profile_model.dart';
 
 part 'profile_provider.g.dart';
 
 @riverpod
 Future<ProfileModel> currentProfile(CurrentProfileRef ref) async {
-  final dio = ref.watch(dioProvider);
-  final response = await dio.get('/profiles/me');
-  return ProfileModel.fromJson(response.data);
+  final repository = ref.watch(profileRepositoryProvider);
+  final result = await repository.getProfile();
+  return result.fold(
+    (failure) => throw Exception(failure.message),
+    (profile) => profile,
+  );
 }

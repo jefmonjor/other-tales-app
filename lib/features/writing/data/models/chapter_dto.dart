@@ -36,17 +36,18 @@ class ChapterDto {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'projectId': projectId,
+  /// Serializes only request-relevant fields for create/update API calls.
+  /// Server-managed fields (id, projectId, wordCount, createdAt, updatedAt)
+  /// are excluded.
+  Map<String, dynamic> toJson({bool includeSortOrder = false}) {
+    final map = <String, dynamic>{
       'title': title,
       'content': content,
-      'sortOrder': sortOrder,
-      'wordCount': wordCount,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
     };
+    if (includeSortOrder) {
+      map['sortOrder'] = sortOrder;
+    }
+    return map;
   }
 
   Chapter toDomain() {

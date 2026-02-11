@@ -51,16 +51,14 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
   final _titleController = TextEditingController();
   final _synopsisController = TextEditingController();
   final _wordCountController = TextEditingController(text: '50000');
-  String? _selectedGenre;
-
-  // Hardcoded for MVP, could be from config/backend
-  final _genres = ['Thriller', 'Sci-Fi', 'Romance', 'Fantasy', 'Mystery', 'Horror'];
+  final _genreController = TextEditingController();
 
   @override
   void dispose() {
     _titleController.dispose();
     _synopsisController.dispose();
     _wordCountController.dispose();
+    _genreController.dispose();
     super.dispose();
   }
 

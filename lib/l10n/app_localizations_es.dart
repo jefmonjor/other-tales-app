@@ -305,4 +305,61 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get wordsLabel => 'palabras';
+
+  @override
+  String get logout => 'Cerrar sesión';
+
+  @override
+  String get logoutConfirm => '¿Seguro que quieres cerrar sesión?';
+
+  @override
+  String get editProject => 'Editar Proyecto';
+
+  @override
+  String get deleteProject => 'Eliminar';
+
+  @override
+  String get deleteConfirm => '¿Estás seguro? Esta acción no se puede deshacer.';
+
+  @override
+  String get projectUpdatedSuccess => '¡Proyecto actualizado!';
+
+  @override
+  String get projectDeletedSuccess => '¡Proyecto eliminado!';
+
+  @override
+  String get chapters => 'Capítulos';
+
+  @override
+  String get addChapter => 'Añadir Capítulo';
+
+  @override
+  String get deleteChapter => 'Eliminar Capítulo';
+
+  @override
+  String get deleteChapterConfirm => 'Este capítulo se eliminará permanentemente.';
+
+  @override
+  String get chapterDeletedSuccess => '¡Capítulo eliminado!';
+
+  @override
+  String get noChaptersYet => 'Aún no hay capítulos. ¡Crea el primero!';
+
+  @override
+  String get confirm => 'Confirmar';
+
+  @override
+  String get save => 'Guardar';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get delete => 'Eliminar';
+
+  @override
+  String get optionalField => 'Opcional';
+
+  @override
+  String get consentRecorded => 'Preferencias guardadas';
 }
