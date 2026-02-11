@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppGradients {
-  static const LinearGradient primary = LinearGradient(
+  static const LinearGradient brand = LinearGradient(
     colors: [
       Color(0xFF0B4A78), // Brand Blue
       Color(0xFF0B785E), // Brand Teal
