@@ -47,7 +47,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, void>> updateConsent({required String consentType, required bool granted}) async {
     try {
-      await _dio.put('/profiles/me/consent', data: {
+      await _dio.post('/user/consent', data: {
         'consentType': consentType,
         'granted': granted,
       });
@@ -63,7 +63,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     if (e.response != null) {
       final data = e.response!.data;
       if (data is Map<String, dynamic>) {
-        final String message = data['detail'] ?? data['title'] ?? 'Server Error: ${e.response!.statusCode}';
+        final String message = data['title'] ?? data['detail'] ?? 'Server Error: ${e.response!.statusCode}';
         final String? code = data['code'];
         final List<dynamic>? errors = data['errors'];
         return ServerFailure(message, statusCode: e.response!.statusCode, errorType: code, fieldErrors: errors);

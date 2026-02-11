@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:other_tales_app/l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -10,6 +11,7 @@ class ProjectCard extends StatelessWidget {
   final String? genre;
   final int currentWordCount;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const ProjectCard({
     super.key,
@@ -19,12 +21,14 @@ class ProjectCard extends StatelessWidget {
     this.genre,
     this.currentWordCount = 0,
     this.onTap,
+    this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -146,9 +150,8 @@ class ProjectCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             )
           else
-            // TODO: Use l10n.wordsCount('$currentWordCount') when parameterized key is available
             Text(
-              '$currentWordCount words',
+              '$currentWordCount ${AppLocalizations.of(context)!.wordsLabel}',
               style: AppTypography.caption.copyWith(
                 color: AppColors.textSecondary,
                 fontStyle: FontStyle.italic,

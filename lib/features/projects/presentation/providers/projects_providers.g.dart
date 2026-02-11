@@ -44,5 +44,42 @@ final createProjectProvider =
 );
 
 typedef _$CreateProject = AutoDisposeAsyncNotifier<Project?>;
+String _$updateProjectHash() => r'update_project_provider';
+
+/// Provider for updating an existing project.
+/// Returns the updated project on success.
+///
+/// Copied from [UpdateProject].
+@ProviderFor(UpdateProject)
+final updateProjectProvider =
+    AutoDisposeAsyncNotifierProvider<UpdateProject, Project?>.internal(
+  UpdateProject.new,
+  name: r'updateProjectProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$updateProjectHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$UpdateProject = AutoDisposeAsyncNotifier<Project?>;
+String _$deleteProjectHash() => r'delete_project_provider';
+
+/// Provider for deleting a project.
+///
+/// Copied from [DeleteProject].
+@ProviderFor(DeleteProject)
+final deleteProjectProvider =
+    AutoDisposeAsyncNotifierProvider<DeleteProject, void>.internal(
+  DeleteProject.new,
+  name: r'deleteProjectProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$deleteProjectHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$DeleteProject = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

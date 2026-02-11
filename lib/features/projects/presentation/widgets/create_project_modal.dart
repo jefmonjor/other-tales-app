@@ -52,6 +52,22 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
   final _synopsisController = TextEditingController();
   final _wordCountController = TextEditingController(text: '50000');
   final _genreController = TextEditingController();
+  String? _selectedGenre;
+
+  static const _genres = [
+    'Fantasy',
+    'Science Fiction',
+    'Romance',
+    'Mystery',
+    'Thriller',
+    'Horror',
+    'Historical',
+    'Literary Fiction',
+    'Adventure',
+    'Drama',
+    'Poetry',
+    'Non-Fiction',
+  ];
 
   @override
   void dispose() {
@@ -195,7 +211,7 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
                         _selectedGenre = value;
                       });
                     },
-                    validator: (value) => value == null ? l10n.enterGenre : null,
+                    // Genre is optional per backend contract
                   ),
                 ],
               ),

@@ -22,6 +22,21 @@ class ChapterController extends _$ChapterController {
     return const AsyncValue.data(null);
   }
 
+  Future<void> deleteChapter(String chapterId, String projectId) async {
+    state = const AsyncValue.loading();
+    final repository = ref.read(chapterRepositoryProvider);
+    final result = await repository.deleteChapter(chapterId);
+    result.fold(
+      (failure) {
+        state = AsyncValue.error(failure, StackTrace.current);
+      },
+      (_) {
+        state = const AsyncValue.data(null);
+        ref.invalidate(chaptersProvider(projectId));
+      },
+    );
+  }
+
   Future<void> saveChapter({
     required String projectId,
     String? chapterId,

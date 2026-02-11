@@ -24,7 +24,7 @@ Future<List<Project>> projectsList(ProjectsListRef ref) async {
 class CreateProject extends _$CreateProject {
   @override
   FutureOr<Project?> build() => null;
-  
+
   Future<void> create({
     required String title,
     String? synopsis,
@@ -32,7 +32,7 @@ class CreateProject extends _$CreateProject {
     int? targetWordCount,
   }) async {
     state = const AsyncLoading();
-    
+
     final repository = ref.read(projectsRepositoryProvider);
     final result = await repository.createProject(
       title: title,
@@ -40,13 +40,66 @@ class CreateProject extends _$CreateProject {
       genre: genre,
       targetWordCount: targetWordCount,
     );
-    
+
     state = result.fold(
       (failure) => AsyncError(Exception(failure.message), StackTrace.current),
       (project) {
         // Invalidate the projects list to refresh
         ref.invalidate(projectsListProvider);
         return AsyncData(project);
+      },
+    );
+  }
+}
+
+/// Provider for updating an existing project.
+/// Returns the updated project on success.
+@riverpod
+class UpdateProject extends _$UpdateProject {
+  @override
+  FutureOr<Project?> build() => null;
+
+  Future<void> update({
+    required String id,
+    String? title,
+    String? synopsis,
+    String? genre,
+    int? targetWordCount,
+  }) async {
+    state = const AsyncLoading();
+    final repository = ref.read(projectsRepositoryProvider);
+    final result = await repository.updateProject(
+      id,
+      title: title,
+      synopsis: synopsis,
+      genre: genre,
+      targetWordCount: targetWordCount,
+    );
+    state = result.fold(
+      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (project) {
+        ref.invalidate(projectsListProvider);
+        return AsyncData(project);
+      },
+    );
+  }
+}
+
+/// Provider for deleting a project.
+@riverpod
+class DeleteProject extends _$DeleteProject {
+  @override
+  FutureOr<void> build() {}
+
+  Future<void> delete(String id) async {
+    state = const AsyncLoading();
+    final repository = ref.read(projectsRepositoryProvider);
+    final result = await repository.deleteProject(id);
+    state = result.fold(
+      (failure) => AsyncError(Exception(failure.message), StackTrace.current),
+      (_) {
+        ref.invalidate(projectsListProvider);
+        return const AsyncData(null);
       },
     );
   }
