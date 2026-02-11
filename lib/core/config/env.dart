@@ -16,6 +16,6 @@ class Env {
   /// All repository paths (e.g. /projects, /chapters/{id}) are relative to this.
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://other-tales-api-706057343259.us-central1.run.app/api/v1',
+    defaultValue: 'https://other-tales-api-706057343259.europe-west1.run.app/api/v1',
   );
 }
