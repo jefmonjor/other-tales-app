@@ -7,7 +7,7 @@ part of 'projects_repository_impl.dart';
 // **************************************************************************
 
 String _$projectsRepositoryHash() =>
-    r'5e9055e6fbef51efbebef590a44e06119a4bddbd';
+    r'f7eddab33fbe254b83c45a5e2b4eee8aca2380e2';
 
 /// See also [projectsRepository].
 @ProviderFor(projectsRepository)

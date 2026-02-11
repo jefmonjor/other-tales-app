@@ -8,6 +8,7 @@ import '../config/env.dart';
 
 part 'dio_provider.g.dart';
 
+/// Lock para evitar múltiples refreshes simultáneos (Thundering Herd).
 Completer<void>? _refreshCompleter;
 bool _isRefreshing = false;
 
@@ -28,6 +29,7 @@ Dio dio(DioRef ref) {
 
   dio.interceptors.add(
     InterceptorsWrapper(
+      // ─── REQUEST: Inyectar JWT ───────────────────────────────────
       onRequest: (options, handler) async {
         final session = Supabase.instance.client.auth.currentSession;
         if (session != null) {
@@ -35,41 +37,89 @@ Dio dio(DioRef ref) {
         }
         return handler.next(options);
       },
-      onError: (DioException e, handler) async {
-        if (e.response?.statusCode == 401) {
-          try {
-            if (_isRefreshing) {
-              // Another request is already refreshing the token; wait for it.
-              await _refreshCompleter?.future;
-            } else {
-              _isRefreshing = true;
-              _refreshCompleter = Completer<void>();
-              try {
-                await Supabase.instance.client.auth.refreshSession();
-                _refreshCompleter!.complete();
-              } catch (refreshError) {
-                _refreshCompleter!.completeError(refreshError);
-                rethrow;
-              } finally {
-                _isRefreshing = false;
-              }
-            }
 
-            final newSession = Supabase.instance.client.auth.currentSession;
-            if (newSession != null) {
-              e.requestOptions.headers['Authorization'] =
-                  'Bearer ${newSession.accessToken}';
-              final response = await dio.fetch(e.requestOptions);
-              return handler.resolve(response);
-            }
-          } catch (refreshError) {
-            debugPrint('Token refresh failed: $refreshError');
-          }
+      // ─── ERROR: Silent Token Refresh ─────────────────────────────
+      onError: (DioException e, handler) async {
+        // Solo interceptamos 401 Unauthorized
+        if (e.response?.statusCode != 401) {
+          return handler.next(e);
         }
-        return handler.next(e);
+
+        // Guard: Si esta petición YA es un reintento, no entrar en loop infinito.
+        // Forzamos logout porque el token recién refrescado tampoco funcionó.
+        if (e.requestOptions.extra['_isRetry'] == true) {
+          debugPrint('🔒 Retry also got 401 → forcing logout');
+          await _forceLogout();
+          return handler.next(e);
+        }
+
+        try {
+          // ── Thundering Herd Prevention ──
+          // Si ya hay un refresh en curso, esperamos a que termine.
+          // Si no, somos nosotros los que lo iniciamos.
+          if (_isRefreshing) {
+            // Otro request ya está refrescando → esperamos
+            debugPrint('⏳ Waiting for ongoing token refresh...');
+            await _refreshCompleter?.future;
+          } else {
+            // Nosotros somos los primeros → refrescamos
+            _isRefreshing = true;
+            _refreshCompleter = Completer<void>();
+
+            try {
+              debugPrint('🔄 Refreshing Supabase session...');
+              await Supabase.instance.client.auth.refreshSession();
+              debugPrint('✅ Token refreshed successfully');
+              _refreshCompleter!.complete();
+            } catch (refreshError) {
+              debugPrint('❌ Token refresh failed: $refreshError');
+              _refreshCompleter!.completeError(refreshError);
+              _isRefreshing = false;
+
+              // Refresh falló → logout y propagar error original
+              await _forceLogout();
+              return handler.next(e);
+            } finally {
+              _isRefreshing = false;
+            }
+          }
+
+          // ── Reintentar la petición original con el nuevo token ──
+          final newSession = Supabase.instance.client.auth.currentSession;
+          if (newSession != null) {
+            // Clonar la petición con el nuevo token y marcarla como reintento
+            final retryOptions = e.requestOptions
+              ..headers['Authorization'] = 'Bearer ${newSession.accessToken}'
+              ..extra['_isRetry'] = true;
+
+            final response = await dio.fetch(retryOptions);
+            return handler.resolve(response);
+          } else {
+            // No hay sesión después del refresh → logout
+            debugPrint('🔒 No session after refresh → forcing logout');
+            await _forceLogout();
+            return handler.next(e);
+          }
+        } catch (retryError) {
+          // Cualquier error inesperado durante el retry → propagar original
+          debugPrint('❌ Retry failed: $retryError');
+          return handler.next(e);
+        }
       },
     ),
   );
 
   return dio;
 }
+
+/// Fuerza el cierre de sesión en Supabase.
+/// El AuthStateListener en el frontend redirigirá al login automáticamente.
+Future<void> _forceLogout() async {
+  try {
+    await Supabase.instance.client.auth.signOut();
+    debugPrint('🚪 Forced logout completed');
+  } catch (e) {
+    debugPrint('⚠️ Error during forced logout: $e');
+  }
+}
+

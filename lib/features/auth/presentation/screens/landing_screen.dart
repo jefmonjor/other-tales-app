@@ -113,17 +113,14 @@ class LandingScreen extends StatelessWidget {
       decoration: const BoxDecoration(
         gradient: AppGradients.brand,
       ),
-      child: Container(
-        color: Colors.black.withValues(alpha: 0.3),
-        child: Center(
-          child: Text(
-            l10n.welcomeHero,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.cinzel(
-              color: AppColors.background,
-              fontSize: 50,
-              fontWeight: FontWeight.bold,
-            ),
+      child: Center(
+        child: Text(
+          l10n.welcomeHero,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.cinzel(
+            color: AppColors.background,
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

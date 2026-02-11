@@ -1,19 +1,21 @@
-class Chapter {
-  final String id;
-  final String projectId;
-  final String title;
-  final String content;
-  final int sortOrder;
-  final int wordCount;
-  final DateTime lastModified;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const Chapter({
-    required this.id,
-    required this.projectId,
-    required this.title,
-    required this.content,
-    required this.sortOrder,
-    this.wordCount = 0,
-    required this.lastModified,
-  });
+part 'chapter.freezed.dart';
+part 'chapter.g.dart';
+
+@freezed
+class Chapter with _$Chapter {
+  const Chapter._();
+
+  const factory Chapter({
+    required String id,
+    required String projectId,
+    required String title,
+    required String content,
+    required int sortOrder,
+    @Default(0) int wordCount,
+    @JsonKey(name: 'updatedAt') required DateTime lastModified,
+  }) = _Chapter;
+
+  factory Chapter.fromJson(Map<String, dynamic> json) => _$ChapterFromJson(json);
 }

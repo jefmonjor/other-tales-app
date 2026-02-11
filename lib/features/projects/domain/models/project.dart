@@ -1,30 +1,31 @@
-class Project {
-  final String id;
-  final String title;
-  final String? synopsis;
-  final String? coverUrl;
-  final String? genre;
-  final int currentWordCount;
-  final int targetWordCount;
-  final DateTime lastModified;
-  final DateTime? createdAt;
-  final ProjectStatus status;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const Project({
-    required this.id,
-    required this.title,
-    this.synopsis,
-    this.coverUrl,
-    this.genre,
-    this.currentWordCount = 0,
-    this.targetWordCount = 50000,
-    required this.lastModified,
-    this.createdAt,
-    this.status = ProjectStatus.draft,
-  });
+part 'project.freezed.dart';
+part 'project.g.dart';
+
+@freezed
+class Project with _$Project {
+  const Project._();
+
+  const factory Project({
+    required String id,
+    required String title,
+    String? synopsis,
+    String? coverUrl,
+    String? genre,
+    @Default(0) int currentWordCount,
+    @Default(50000) int targetWordCount,
+    @JsonKey(name: 'updatedAt') required DateTime lastModified,
+    DateTime? createdAt,
+    @Default(ProjectStatus.draft) ProjectStatus status,
+  }) = _Project;
+
+  factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 }
 
 enum ProjectStatus {
+  @JsonValue('DRAFT')
   draft,
+  @JsonValue('PUBLISHED')
   published,
 }

@@ -1,10 +1,14 @@
 #!/bin/bash
 
+set -e
 echo "🚀 Iniciando Build de Flutter en Vercel..."
 
 # 1. Instalar Flutter
 if [ -d "flutter" ]; then
-    echo "✅ Flutter ya está instalado."
+    echo "✅ Flutter ya está instalado. Actualizando..."
+    cd flutter
+    git pull
+    cd ..
 else
     echo "⬇️ Clonando Flutter stable..."
     git clone https://github.com/flutter/flutter.git -b stable
