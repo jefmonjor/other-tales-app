@@ -1,16 +1,58 @@
-# other_tales_app
+# Other Tales App
 
-A new Flutter project.
+Native mobile/web application for **Other Tales**, built with **Flutter** and **Riverpod**.
+
+## Tech Stack
+- **Framework:** Flutter (Latest Stable)
+- **Language:** Dart 3.x
+- **State Management:** Riverpod 2.x (Generator Syntax)
+- **Navigation:** GoRouter
+- **Networking:** Dio + Retrofit
+- **Local DB:** Isar (planned for offline support)
+- **Code Generation:** Freezed, build_runner
+
+## Project Structure (Feature-First)
+
+```
+lib/
+├── core/                # Shared utilities, theme, router, network
+├── features/            # Feature modules
+│   ├── auth/            # Authentication (Sign In, Sign Up, Profile)
+│   ├── projects/        # Project Management (CRUD)
+│   └── writing/         # Editor & Content Management
+│       ├── data/        # Repositories, DTOs, Data Sources
+│       ├── domain/      # Entities, Failures, Abstract Repositories
+│       └── presentation/# Widgets, Providers/Controllers, Screens
+└── l10n/                # Localization (arb files)
+```
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
+- Flutter SDK (latest stable)
+- Android Studio / Xcode (for mobile simulation)
 
-A few resources to get you started if this is your first Flutter project:
+### Setup
+1. **Dependencies:**
+   ```bash
+   flutter pub get
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. **Code Generation:**
+   Runs build_runner to generate Riverpod providers and Freezed models.
+   ```bash
+   dart run build_runner build --delete-conflicting-outputs
+   ```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. **Environment:**
+   Create a `.env` file in the root if required, or configure compile-time variables.
+
+### Running
+```bash
+flutter run
+```
+
+## Key Features
+- **Authentication:** Supabase Auth (Email/Password, Social)
+- **Projects:** Create, list, Edit, Delete novels.
+- **Editor:** Chapter-based writing with autosave (in progress).
