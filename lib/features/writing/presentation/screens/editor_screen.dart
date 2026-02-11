@@ -23,11 +23,14 @@ class EditorScreen extends ConsumerStatefulWidget {
 }
 
 class _EditorScreenState extends ConsumerState<EditorScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late TextEditingController _contentController;
   late TextEditingController _titleController;
   late FocusNode _focusNode;
   String? _currentChapterId;
   String? _titleError;
+  int _selectedChapterIndex = 0;
+  bool _hasUnsavedChanges = false;
 
   @override
   void initState() {
@@ -36,6 +39,9 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
     _titleController = TextEditingController();
     _focusNode = FocusNode();
 
+    _contentController.addListener(_markDirty);
+    _titleController.addListener(_markDirty);
+
     // Initial Load
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialData();
@@ -43,30 +49,44 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
     });
   }
 
-  Future<void> _loadInitialData() async {
-    // We assume we want to edit the FIRST chapter if it exists, or create a new one.
-    // In a real app we might pass chapterId as well, but instructions say:
-    // "busca si el proyecto ya tiene capítulos... si tiene carga el primero"
+  void _markDirty() {
+    if (!_hasUnsavedChanges) {
+      _hasUnsavedChanges = true;
+    }
+  }
 
-    // We cannot easily await the provider value here without listening or reading future.
+  Future<void> _loadInitialData() async {
     try {
       final chapters = await ref.read(chaptersProvider(widget.projectId).future);
       if (chapters.isNotEmpty) {
-        final chapter = chapters.first;
-        _currentChapterId = chapter.id;
-        _contentController.text = chapter.content;
-        _titleController.text = chapter.title;
+        _loadChapterIntoEditor(chapters.first, 0);
       } else {
         _titleController.text = AppLocalizations.of(context)!.defaultChapterTitle;
       }
     } catch (e) {
-      // Handle load error silently or show snackbar
       debugPrint("Error loading chapters: $e");
     }
   }
 
+  void _loadChapterIntoEditor(Chapter chapter, int index) {
+    setState(() {
+      _currentChapterId = chapter.id;
+      _selectedChapterIndex = index;
+      _contentController.removeListener(_markDirty);
+      _titleController.removeListener(_markDirty);
+      _contentController.text = chapter.content;
+      _titleController.text = chapter.title;
+      _hasUnsavedChanges = false;
+      _titleError = null;
+      _contentController.addListener(_markDirty);
+      _titleController.addListener(_markDirty);
+    });
+  }
+
   @override
   void dispose() {
+    _contentController.removeListener(_markDirty);
+    _titleController.removeListener(_markDirty);
     _contentController.dispose();
     _titleController.dispose();
     _focusNode.dispose();
@@ -85,9 +105,6 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
       content: _contentController.text,
     );
 
-    // Listen for state changes handled in build(), or check state here ??
-    // Riverpod usually recommends checking state or listening.
-    // Since saveChapter updates state, let's look at the result.
     final state = ref.read(chapterControllerProvider);
 
     if (state.hasError) {
@@ -131,11 +148,12 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         );
       }
     } else if (!state.isLoading) {
-      // Success — capture the returned chapter ID for subsequent saves
+      // Success -- capture the returned chapter ID for subsequent saves
       final savedChapter = state.value;
       if (savedChapter != null && _currentChapterId == null) {
         _currentChapterId = savedChapter.id;
       }
+      _hasUnsavedChanges = false;
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -148,12 +166,274 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
     }
   }
 
+  Future<void> _switchToChapter(Chapter chapter, int index) async {
+    if (index == _selectedChapterIndex && _currentChapterId == chapter.id) {
+      // Already on this chapter, just close the drawer
+      Navigator.of(context).pop();
+      return;
+    }
+
+    // Save current chapter first if there are unsaved changes
+    if (_hasUnsavedChanges && _currentChapterId != null) {
+      await ref.read(chapterControllerProvider.notifier).saveChapter(
+        projectId: widget.projectId,
+        chapterId: _currentChapterId,
+        title: _titleController.text,
+        content: _contentController.text,
+      );
+    }
+
+    _loadChapterIntoEditor(chapter, index);
+
+    if (mounted) {
+      Navigator.of(context).pop(); // Close the drawer
+      _focusNode.requestFocus();
+    }
+  }
+
+  Future<void> _addChapter(List<Chapter> currentChapters) async {
+    final l10n = AppLocalizations.of(context)!;
+    final newSortOrder = currentChapters.length;
+
+    await ref.read(chapterControllerProvider.notifier).saveChapter(
+      projectId: widget.projectId,
+      title: l10n.defaultChapterTitle,
+      content: '',
+    );
+
+    final state = ref.read(chapterControllerProvider);
+
+    if (state.hasError) {
+      if (mounted) {
+        final error = state.error;
+        String errorMessage = error is Failure ? error.message : error.toString();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } else if (!state.isLoading && state.value != null) {
+      // Load the newly created chapter into the editor
+      final newChapter = state.value!;
+      _loadChapterIntoEditor(newChapter, newSortOrder);
+
+      if (mounted) {
+        Navigator.of(context).pop(); // Close the drawer
+        _focusNode.requestFocus();
+      }
+    }
+  }
+
+  Future<void> _confirmDeleteChapter(Chapter chapter, int index, List<Chapter> allChapters) async {
+    final l10n = AppLocalizations.of(context)!;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteChapter),
+        content: Text(l10n.deleteChapterConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.cancelButton),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(
+              l10n.confirm,
+              style: TextStyle(color: AppColors.error),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    await ref.read(chapterControllerProvider.notifier).deleteChapter(
+      chapter.id,
+      widget.projectId,
+    );
+
+    final state = ref.read(chapterControllerProvider);
+
+    if (state.hasError) {
+      if (mounted) {
+        final error = state.error;
+        String errorMessage = error is Failure ? error.message : error.toString();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.chapterDeletedSuccess),
+            backgroundColor: AppColors.success,
+          ),
+        );
+      }
+
+      // Determine which chapter to show after deletion
+      final remainingChapters = allChapters.where((c) => c.id != chapter.id).toList();
+
+      if (remainingChapters.isEmpty) {
+        // No chapters left -- reset editor to blank state
+        setState(() {
+          _currentChapterId = null;
+          _selectedChapterIndex = 0;
+          _contentController.removeListener(_markDirty);
+          _titleController.removeListener(_markDirty);
+          _contentController.text = '';
+          _titleController.text = AppLocalizations.of(context)!.defaultChapterTitle;
+          _hasUnsavedChanges = false;
+          _contentController.addListener(_markDirty);
+          _titleController.addListener(_markDirty);
+        });
+      } else if (index == _selectedChapterIndex) {
+        // We deleted the currently selected chapter -- select the nearest one
+        final newIndex = index >= remainingChapters.length
+            ? remainingChapters.length - 1
+            : index;
+        _loadChapterIntoEditor(remainingChapters[newIndex], newIndex);
+      } else if (index < _selectedChapterIndex) {
+        // Deleted a chapter before the current one -- adjust index
+        setState(() {
+          _selectedChapterIndex = _selectedChapterIndex - 1;
+        });
+      }
+    }
+  }
+
+  Widget _buildChapterDrawer() {
+    final l10n = AppLocalizations.of(context)!;
+    final chaptersAsync = ref.watch(chaptersProvider(widget.projectId));
+
+    return Drawer(
+      child: SafeArea(
+        child: Column(
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.m),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    l10n.chapters,
+                    style: AppTypography.h2,
+                  ),
+                  chaptersAsync.when(
+                    data: (chapters) => IconButton(
+                      icon: const Icon(Icons.add, color: AppColors.primary),
+                      tooltip: l10n.addChapter,
+                      onPressed: () => _addChapter(chapters),
+                    ),
+                    loading: () => const SizedBox.shrink(),
+                    error: (_, __) => const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1),
+            // Chapter list
+            Expanded(
+              child: chaptersAsync.when(
+                data: (chapters) {
+                  if (chapters.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSpacing.l),
+                        child: Text(
+                          l10n.noChaptersYet,
+                          style: AppTypography.body.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: chapters.length,
+                    itemBuilder: (context, index) {
+                      final chapter = chapters[index];
+                      final isSelected = index == _selectedChapterIndex
+                          && chapter.id == _currentChapterId;
+
+                      return ListTile(
+                        selected: isSelected,
+                        selectedTileColor: AppColors.primary.withValues(alpha: 0.08),
+                        title: Text(
+                          chapter.title,
+                          style: AppTypography.body.copyWith(
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          '${chapter.wordCount} ${l10n.wordsLabel}',
+                          style: AppTypography.caption,
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(
+                            Icons.delete_outline,
+                            color: AppColors.textSecondary,
+                            size: 20,
+                          ),
+                          tooltip: l10n.deleteChapter,
+                          onPressed: () => _confirmDeleteChapter(
+                            chapter,
+                            index,
+                            chapters,
+                          ),
+                        ),
+                        onTap: () => _switchToChapter(chapter, index),
+                      );
+                    },
+                  );
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (error, _) => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.l),
+                    child: Text(
+                      error is Failure ? error.message : error.toString(),
+                      style: AppTypography.body.copyWith(
+                        color: AppColors.error,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final saveState = ref.watch(chapterControllerProvider);
     final isLoading = saveState.isLoading;
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColors.editorBackground, // Cream/Paper
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -212,9 +492,18 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                 ),
               ),
             ),
+          // Chapters drawer toggle
+          IconButton(
+            icon: const Icon(Icons.menu, color: AppColors.textPrimary),
+            tooltip: AppLocalizations.of(context)!.chapters,
+            onPressed: () {
+              _scaffoldKey.currentState?.openEndDrawer();
+            },
+          ),
           const SizedBox(width: AppSpacing.s),
         ],
       ),
+      endDrawer: _buildChapterDrawer(),
       body: SafeArea(
         child: Column(
           children: [

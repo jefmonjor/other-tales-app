@@ -65,6 +65,7 @@ class ProjectDto {
       currentWordCount: currentWordCount,
       targetWordCount: targetWordCount,
       lastModified: DateTime.tryParse(updatedAt) ?? DateTime.now(),
+      createdAt: createdAt != null ? DateTime.tryParse(createdAt!) : null,
       status: _parseStatus(status),
     );
   }
@@ -73,8 +74,6 @@ class ProjectDto {
     switch (status.toUpperCase()) {
       case 'PUBLISHED':
         return ProjectStatus.published;
-      case 'ARCHIVED':
-        return ProjectStatus.archived;
       default:
         return ProjectStatus.draft;
     }

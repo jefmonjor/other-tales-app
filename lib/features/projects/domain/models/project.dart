@@ -7,6 +7,7 @@ class Project {
   final int currentWordCount;
   final int targetWordCount;
   final DateTime lastModified;
+  final DateTime? createdAt;
   final ProjectStatus status;
 
   const Project({
@@ -18,6 +19,7 @@ class Project {
     this.currentWordCount = 0,
     this.targetWordCount = 50000,
     required this.lastModified,
+    this.createdAt,
     this.status = ProjectStatus.draft,
   });
 }
@@ -25,5 +27,4 @@ class Project {
 enum ProjectStatus {
   draft,
   published,
-  archived
 }

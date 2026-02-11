@@ -51,16 +51,30 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
   final _titleController = TextEditingController();
   final _synopsisController = TextEditingController();
   final _wordCountController = TextEditingController(text: '50000');
+  final _genreController = TextEditingController();
   String? _selectedGenre;
 
-  // Hardcoded for MVP, could be from config/backend
-  final _genres = ['Thriller', 'Sci-Fi', 'Romance', 'Fantasy', 'Mystery', 'Horror'];
+  static const _genres = [
+    'Fantasy',
+    'Science Fiction',
+    'Romance',
+    'Mystery',
+    'Thriller',
+    'Horror',
+    'Historical',
+    'Literary Fiction',
+    'Adventure',
+    'Drama',
+    'Poetry',
+    'Non-Fiction',
+  ];
 
   @override
   void dispose() {
     _titleController.dispose();
     _synopsisController.dispose();
     _wordCountController.dispose();
+    _genreController.dispose();
     super.dispose();
   }
 
@@ -197,7 +211,7 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
                         _selectedGenre = value;
                       });
                     },
-                    validator: (value) => value == null ? l10n.enterGenre : null,
+                    // Genre is optional per backend contract
                   ),
                 ],
               ),

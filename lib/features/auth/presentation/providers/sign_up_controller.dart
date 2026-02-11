@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/repositories/auth_repository_impl.dart';
+import '../../data/repositories/profile_repository_impl.dart';
 
 part 'sign_up_controller.g.dart';
 
@@ -28,11 +29,35 @@ class SignUpController extends _$SignUpController {
       privacyAccepted: privacyAccepted,
     );
 
-    // Supabase auto-signs in after register — no redundant login call
     state = result.fold(
       (failure) => AsyncError(failure.message, StackTrace.current),
-      (_) => const AsyncData(null),
+      (_) {
+        // Record consent in backend after successful registration
+        _recordConsent(
+          termsAccepted: termsAccepted,
+          privacyAccepted: privacyAccepted,
+          marketingAccepted: marketingAccepted,
+        );
+        return const AsyncData(null);
+      },
     );
+  }
+
+  Future<void> _recordConsent({
+    required bool termsAccepted,
+    required bool privacyAccepted,
+    required bool marketingAccepted,
+  }) async {
+    final profileRepo = ref.read(profileRepositoryProvider);
+    if (termsAccepted) {
+      await profileRepo.updateConsent(consentType: 'TERMS_OF_SERVICE', granted: true);
+    }
+    if (privacyAccepted) {
+      await profileRepo.updateConsent(consentType: 'PRIVACY_POLICY', granted: true);
+    }
+    if (marketingAccepted) {
+      await profileRepo.updateConsent(consentType: 'MARKETING_COMMUNICATIONS', granted: true);
+    }
   }
 
   Future<void> signUpWithGoogle() async {

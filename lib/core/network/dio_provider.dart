@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -5,6 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../config/env.dart';
 
 part 'dio_provider.g.dart';
+
+Completer<void>? _refreshCompleter;
+bool _isRefreshing = false;
 
 @Riverpod(keepAlive: true)
 Dio dio(DioRef ref) {
@@ -33,7 +38,23 @@ Dio dio(DioRef ref) {
       onError: (DioException e, handler) async {
         if (e.response?.statusCode == 401) {
           try {
-            await Supabase.instance.client.auth.refreshSession();
+            if (_isRefreshing) {
+              // Another request is already refreshing the token; wait for it.
+              await _refreshCompleter?.future;
+            } else {
+              _isRefreshing = true;
+              _refreshCompleter = Completer<void>();
+              try {
+                await Supabase.instance.client.auth.refreshSession();
+                _refreshCompleter!.complete();
+              } catch (refreshError) {
+                _refreshCompleter!.completeError(refreshError);
+                rethrow;
+              } finally {
+                _isRefreshing = false;
+              }
+            }
+
             final newSession = Supabase.instance.client.auth.currentSession;
             if (newSession != null) {
               e.requestOptions.headers['Authorization'] =

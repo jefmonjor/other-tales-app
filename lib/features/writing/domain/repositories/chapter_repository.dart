@@ -4,11 +4,21 @@ import '../entities/chapter.dart';
 
 abstract class ChapterRepository {
   Future<Either<Failure, List<Chapter>>> getChapters(String projectId);
-  
+
+  Future<Either<Failure, Chapter>> getChapter(String chapterId);
+
   Future<Either<Failure, Chapter>> saveChapter({
     required String projectId,
     String? chapterId,
     required String title,
     required String content,
+    int? sortOrder,
   });
+
+  Future<Either<Failure, void>> deleteChapter(String chapterId);
+
+  Future<Either<Failure, List<Chapter>>> reorderChapters(
+    String projectId,
+    List<String> orderedChapterIds,
+  );
 }

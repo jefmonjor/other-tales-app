@@ -661,6 +661,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'words'**
   String get wordsLabel;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logout;
+
+  /// No description provided for @logoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get logoutConfirm;
+
+  /// No description provided for @editProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Project'**
+  String get editProject;
+
+  /// No description provided for @deleteProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteProject;
+
+  /// No description provided for @deleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure? This cannot be undone.'**
+  String get deleteConfirm;
+
+  /// No description provided for @projectUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Project updated!'**
+  String get projectUpdatedSuccess;
+
+  /// No description provided for @projectDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Project deleted!'**
+  String get projectDeletedSuccess;
+
+  /// No description provided for @chapters.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapters'**
+  String get chapters;
+
+  /// No description provided for @addChapter.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Chapter'**
+  String get addChapter;
+
+  /// No description provided for @deleteChapter.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Chapter'**
+  String get deleteChapter;
+
+  /// No description provided for @deleteChapterConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'This chapter will be permanently deleted.'**
+  String get deleteChapterConfirm;
+
+  /// No description provided for @chapterDeletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter deleted!'**
+  String get chapterDeletedSuccess;
+
+  /// No description provided for @noChaptersYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No chapters yet. Create the first one!'**
+  String get noChaptersYet;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @optionalField.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optionalField;
+
+  /// No description provided for @consentRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences saved'**
+  String get consentRecorded;
 }
 
 class _AppLocalizationsDelegate

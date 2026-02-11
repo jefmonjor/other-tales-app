@@ -6,7 +6,9 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/components/navigation/gradient_bottom_nav.dart';
+import '../../../auth/presentation/providers/auth_state_provider.dart';
 import '../../../auth/presentation/providers/profile_provider.dart';
+import '../../domain/models/project.dart';
 import '../widgets/project_card.dart';
 import '../widgets/create_project_modal.dart';
 import '../widgets/project_list_skeleton.dart';
@@ -61,6 +63,199 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
     );
   }
 
+  Widget _buildProfileMenu(AppLocalizations l10n) {
+    return PopupMenuButton<String>(
+      offset: const Offset(0, 48),
+      onSelected: (value) {
+        if (value == 'logout') {
+          _showLogoutConfirmation(l10n);
+        }
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem<String>(
+          value: 'logout',
+          child: Row(
+            children: [
+              const Icon(Icons.logout, size: 20),
+              const SizedBox(width: AppSpacing.s),
+              Text(l10n.logout),
+            ],
+          ),
+        ),
+      ],
+      child: _buildProfileAvatar(),
+    );
+  }
+
+  Future<void> _showLogoutConfirmation(AppLocalizations l10n) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.logout),
+        content: Text(l10n.logoutConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.cancelButton),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      await ref.read(authStateProvider.notifier).logout();
+    }
+  }
+
+  void _showProjectActions(Project project) {
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: Text(l10n.editProject),
+              onTap: () {
+                Navigator.of(context).pop();
+                _showEditProjectDialog(project);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.delete, color: AppColors.error),
+              title: Text(
+                l10n.deleteProject,
+                style: TextStyle(color: AppColors.error),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                _showDeleteConfirmation(project);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showEditProjectDialog(Project project) {
+    final l10n = AppLocalizations.of(context)!;
+    final titleController = TextEditingController(text: project.title);
+    final synopsisController =
+        TextEditingController(text: project.synopsis ?? '');
+    final genreController = TextEditingController(text: project.genre ?? '');
+    final wordCountController =
+        TextEditingController(text: project.targetWordCount.toString());
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.editProject),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(labelText: l10n.titleLabel),
+              ),
+              const SizedBox(height: AppSpacing.m),
+              TextField(
+                controller: synopsisController,
+                decoration: InputDecoration(labelText: l10n.synopsisLabel),
+                maxLines: 3,
+              ),
+              const SizedBox(height: AppSpacing.m),
+              TextField(
+                controller: genreController,
+                decoration: InputDecoration(labelText: l10n.genreLabel),
+              ),
+              const SizedBox(height: AppSpacing.m),
+              TextField(
+                controller: wordCountController,
+                decoration:
+                    InputDecoration(labelText: l10n.targetWordCountLabel),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(l10n.cancelButton),
+          ),
+          TextButton(
+            onPressed: () async {
+              final title = titleController.text.trim();
+              if (title.isEmpty) return;
+
+              final wordCount =
+                  int.tryParse(wordCountController.text.trim());
+
+              await ref.read(updateProjectProvider.notifier).update(
+                    id: project.id,
+                    title: title,
+                    synopsis: synopsisController.text.trim().isNotEmpty
+                        ? synopsisController.text.trim()
+                        : null,
+                    genre: genreController.text.trim().isNotEmpty
+                        ? genreController.text.trim()
+                        : null,
+                    targetWordCount: wordCount,
+                  );
+
+              if (dialogContext.mounted) {
+                Navigator.of(dialogContext).pop();
+              }
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.projectUpdatedSuccess)),
+                );
+              }
+            },
+            child: Text(l10n.save),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmation(Project project) async {
+    final l10n = AppLocalizations.of(context)!;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteProject),
+        content: Text(l10n.deleteConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.cancelButton),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: AppColors.error),
+            child: Text(l10n.confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      await ref.read(deleteProjectProvider.notifier).delete(project.id);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.projectDeletedSuccess)),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final projectsAsync = ref.watch(projectsListProvider);
@@ -91,7 +286,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                         l10n.myProjectsTitle,
                         style: AppTypography.h1.copyWith(color: Colors.white),
                       ),
-                      _buildProfileAvatar(),
+                      _buildProfileMenu(l10n),
                     ],
                   ),
                 ),
@@ -261,6 +456,9 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                       currentWordCount: project.currentWordCount,
                       onTap: () {
                         context.push('/editor/${project.id}');
+                      },
+                      onLongPress: () {
+                        _showProjectActions(project);
                       },
                     );
                   },
