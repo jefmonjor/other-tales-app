@@ -8,6 +8,7 @@ import '../../../../core/components/inputs/custom_text_field.dart';
 import '../../../../core/error/auth_error_mapper.dart';
 import '../../../../core/presentation/widgets/web_split_layout.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_gradients.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../data/repositories/auth_repository_impl.dart';

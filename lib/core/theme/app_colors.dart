@@ -21,13 +21,4 @@ class AppColors {
   static const Color surface = Color(0xFFFFFFFF); // Surface (White)
 }
 
-class AppGradients {
-  static const Gradient brand = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      Color(0xFF0B4A78), // 0%
-      Color(0xFF0B785E), // 100%
-    ],
-  );
-}
+
