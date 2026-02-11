@@ -59,7 +59,7 @@ class UpdateProject extends _$UpdateProject {
   @override
   FutureOr<Project?> build() => null;
 
-  Future<void> update({
+  Future<void> editProject({
     required String id,
     String? title,
     String? synopsis,

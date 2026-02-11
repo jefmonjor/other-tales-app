@@ -198,7 +198,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
               final wordCount =
                   int.tryParse(wordCountController.text.trim());
 
-              await ref.read(updateProjectProvider.notifier).update(
+              await ref.read(updateProjectProvider.notifier).editProject(
                     id: project.id,
                     title: title,
                     synopsis: synopsisController.text.trim().isNotEmpty
