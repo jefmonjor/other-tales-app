@@ -54,20 +54,7 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
   final _genreController = TextEditingController();
   String? _selectedGenre;
 
-  static const _genres = [
-    'Fantasy',
-    'Science Fiction',
-    'Romance',
-    'Mystery',
-    'Thriller',
-    'Horror',
-    'Historical',
-    'Literary Fiction',
-    'Adventure',
-    'Drama',
-    'Poetry',
-    'Non-Fiction',
-  ];
+
 
   @override
   void dispose() {
@@ -200,10 +187,23 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
                         borderSide: BorderSide.none,
                       ),
                     ),
-                    items: _genres.map((genre) {
+                    items: [
+                      MapEntry('Fantasy', l10n.genreFantasy),
+                      MapEntry('Science Fiction', l10n.genreSciFi),
+                      MapEntry('Romance', l10n.genreRomance),
+                      MapEntry('Mystery', l10n.genreMystery),
+                      MapEntry('Thriller', l10n.genreThriller),
+                      MapEntry('Horror', l10n.genreHorror),
+                      MapEntry('Historical', l10n.genreHistorical),
+                      MapEntry('Literary Fiction', l10n.genreLiteraryFiction),
+                      MapEntry('Adventure', l10n.genreAdventure),
+                      MapEntry('Drama', l10n.genreDrama),
+                      MapEntry('Poetry', l10n.genrePoetry),
+                      MapEntry('Non-Fiction', l10n.genreNonFiction),
+                    ].map((entry) {
                       return DropdownMenuItem(
-                        value: genre,
-                        child: Text(genre, style: AppTypography.input),
+                        value: entry.key,
+                        child: Text(entry.value, style: AppTypography.input),
                       );
                     }).toList(),
                     onChanged: (value) {

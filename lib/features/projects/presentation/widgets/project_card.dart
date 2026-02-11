@@ -114,7 +114,7 @@ class ProjectCard extends StatelessWidget {
                           ],
                         ),
                         child: Text(
-                          genre!.toUpperCase(),
+                          _getLocalizedGenre(context, genre!).toUpperCase(),
                           style: AppTypography.caption.copyWith(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
@@ -179,5 +179,37 @@ class ProjectCard extends StatelessWidget {
       color: Colors.grey[300],
       child: Icon(Icons.book, color: Colors.grey[400], size: 40),
     );
+  }
+
+  String _getLocalizedGenre(BuildContext context, String key) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (key) {
+      case 'Fantasy':
+        return l10n.genreFantasy;
+      case 'Science Fiction':
+        return l10n.genreSciFi;
+      case 'Romance':
+        return l10n.genreRomance;
+      case 'Mystery':
+        return l10n.genreMystery;
+      case 'Thriller':
+        return l10n.genreThriller;
+      case 'Horror':
+        return l10n.genreHorror;
+      case 'Historical':
+        return l10n.genreHistorical;
+      case 'Literary Fiction':
+        return l10n.genreLiteraryFiction;
+      case 'Adventure':
+        return l10n.genreAdventure;
+      case 'Drama':
+        return l10n.genreDrama;
+      case 'Poetry':
+        return l10n.genrePoetry;
+      case 'Non-Fiction':
+        return l10n.genreNonFiction;
+      default:
+        return key;
+    }
   }
 }
