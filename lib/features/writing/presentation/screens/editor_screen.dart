@@ -56,12 +56,13 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
   }
 
   Future<void> _loadInitialData() async {
+    final defaultTitle = AppLocalizations.of(context)!.defaultChapterTitle;
     try {
       final chapters = await ref.read(chaptersProvider(widget.projectId).future);
       if (chapters.isNotEmpty) {
         _loadChapterIntoEditor(chapters.first, 0);
       } else {
-        _titleController.text = AppLocalizations.of(context)!.defaultChapterTitle;
+        _titleController.text = defaultTitle;
       }
     } catch (e) {
       debugPrint("Error loading chapters: $e");
@@ -244,7 +245,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
             onPressed: () => Navigator.of(context).pop(true),
             child: Text(
               l10n.confirm,
-              style: TextStyle(color: AppColors.error),
+              style: const TextStyle(color: AppColors.error),
             ),
           ),
         ],
@@ -387,7 +388,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                           style: AppTypography.caption,
                         ),
                         trailing: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.delete_outline,
                             color: AppColors.textSecondary,
                             size: 20,
@@ -470,13 +471,13 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
           if (isLoading)
             Padding(
               padding: const EdgeInsets.only(right: AppSpacing.m),
-              child: Center(
+              child: const Center(
                 child: SizedBox(
                   width: 24,
                   height: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                   ),
                 ),
               ),

@@ -6,7 +6,7 @@ part of 'projects_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$projectsListHash() => r'51a4921dd585610f65163d69dc6ed958ba1e5a51';
+String _$projectsListHash() => r'd0844befd1281286fdfe103d0c0a9560333a4802';
 
 /// Re-export the repository provider from the data layer.
 /// This allows the presentation layer to depend on the abstract interface.
@@ -44,7 +44,7 @@ final createProjectProvider =
 );
 
 typedef _$CreateProject = AutoDisposeAsyncNotifier<Project?>;
-String _$updateProjectHash() => r'update_project_provider';
+String _$updateProjectHash() => r'9e70158316af4746e0840b1110a034852ceed867';
 
 /// Provider for updating an existing project.
 /// Returns the updated project on success.
@@ -63,7 +63,7 @@ final updateProjectProvider =
 );
 
 typedef _$UpdateProject = AutoDisposeAsyncNotifier<Project?>;
-String _$deleteProjectHash() => r'delete_project_provider';
+String _$deleteProjectHash() => r'711ff33c5f22fe1345e31b79e3b3d27af8cc409d';
 
 /// Provider for deleting a project.
 ///

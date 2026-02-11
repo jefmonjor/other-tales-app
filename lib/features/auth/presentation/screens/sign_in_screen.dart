@@ -53,7 +53,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
         _passwordController.clear();
 
         final translatedError = AuthErrorMapper.getFriendlyMessage(
-          next.error!,
+          next.error,
           Localizations.localeOf(context).languageCode,
         );
 

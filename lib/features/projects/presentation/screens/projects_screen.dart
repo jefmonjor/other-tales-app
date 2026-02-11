@@ -127,10 +127,10 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.delete, color: AppColors.error),
+              leading: const Icon(Icons.delete, color: AppColors.error),
               title: Text(
                 l10n.deleteProject,
-                style: TextStyle(color: AppColors.error),
+                style: const TextStyle(color: AppColors.error),
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -340,7 +340,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.error_outline,
                         size: 48,
                         color: AppColors.error,

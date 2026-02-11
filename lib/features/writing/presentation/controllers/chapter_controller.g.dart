@@ -6,7 +6,7 @@ part of 'chapter_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chaptersHash() => r'5dc0c7dc0a0276279a4d467009064236d02406c3';
+String _$chaptersHash() => r'924fd6839d005cd4826479d4f4d342fb936aac6e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -156,7 +156,7 @@ class _ChaptersProviderElement
   String get projectId => (origin as ChaptersProvider).projectId;
 }
 
-String _$chapterControllerHash() => r'e77640caa689e1226955f58f2adaa053279b9853';
+String _$chapterControllerHash() => r'ade2a53ca09adf08c2c4831aa03d09da848169f3';
 
 /// See also [ChapterController].
 @ProviderFor(ChapterController)

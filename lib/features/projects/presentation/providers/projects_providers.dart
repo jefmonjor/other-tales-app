@@ -1,7 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/repositories/projects_repository_impl.dart';
 import '../../domain/models/project.dart';
-import '../../domain/repositories/projects_repository.dart';
 
 part 'projects_providers.g.dart';
 

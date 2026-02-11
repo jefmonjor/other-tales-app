@@ -183,7 +183,7 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
                   ),
                   const SizedBox(height: AppSpacing.s),
                   DropdownButtonFormField<String>(
-                    value: _selectedGenre,
+                    initialValue: _selectedGenre,
                     decoration: InputDecoration(
                       hintText: l10n.enterGenre,
                       hintStyle: AppTypography.input.copyWith(

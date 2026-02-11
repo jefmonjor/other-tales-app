@@ -125,7 +125,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     ref.listen(signUpControllerProvider, (previous, next) {
       if (next is AsyncError) {
         final translatedError = AuthErrorMapper.getFriendlyMessage(
-          next.error!,
+          next.error,
           Localizations.localeOf(context).languageCode,
         );
 
