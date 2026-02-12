@@ -49,7 +49,7 @@ class ProjectBottomNav extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: isSelected ? Colors.white.withValues(alpha: 0.2) : Colors.transparent,
-              borderRadius: BorderRadius.circular(8), // Mildly rounded square
+              borderRadius: BorderRadius.circular(4), // Geometric / Square
               border: isSelected 
                   ? Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1)
                   : null,

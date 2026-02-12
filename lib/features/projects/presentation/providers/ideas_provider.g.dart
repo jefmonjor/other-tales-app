@@ -6,7 +6,7 @@ part of 'ideas_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$ideaRepositoryHash() => r'4e15553df3f6e4b8c25133d737726353f0dcd1d5';
+String _$ideaRepositoryHash() => r'f671e252cd7f8c5c2bb4605e9e54d8a2517a516b';
 
 /// See also [ideaRepository].
 @ProviderFor(ideaRepository)
@@ -23,7 +23,7 @@ final ideaRepositoryProvider = AutoDisposeProvider<IdeaRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef IdeaRepositoryRef = AutoDisposeProviderRef<IdeaRepository>;
-String _$ideasHash() => r'6c38e04c9f0cabe4b1b2f952e552cccea329b9e9';
+String _$ideasHash() => r'258171ff9fa134cb8a7a33e390890837c6f61306';
 
 /// Copied from Dart SDK
 class _SystemHash {

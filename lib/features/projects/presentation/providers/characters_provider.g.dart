@@ -7,7 +7,7 @@ part of 'characters_provider.dart';
 // **************************************************************************
 
 String _$characterRepositoryHash() =>
-    r'6dc3837850fff6f6c36b9f3118e1251569128211';
+    r'dc9c37ff9f2aa8b5c244b0a7e277859ace3cada6';
 
 /// See also [characterRepository].
 @ProviderFor(characterRepository)
@@ -25,7 +25,7 @@ final characterRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CharacterRepositoryRef = AutoDisposeProviderRef<CharacterRepository>;
-String _$charactersHash() => r'3f5bf10d530c67b71fbcebb46728c4d89dca7190';
+String _$charactersHash() => r'569ab822bc014d020cfbe0afcab9579e91a20268';
 
 /// Copied from Dart SDK
 class _SystemHash {

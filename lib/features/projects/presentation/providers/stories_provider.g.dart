@@ -6,7 +6,7 @@ part of 'stories_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$storyRepositoryHash() => r'02406ad1216df556a21f6ce8ab1cc3e1ee9fb162';
+String _$storyRepositoryHash() => r'eb19601e2d24e68e43b37aed190fe4c80a835210';
 
 /// See also [storyRepository].
 @ProviderFor(storyRepository)
@@ -23,7 +23,7 @@ final storyRepositoryProvider = AutoDisposeProvider<StoryRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef StoryRepositoryRef = AutoDisposeProviderRef<StoryRepository>;
-String _$storiesHash() => r'f3bb3df9b5326bd216ea5df12e744b1900ac329b';
+String _$storiesHash() => r'2a452c3711ac1114973eb2e6d80f50137348863a';
 
 /// Copied from Dart SDK
 class _SystemHash {

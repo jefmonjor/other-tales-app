@@ -6,7 +6,7 @@ part of 'projects_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$projectsListHash() => r'51a4921dd585610f65163d69dc6ed958ba1e5a51';
+String _$projectsListHash() => r'd0844befd1281286fdfe103d0c0a9560333a4802';
 
 /// Re-export the repository provider from the data layer.
 /// This allows the presentation layer to depend on the abstract interface.

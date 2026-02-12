@@ -25,7 +25,7 @@ class DashboardCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(5), // Config/Nav containers use Radius 5
+          borderRadius: BorderRadius.circular(4), // Geometric / Square
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.25),

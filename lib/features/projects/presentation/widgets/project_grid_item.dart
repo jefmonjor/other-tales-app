@@ -26,7 +26,7 @@ class ProjectGridItem extends ConsumerWidget {
       genre: project.genre,
       currentWordCount: project.currentWordCount,
       onTap: () {
-        context.push('/editor/${project.id}');
+        context.push('/projects/${project.id}', extra: {'title': project.title});
       },
       onLongPress: () {
         _showProjectActions(context, ref, project);
