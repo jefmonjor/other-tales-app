@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/dio_provider.dart';
 import '../../domain/models/project.dart';
@@ -10,7 +11,7 @@ import '../models/project_dto.dart';
 part 'projects_repository_impl.g.dart';
 
 @Riverpod(keepAlive: true)
-ProjectsRepository projectsRepository(ProjectsRepositoryRef ref) {
+ProjectsRepository projectsRepository(Ref ref) {
   return ProjectsRepositoryImpl(ref.watch(dioProvider));
 }
 

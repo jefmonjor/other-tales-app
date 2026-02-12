@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/dio_provider.dart';
@@ -11,7 +12,7 @@ import '../models/chapter_dto.dart';
 part 'chapter_repository_impl.g.dart';
 
 @Riverpod(keepAlive: true)
-ChapterRepository chapterRepository(ChapterRepositoryRef ref) {
+ChapterRepository chapterRepository(Ref ref) {
   return ChapterRepositoryImpl(ref.watch(dioProvider));
 }
 

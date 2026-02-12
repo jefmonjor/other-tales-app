@@ -55,4 +55,7 @@ class AppTypography {
         fontWeight: FontWeight.w400, // Regular
         color: AppColors.textSecondary,
       );
+
+  static TextStyle get bodyRegular => body;
+  static TextStyle get bodySmall => caption;
 }

@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -7,7 +8,7 @@ import '../../domain/repositories/auth_repository.dart';
 part 'auth_repository_impl.g.dart';
 
 @Riverpod(keepAlive: true)
-AuthRepository authRepository(AuthRepositoryRef ref) {
+AuthRepository authRepository(Ref ref) {
   return AuthRepositoryImpl();
 }
 

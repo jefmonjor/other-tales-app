@@ -409,4 +409,91 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get genreNonFiction => 'Non-Fiction';
+
+  @override
+  String get editCharacter => 'Edit Character';
+
+  @override
+  String get createCharacter => 'New Character';
+
+  @override
+  String get characterNameLabel => 'Name';
+
+  @override
+  String get characterNameRequired => 'Name is required';
+
+  @override
+  String get characterRoleLabel => 'Role';
+
+  @override
+  String get characterDescriptionLabel => 'Description';
+
+  @override
+  String get characterPhysicalDescriptionLabel => 'Physical Description';
+
+  @override
+  String get tapToAddPhoto => 'Tap to add photo';
+
+  @override
+  String get tapToAddCover => 'Tap to add cover';
+
+  @override
+  String get editStory => 'Edit Story';
+
+  @override
+  String get createStory => 'New Story';
+
+  @override
+  String get storyTitleLabel => 'Title';
+
+  @override
+  String get storyTitleRequired => 'Title is required';
+
+  @override
+  String get storySynopsisLabel => 'Synopsis';
+
+  @override
+  String get storyThemeLabel => 'Theme';
+
+  @override
+  String get storySecondaryPlotsLabel => 'Secondary Plots';
+
+  @override
+  String get noSynopsis => 'No synopsis available.';
+
+  @override
+  String get editIdea => 'Edit Idea';
+
+  @override
+  String get createIdea => 'New Idea';
+
+  @override
+  String get ideaTitleHint => 'Idea Title';
+
+  @override
+  String get ideaContentHint => 'Jot down your idea...';
+
+  @override
+  String get saveIdea => 'Save Idea';
+
+  @override
+  String get ideaTitleRequired => 'Title is required';
+
+  @override
+  String get noCharacters => 'No characters yet. Create one!';
+
+  @override
+  String get noStories => 'No stories yet. Create one!';
+
+  @override
+  String get noIdeas => 'No ideas yet. Create one!';
+
+  @override
+  String get uploadingImage => 'Uploading image...';
+
+  @override
+  String get imageUploaded => 'Image uploaded successfully';
+
+  @override
+  String get projectDefaultTitle => 'Project';
 }

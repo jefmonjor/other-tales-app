@@ -469,9 +469,9 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         actions: [
           // Done Button
           if (isLoading)
-            Padding(
-              padding: const EdgeInsets.only(right: AppSpacing.m),
-              child: const Center(
+            const Padding(
+              padding: EdgeInsets.only(right: AppSpacing.m),
+              child: Center(
                 child: SizedBox(
                   width: 24,
                   height: 24,

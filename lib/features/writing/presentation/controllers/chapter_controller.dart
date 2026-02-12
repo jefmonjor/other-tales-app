@@ -1,11 +1,12 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/chapter.dart';
 import '../../data/repositories/chapter_repository_impl.dart';
 
 part 'chapter_controller.g.dart';
 
 @riverpod
-Future<List<Chapter>> chapters(ChaptersRef ref, String projectId) async {
+Future<List<Chapter>> chapters(Ref ref, String projectId) async {
   final repository = ref.watch(chapterRepositoryProvider);
   final result = await repository.getChapters(projectId);
   

@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/repositories/projects_repository_impl.dart';
 import '../../domain/models/project.dart';
 
@@ -7,7 +8,7 @@ part 'projects_providers.g.dart';
 /// Re-export the repository provider from the data layer.
 /// This allows the presentation layer to depend on the abstract interface.
 @riverpod
-Future<List<Project>> projectsList(ProjectsListRef ref) async {
+Future<List<Project>> projectsList(Ref ref) async {
   final repository = ref.watch(projectsRepositoryProvider);
   final result = await repository.getProjects();
   

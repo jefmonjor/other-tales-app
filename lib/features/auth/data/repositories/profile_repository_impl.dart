@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/network/dio_provider.dart';
 import '../../domain/repositories/profile_repository.dart';
@@ -9,7 +10,7 @@ import '../models/profile_model.dart';
 part 'profile_repository_impl.g.dart';
 
 @Riverpod(keepAlive: true)
-ProfileRepository profileRepository(ProfileRepositoryRef ref) {
+ProfileRepository profileRepository(Ref ref) {
   return ProfileRepositoryImpl(ref.watch(dioProvider));
 }
 

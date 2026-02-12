@@ -415,4 +415,91 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get genreNonFiction => 'No Ficción';
+
+  @override
+  String get editCharacter => 'Editar Personaje';
+
+  @override
+  String get createCharacter => 'Nuevo Personaje';
+
+  @override
+  String get characterNameLabel => 'Nombre';
+
+  @override
+  String get characterNameRequired => 'El nombre es obligatorio';
+
+  @override
+  String get characterRoleLabel => 'Rol';
+
+  @override
+  String get characterDescriptionLabel => 'Descripción';
+
+  @override
+  String get characterPhysicalDescriptionLabel => 'Descripción Física';
+
+  @override
+  String get tapToAddPhoto => 'Toca para añadir foto';
+
+  @override
+  String get tapToAddCover => 'Toca para añadir portada';
+
+  @override
+  String get editStory => 'Editar Historia';
+
+  @override
+  String get createStory => 'Nueva Historia';
+
+  @override
+  String get storyTitleLabel => 'Título';
+
+  @override
+  String get storyTitleRequired => 'El título es obligatorio';
+
+  @override
+  String get storySynopsisLabel => 'Sinopsis';
+
+  @override
+  String get storyThemeLabel => 'Tema';
+
+  @override
+  String get storySecondaryPlotsLabel => 'Tramas Secundarias';
+
+  @override
+  String get noSynopsis => 'Sin sinopsis.';
+
+  @override
+  String get editIdea => 'Editar Idea';
+
+  @override
+  String get createIdea => 'Nueva Idea';
+
+  @override
+  String get ideaTitleHint => 'Título de la idea';
+
+  @override
+  String get ideaContentHint => 'Escribe tu idea...';
+
+  @override
+  String get saveIdea => 'Guardar Idea';
+
+  @override
+  String get ideaTitleRequired => 'El título es obligatorio';
+
+  @override
+  String get noCharacters => 'No hay personajes. ¡Crea uno!';
+
+  @override
+  String get noStories => 'No hay historias. ¡Crea una!';
+
+  @override
+  String get noIdeas => 'No hay ideas. ¡Crea una!';
+
+  @override
+  String get uploadingImage => 'Subiendo imagen...';
+
+  @override
+  String get imageUploaded => 'Imagen subida correctamente';
+
+  @override
+  String get projectDefaultTitle => 'Proyecto';
 }

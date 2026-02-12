@@ -18,7 +18,7 @@ import 'app_localizations_es.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'generated/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -877,6 +877,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Non-Fiction'**
   String get genreNonFiction;
+
+  /// No description provided for @editCharacter.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Character'**
+  String get editCharacter;
+
+  /// No description provided for @createCharacter.
+  ///
+  /// In en, this message translates to:
+  /// **'New Character'**
+  String get createCharacter;
+
+  /// No description provided for @characterNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get characterNameLabel;
+
+  /// No description provided for @characterNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get characterNameRequired;
+
+  /// No description provided for @characterRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get characterRoleLabel;
+
+  /// No description provided for @characterDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get characterDescriptionLabel;
+
+  /// No description provided for @characterPhysicalDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Physical Description'**
+  String get characterPhysicalDescriptionLabel;
+
+  /// No description provided for @tapToAddPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to add photo'**
+  String get tapToAddPhoto;
+
+  /// No description provided for @tapToAddCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to add cover'**
+  String get tapToAddCover;
+
+  /// No description provided for @editStory.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Story'**
+  String get editStory;
+
+  /// No description provided for @createStory.
+  ///
+  /// In en, this message translates to:
+  /// **'New Story'**
+  String get createStory;
+
+  /// No description provided for @storyTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get storyTitleLabel;
+
+  /// No description provided for @storyTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get storyTitleRequired;
+
+  /// No description provided for @storySynopsisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Synopsis'**
+  String get storySynopsisLabel;
+
+  /// No description provided for @storyThemeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get storyThemeLabel;
+
+  /// No description provided for @storySecondaryPlotsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Secondary Plots'**
+  String get storySecondaryPlotsLabel;
+
+  /// No description provided for @noSynopsis.
+  ///
+  /// In en, this message translates to:
+  /// **'No synopsis available.'**
+  String get noSynopsis;
+
+  /// No description provided for @editIdea.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Idea'**
+  String get editIdea;
+
+  /// No description provided for @createIdea.
+  ///
+  /// In en, this message translates to:
+  /// **'New Idea'**
+  String get createIdea;
+
+  /// No description provided for @ideaTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Idea Title'**
+  String get ideaTitleHint;
+
+  /// No description provided for @ideaContentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Jot down your idea...'**
+  String get ideaContentHint;
+
+  /// No description provided for @saveIdea.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Idea'**
+  String get saveIdea;
+
+  /// No description provided for @ideaTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get ideaTitleRequired;
+
+  /// No description provided for @noCharacters.
+  ///
+  /// In en, this message translates to:
+  /// **'No characters yet. Create one!'**
+  String get noCharacters;
+
+  /// No description provided for @noStories.
+  ///
+  /// In en, this message translates to:
+  /// **'No stories yet. Create one!'**
+  String get noStories;
+
+  /// No description provided for @noIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'No ideas yet. Create one!'**
+  String get noIdeas;
+
+  /// No description provided for @uploadingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading image...'**
+  String get uploadingImage;
+
+  /// No description provided for @imageUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Image uploaded successfully'**
+  String get imageUploaded;
+
+  /// No description provided for @projectDefaultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get projectDefaultTitle;
 }
 
 class _AppLocalizationsDelegate
