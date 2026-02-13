@@ -7,7 +7,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../controllers/chapter_controller.dart';
 import '../../domain/entities/chapter.dart';
 import '../../../../core/error/failure.dart';
-import 'package:other_tales_app/l10n/app_localizations.dart';
+import 'package:other_tales_app/l10n/generated/app_localizations.dart';
 import '../../../../core/error/error_message_helper.dart';
 
 class EditorScreen extends ConsumerStatefulWidget {

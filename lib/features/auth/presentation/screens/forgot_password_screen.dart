@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:other_tales_app/l10n/app_localizations.dart';
+import 'package:other_tales_app/l10n/generated/app_localizations.dart';
 import '../../../../core/components/buttons/primary_button.dart';
 import '../../../../core/components/inputs/custom_text_field.dart';
 import '../../../../core/error/auth_error_mapper.dart';
